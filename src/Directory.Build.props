@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Authors>Damian Hickey, Logicality B.V.</Authors>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <LangVersion>latest</LangVersion>
+    <DebugType>full</DebugType>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>

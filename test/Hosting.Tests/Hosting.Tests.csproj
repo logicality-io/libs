@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>Logicality.Extensions.Hosting.Tests</AssemblyName>
+    <RootNamespace>Logicality.Extensions.Hosting</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.0" />
+    <PackageReference Include="Shouldly" Version="3.0.2" />
+    <PackageReference Include="xunit.core" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Hosting.Docker\Hosting.Docker.csproj" />
+    <ProjectReference Include="..\..\src\Hosting.SerilogConsoleLogging\Hosting.SerilogConsoleLogging.csproj" />
+  </ItemGroup>
+
+</Project>

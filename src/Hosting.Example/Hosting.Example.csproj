@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Logicality.Extensions.Hosting.Example</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hosting\Hosting.csproj" />
+    <ProjectReference Include="..\Hosting.Docker\Hosting.Docker.csproj" />
+    <ProjectReference Include="..\Hosting.SerilogConsoleLogging\Hosting.SerilogConsoleLogging.csproj" />
+  </ItemGroup>
+
+</Project>
