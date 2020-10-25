@@ -89,7 +89,7 @@ namespace Logicality.Extensions.Hosting
             return ((IPEndPoint)socket.LocalEndPoint).Port;
         }
 
-        private static (bool IsRunning, IContainerService ContainerService) IsContainerRunning(string name)
+        private static (bool IsRunning, IContainerService? ContainerService) IsContainerRunning(string name)
         {
             var runningContainers = GetRunningContainers();
             var containerService = runningContainers.SingleOrDefault(c => c.Name == name);
