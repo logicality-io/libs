@@ -59,6 +59,10 @@ services.AddSequentialHostedServices("root", w => w
 
 See [runnable example project][example-project] for a bigger example.
 
+## Acknowledgements
+
+Portions and concepts originally produced with [LykkeCorp](lykkecorp) under MIT Licence.
+
 ---
 
 [hosted-service]: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/background-tasks-with-ihostedservice
@@ -69,3 +73,4 @@ See [runnable example project][example-project] for a bigger example.
 [p3]: https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Flogicality%2Fpublic%2Fshield%2FLogicality.Extensions.Hosting.SerilogConsoleLogging%2Fstable
 [d3]: https://f.feedz.io/logicality/public/packages/Logicality.Extensions.Hosting.SerilogConsoleLogging/stable/download
 [example-project]: /src/Hosting.Example
+[lykkecorp]: https://lykke.com
