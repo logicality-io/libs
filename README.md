@@ -5,19 +5,19 @@ The standard mechanism to run a background task is to use
 each hosted service starts up sequentially - one at a time. This can take some
 time if there are many services and/or if any of them are slow.
 
+![console example](console.png)
+
 This library supplies some extensions to support:
 
 - Starting hosted services in parallel, sequentially, or in an hierarchy.
 - A pattern to share generated configuration information that is supplied from a
   hosted service.
-- Helper for 
+- Helper for docker based hosted services.
 
-The target use cases for this are
-
-- Modular monoliths or local "development"
-servers that run multiple services to support local development of a
-microservice. Consider combining with [LittleForker](littleforker) if the
-hosted services are wrappers for other long running executables.
+The target use cases for this are "modular monoliths" or local "development
+servers" that run multiple services. Consider combining with
+[LittleForker](littleforker) if the hosted services are wrappers for other long
+running executables.
 
 ## Packages
 
@@ -63,7 +63,7 @@ first:
 ```csharp
 services.AddSequentialHostedServices("root", r => r
     .Host<MySql>()
-    .Host<Api>());
+    .Host<ApiWebApp>());
 ```
 
 It is possible to combine sequential and parallel hosted services in a hierarchy
@@ -76,10 +76,10 @@ services.AddSequentialHostedServices("root", r => r
         p => p
             .Host<LocalStack>()
             .Host<MySql>()));
-    .HostParallel("webapps",
+    .HostParallel("web-apps",
         p => p
-            .Host<Admin>()
-            .Host<Api>());
+            .Host<AdminWebApp>()
+            .Host<ApiWebApp>());
 
 ```
 
