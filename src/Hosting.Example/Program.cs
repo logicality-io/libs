@@ -18,13 +18,6 @@ namespace Logicality.Extensions.Hosting.Example
 
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            // Write a log file to the bin folder. Very useful to share log files (not just via seq)
-            var logFile = "debug.log";
-            if (File.Exists(logFile))
-            {
-                File.Delete(logFile);
-            }
-
             var loggerConfiguration = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
