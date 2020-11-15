@@ -1,4 +1,4 @@
-# HostedServices Extensions
+# Hosting Extensions
 
 The standard mechanism to run a background task is to use
 [`IHostedService`][hosted-service]. The standard activation mechanism is that
