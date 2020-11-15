@@ -13,6 +13,11 @@ namespace Logicality.Extensions.Hosting
     {
         private readonly Dictionary<string, IHostedService> _hostedServices = new Dictionary<string, IHostedService>();
 
+        /// <summary>
+        /// Adds a hosted service 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="hostedService"></param>
         public void Add(string name, IHostedService hostedService)
         {
             if (string.IsNullOrWhiteSpace(name))

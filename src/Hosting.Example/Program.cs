@@ -43,23 +43,15 @@ namespace Logicality.Extensions.Hosting.Example
                 .ConfigureServices(services =>
                 {
                     services.AddSingleton(context);
-                    services.AddTransient<Simple1HostedService>();
-                    services.AddTransient<Simple2HostedService>();
-                    services.AddTransient<Simple3HostedService>();
-                    services.AddTransient<Simple4HostedService>();
-                    services.AddTransient<Simple5HostedService>();
                     services.AddTransient<SeqHostedService>();
 
-                    services.AddSequentialHostedServices("Sequential", 
-                        s1 => s1
-                            .HostSequential("Sequential2", 
-                                s2 => s2
-                                    .Host<Simple3HostedService>()
-                                    .Host<Simple4HostedService>())
-                            .HostParallel("parallel1", 
-                                p1 => p1
-                                    .Host<Simple2HostedService>()
-                                    .Host<Simple5HostedService>()));
+                    services.AddSequentialHostedServices("root", r => r
+                        .Host<SeqHostedService>()
+                        .Host<MySqlHostedService>()
+                        .HostParallel("web-apps", 
+                            p => p
+                                .Host<MainWebAppHostedService>()
+                                .Host<AdminWebAppHostedService>()));
                 })
                 .UseSerilog(logger);
         }

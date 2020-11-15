@@ -1,42 +1,56 @@
-﻿namespace Logicality.Extensions.Hosting.Example
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Hosting;
+
+namespace Logicality.Extensions.Hosting.Example
 {
+    /// <summary>
+    /// This class holds references to hosted service. As hosted services start, they register themselves
+    /// in this class. This is to facilitate generated configuration values, which may not be
+    /// known until *after* a hosted service has started, to be retrievable by other hosted services.
+    ///
+    /// For example, services that log to Seq will need to start after Seq has started and determined
+    /// the port number it is listening on.
+    /// </summary>
     public class ExampleContext
     {
-        private readonly HostedServiceBag _hostedServices = new HostedServiceBag();
+        private readonly Dictionary<string, IHostedService> _hostedServices = new();
 
-        public Simple1HostedService Simple1
+        public MySqlHostedService MySql
         {
-            get => _hostedServices.Get<Simple1HostedService>(nameof(Simple1));
-            set => _hostedServices.Add(nameof(Simple1), value);
+            get => Get<MySqlHostedService>(nameof(MySql));
+            set => Add(nameof(MySqlHostedService), value);
         }
 
-        public Simple2HostedService Simple2
-        {
-            get => _hostedServices.Get<Simple2HostedService>(nameof(Simple2));
-            set => _hostedServices.Add(nameof(Simple2), value);
-        }
-
-        public Simple3HostedService Simple3
-        {
-            get => _hostedServices.Get<Simple3HostedService>(nameof(Simple3));
-            set => _hostedServices.Add(nameof(Simple3), value);
-        }
-
-        public Simple4HostedService Simple4
-        {
-            get => _hostedServices.Get<Simple4HostedService>(nameof(Simple4));
-            set => _hostedServices.Add(nameof(Simple4), value);
-        }
-
-        public Simple5HostedService Simple5
-        {
-            get => _hostedServices.Get<Simple5HostedService>(nameof(Simple5));
-            set => _hostedServices.Add(nameof(Simple5), value);
-        }
         public SeqHostedService Seq
         {
-            get => _hostedServices.Get<SeqHostedService>(nameof(Seq));
-            set => _hostedServices.Add(nameof(Seq), value);
+            get => Get<SeqHostedService>(nameof(Seq));
+            set => Add(nameof(Seq), value);
+        }
+
+        public MainWebAppHostedService MainWebApp
+        {
+            get => Get<MainWebAppHostedService>(nameof(MainWebApp));
+            set => Add(nameof(MainWebAppHostedService), value);
+        }
+
+        public AdminWebAppHostedService AdminWebApp
+        {
+            get => Get<AdminWebAppHostedService>(nameof(AdminWebApp));
+            set => Add(nameof(AdminWebAppHostedService), value);
+        }
+
+        private void Add(string name, IHostedService hostedService) 
+            => _hostedServices.Add(name, hostedService);
+
+        private T Get<T>(string name) where T : IHostedService
+        {
+            if (!_hostedServices.TryGetValue(name, out var value))
+            {
+                throw new InvalidOperationException($"HostedService {name} was not found. Check the hosted services registration sequence.");
+            }
+
+            return (T)value;
         }
     }
 }

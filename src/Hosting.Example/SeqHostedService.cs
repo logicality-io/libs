@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
@@ -22,6 +23,8 @@ namespace Logicality.Extensions.Hosting.Example
 
         protected override string ContainerName => "extensions-seq";
 
+        public Uri SinkUri { get; private set; }
+
         protected override IContainerService CreateContainerService()
             => new Builder()
                 .UseContainer()
@@ -36,7 +39,7 @@ namespace Logicality.Extensions.Hosting.Example
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
             await base.StartAsync(cancellationToken);
-
+            SinkUri = new Uri($"http://localhost:{Port}");
             _context.Seq = this;
         }
     }
