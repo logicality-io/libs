@@ -83,7 +83,7 @@ services.AddSequentialHostedServices("root", r => r
 
 ```
 
-See [example project][example-project] for a more complete runnable.
+See [example project][example-project] that is fully runnable.
 
 ## Acknowledgements
 
