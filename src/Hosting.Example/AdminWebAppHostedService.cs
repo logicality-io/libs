@@ -15,11 +15,11 @@ namespace Logicality.Extensions.Hosting.Example
 {
     public class AdminWebAppHostedService : IHostedService
     {
-        private readonly ExampleContext _context;
+        private readonly HostedServiceContext _context;
         private IWebHost? _webHost;
         public const int Port = 5001;
 
-        public AdminWebAppHostedService(ExampleContext context)
+        public AdminWebAppHostedService(HostedServiceContext context)
         {
             _context = context;
         }

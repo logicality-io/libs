@@ -6,13 +6,13 @@ namespace Logicality.Extensions.Hosting.Example
 {
     /// <summary>
     /// This class holds references to hosted service. As hosted services start, they register themselves
-    /// in this class. This is to facilitate generated configuration values, which may not be
-    /// known until *after* a hosted service has started, to be retrievable by other hosted services.
+    /// in this class. This is to facilitate using generated configuration values which may not be
+    /// known until *after* a hosted service has started to be retrievable by other hosted services.
     ///
     /// For example, services that log to Seq will need to start after Seq has started and determined
     /// the port number it is listening on.
     /// </summary>
-    public class ExampleContext
+    public class HostedServiceContext
     {
         private readonly Dictionary<string, IHostedService> _hostedServices = new();
 
@@ -40,8 +40,13 @@ namespace Logicality.Extensions.Hosting.Example
             set => Add(nameof(AdminWebAppHostedService), value);
         }
 
-        private void Add(string name, IHostedService hostedService) 
-            => _hostedServices.Add(name, hostedService);
+        private void Add(string name, IHostedService hostedService)
+        {
+            lock (_hostedServices)
+            {
+                _hostedServices.Add(name, hostedService);
+            }
+        }
 
         private T Get<T>(string name) where T : IHostedService
         {

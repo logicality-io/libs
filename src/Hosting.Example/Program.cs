@@ -29,7 +29,7 @@ namespace Logicality.Extensions.Hosting.Example
 
             var logger = loggerConfiguration.CreateLogger();
 
-            var context = new ExampleContext();
+            var context = new HostedServiceContext();
 
             return new HostBuilder()
                 .UseConsoleLifetime()

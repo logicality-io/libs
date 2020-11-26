@@ -9,12 +9,12 @@ namespace Logicality.Extensions.Hosting.Example
 {
     public class SeqHostedService : DockerHostedService
     {
-        private readonly ExampleContext _context;
+        private readonly HostedServiceContext _context;
         public const int Port = 5010;
         private const int ContainerPort = 80;
 
         public SeqHostedService(
-            ExampleContext context,
+            HostedServiceContext context,
             ILogger<DockerHostedService> logger)
             : base(logger)
         {

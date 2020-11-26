@@ -10,11 +10,11 @@ namespace Logicality.Extensions.Hosting.Example
 {
     public class MySqlHostedService : DockerHostedService
     {
-        private readonly ExampleContext _context;
+        private readonly HostedServiceContext _context;
         private const string SAPassword = "E@syP@ssw0rd";
         private const int HostPort = 3306;
 
-        public MySqlHostedService(ExampleContext context, ILogger<DockerHostedService> logger, bool leaveRunning = false)
+        public MySqlHostedService(HostedServiceContext context, ILogger<DockerHostedService> logger, bool leaveRunning = false)
             : base(logger, leaveRunning)
         {
             _context = context;
