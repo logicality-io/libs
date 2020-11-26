@@ -50,12 +50,15 @@ namespace Logicality.Extensions.Hosting.Example
 
         private T Get<T>(string name) where T : IHostedService
         {
-            if (!_hostedServices.TryGetValue(name, out var value))
+            lock (_hostedServices)
             {
-                throw new InvalidOperationException($"HostedService {name} was not found. Check the hosted services registration sequence.");
-            }
+                if (!_hostedServices.TryGetValue(name, out var value))
+                {
+                    throw new InvalidOperationException($"HostedService {name} was not found. Check the hosted services registration sequence.");
+                }
+                return (T)value;
 
-            return (T)value;
+            }
         }
     }
 }
