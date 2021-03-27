@@ -20,7 +20,7 @@
     <PackageReleaseNotes>See https://github.com/logicality-io/microsoft-extensions-hosting/releases for release notes.</PackageReleaseNotes>
 
     <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">0</BUILD_NUMBER>
-    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <MinVerTagPrefix>hosting-v</MinVerTagPrefix>
     <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
     <MinVerBuildMetadata>build.$(BUILD_NUMBER)</MinVerBuildMetadata>
   </PropertyGroup>
