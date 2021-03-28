@@ -12,11 +12,11 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <PackageTags></PackageTags>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <ProjectUrl>https://github.com/logicality-io/lib</ProjectUrl>
-    <PackageReleaseNotes>See https://github.com/logicality-io/lib/releases for release notes.</PackageReleaseNotes>
+    <ProjectUrl>https://github.com/logicality-io/dotnet-libs</ProjectUrl>
+    <PackageReleaseNotes>See https://github.com/logicality-io/dotnet-libs/releases for release notes.</PackageReleaseNotes>
 
     <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">0</BUILD_NUMBER>
     <MinVerTagPrefix>configuration-v</MinVerTagPrefix>
@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../icon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../../icon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
