@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-    <PropertyGroup>
+  <PropertyGroup>
     <Authors>Damian Hickey, Logicality B.V.</Authors>
     <Org>Logicality</Org>
+    <AssemblyName>$(Org).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
     <DebugType>full</DebugType>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

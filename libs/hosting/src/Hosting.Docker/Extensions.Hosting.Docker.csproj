@@ -2,12 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
-    <AssemblyName>Logicality.Extensions.Hosting.SerilogConsoleLogging</AssemblyName>
-    <RootNamespace>Logicality.Extensions.Hosting</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.0" />
+    <PackageReference Include="Ductus.FluentDocker" Version="2.7.3" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hosting\Hosting.csproj" />
+    <ProjectReference Include="..\Hosting\Extensions.Hosting.csproj" />
   </ItemGroup>
 
 </Project>
