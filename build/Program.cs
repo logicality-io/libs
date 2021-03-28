@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
+using static Logicality.Bullseye.BullseyeUtils;
 
 const string artifactsDir = "artifacts";
 const string clean = "clean";
@@ -10,14 +11,7 @@ const string build = "build";
 const string test = "test";
 const string publish = "publish";
 
-Target(clean, () =>
-{
-    if (Directory.Exists(artifactsDir))
-    {
-        Directory.Delete(artifactsDir, true);
-    }
-    Directory.CreateDirectory(artifactsDir);
-});
+Target(clean, () => CleanDirectory(artifactsDir));
 
 Target(build, () => Run("dotnet", "build DotNetLibs.sln -c Release"));
 
