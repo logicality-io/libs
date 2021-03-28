@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
 const string artifactsDir = "artifacts";
 const string clean = "clean";
 const string build = "build";
+const string test = "test";
 const string publish = "publish";
 
 Target(clean, () =>
@@ -19,31 +19,24 @@ Target(clean, () =>
     Directory.CreateDirectory(artifactsDir);
 });
 
-Target(build, () => Run("dotnet", "build libs/hosting/Hosting.sln -c Release"));
+Target(build, () => Run("dotnet", "build DotNetLibs.sln -c Release"));
 
-var projects = new[] {"configuration", "hosting"};
-var defaultTargets = new List<string>()
+Target(test, () => Run(
+    "dotnet",
+    "test DotNetLibs.sln -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
+
+var defaultTargets = new List<string>
 {
-    clean
+    clean, build, test
 };
 
-foreach (var project in projects)
+var projectsToPack = new[] { "bullseye", "configuration", "hosting" };
+
+foreach (var project in projectsToPack)
 {
-    var sln = Directory.GetFiles($"libs/{project}/", "*.sln").Single();
-    var buildTarget = $"{project}-build";
-    Target(buildTarget, () => Run("dotnet", $"build {sln} -c Release"));
-    defaultTargets.Add(buildTarget);
-
-    var testTarget = $"{project}-test";
-    Target(testTarget, DependsOn(buildTarget),
-        () => Run("dotnet",
-            $"test {sln} -c Release --no-build -r {artifactsDir} " +
-            $"--collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
-    defaultTargets.Add(testTarget);
-
     var packableProjects = Directory.GetFiles($"libs/{project}/src/", "*.csproj", SearchOption.AllDirectories);
     var packTarget = $"{project}-pack";
-    Target(packTarget, DependsOn(buildTarget),
+    Target(packTarget, DependsOn(build),
         packableProjects,
         packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {artifactsDir} --no-build"));
     defaultTargets.Add(packTarget);

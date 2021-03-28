@@ -3,8 +3,6 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Logicality.Extensions.Hosting.Example</AssemblyName>
-    <RootNamespace>$(AssemblyName)</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hosting\Hosting.csproj" />
-    <ProjectReference Include="..\Hosting.Docker\Hosting.Docker.csproj" />
-    <ProjectReference Include="..\Hosting.SerilogConsoleLogging\Hosting.SerilogConsoleLogging.csproj" />
+    <ProjectReference Include="..\Hosting\Extensions.Hosting.csproj" />
+    <ProjectReference Include="..\Hosting.Docker\Extensions.Hosting.Docker.csproj" />
+    <ProjectReference Include="..\Hosting.SerilogConsoleLogging\Extensions.Hosting.SerilogConsoleLogging.csproj" />
   </ItemGroup>
 
 </Project>

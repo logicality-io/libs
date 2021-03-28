@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Hosting.Docker\Hosting.Docker.csproj" />
-    <ProjectReference Include="..\..\src\Hosting.SerilogConsoleLogging\Hosting.SerilogConsoleLogging.csproj" />
+    <ProjectReference Include="..\..\src\Hosting.Docker\Extensions.Hosting.Docker.csproj" />
+    <ProjectReference Include="..\..\src\Hosting.SerilogConsoleLogging\Extensions.Hosting.SerilogConsoleLogging.csproj" />
   </ItemGroup>
 
 </Project>
