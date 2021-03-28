@@ -7,7 +7,7 @@ docker run --rm -it --name hosting-build ^
  -e FEEDZ_LOGICALITY_API_KEY=%FEEDZ_LOGICALITY_API_KEY% ^
  --network host ^
  -e BUILD_NUMBER=%GITHUB_RUN_NUMBER% ^
- damianh/dotnet-sdks:3 ^
+ damianh/dotnet-sdks:6 ^
  dotnet run -p build/build.csproj -c Release -- %*
 
 if errorlevel 1 (
