@@ -1,8 +1,8 @@
-﻿using Logicality.System;
+﻿using System;
 using Shouldly;
 using Xunit;
 
-namespace System.Tests
+namespace Logicality.System
 {
     public class DeterministicGuidFactoryTests
     {
