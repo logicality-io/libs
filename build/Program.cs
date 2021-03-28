@@ -30,7 +30,7 @@ var defaultTargets = new List<string>
     clean, build, test
 };
 
-var projectsToPack = new[] { "bullseye", "configuration", "hosting" };
+var projectsToPack = new[] { "bullseye", "configuration", "hosting", "system" };
 
 foreach (var project in projectsToPack)
 {

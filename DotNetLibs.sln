@@ -70,7 +70,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worflows", "worflows", "{C4
 		.github\workflows\pr.yml = .github\workflows\pr.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bullseye", "libs\bullseye\src\Bullseye\Bullseye.csproj", "{558069C6-0126-45A2-89E0-A2739E5C1FBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye", "libs\bullseye\src\Bullseye\Bullseye.csproj", "{558069C6-0126-45A2-89E0-A2739E5C1FBC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bullseye", "bullseye", "{EF3DD315-B854-4C2B-9EF2-45596D5CD0F5}"
 EndProject
@@ -78,6 +78,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C8BF43DE-DC3
 	ProjectSection(SolutionItems) = preProject
 		libs\bullseye\src\Directory.Build.props = libs\bullseye\src\Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System", "libs\system\src\System\System.csproj", "{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{107B8800-A040-4255-940F-D6F5514C0728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{784169CC-99B9-4FF6-8F2D-45CC232CEDFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BAF61FF9-F641-4929-AC36-3314F03930DC}"
+	ProjectSection(SolutionItems) = preProject
+		libs\system\test\Directory.Build.props = libs\system\test\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Tests", "libs\system\test\System.Tests\System.Tests.csproj", "{2116A015-6476-48F6-8F85-757611BD18F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +134,14 @@ Global
 		{558069C6-0126-45A2-89E0-A2739E5C1FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{558069C6-0126-45A2-89E0-A2739E5C1FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{558069C6-0126-45A2-89E0-A2739E5C1FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2116A015-6476-48F6-8F85-757611BD18F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2116A015-6476-48F6-8F85-757611BD18F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2116A015-6476-48F6-8F85-757611BD18F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2116A015-6476-48F6-8F85-757611BD18F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,6 +161,10 @@ Global
 		{C49FC4EA-9AA4-4D53-9751-DD3EDF85788F} = {110FA643-6DE5-48FB-9368-FDE268A192C1}
 		{558069C6-0126-45A2-89E0-A2739E5C1FBC} = {C8BF43DE-DC35-402A-B0FF-EBE1CF8410A9}
 		{C8BF43DE-DC35-402A-B0FF-EBE1CF8410A9} = {EF3DD315-B854-4C2B-9EF2-45596D5CD0F5}
+		{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2} = {784169CC-99B9-4FF6-8F2D-45CC232CEDFB}
+		{784169CC-99B9-4FF6-8F2D-45CC232CEDFB} = {107B8800-A040-4255-940F-D6F5514C0728}
+		{BAF61FF9-F641-4929-AC36-3314F03930DC} = {107B8800-A040-4255-940F-D6F5514C0728}
+		{2116A015-6476-48F6-8F85-757611BD18F3} = {BAF61FF9-F641-4929-AC36-3314F03930DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}
