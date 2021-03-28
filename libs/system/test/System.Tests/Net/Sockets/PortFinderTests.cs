@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shouldly;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Logicality.System.Net.Sockets
 {
     public class PortFinderTests
     {
+        private readonly ITestOutputHelper _outputHelper;
+
+        public PortFinderTests(ITestOutputHelper outputHelper)
+        {
+            _outputHelper = outputHelper;
+        }
+
         [Fact]
         public async Task Parallel_calls_should_all_get_different_ports()
         {
@@ -19,6 +27,7 @@ namespace Logicality.System.Net.Sockets
                 {
                     var port = PortFinder.GetNext();
                     ports.AddOrUpdate(port, _ => null, (_, _) => null);
+                    _outputHelper.WriteLine(port.ToString());
                 }));
             }
 
