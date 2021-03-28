@@ -1,0 +1,16 @@
+**/bin/
+**/obj/
+**/global.json
+**/Dockerfile*
+**/.dockerignore*
+**/*.user
+**/*.Custom.json
+**/*.CustomDotSettings
+.idea/
+.vs/
+.vscode/
+.git/
+adr/
+artifacts/
+temp/
+**/_NCrunch_*
