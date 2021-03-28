@@ -13,7 +13,7 @@ namespace Logicality.System.Net.Sockets
         {
             var ports = new ConcurrentDictionary<int, object>();
             var tasks = new List<Task>();
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < 10; i++)
             {
                 tasks.Add(Task.Run(() =>
                 {
@@ -24,7 +24,7 @@ namespace Logicality.System.Net.Sockets
 
             await Task.WhenAll(tasks);
 
-            ports.Count.ShouldBe(1000);
+            ports.Count.ShouldBe(10);
         }
     }
 }
