@@ -79,9 +79,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C8BF43DE-DC3
 		libs\bullseye\src\Directory.Build.props = libs\bullseye\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System", "libs\system\src\System\System.csproj", "{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System", "libs\system\src\System\System.csproj", "{B495AED8-F8C3-4A92-9CB1-7C52086CD6E2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{107B8800-A040-4255-940F-D6F5514C0728}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "system", "system", "{107B8800-A040-4255-940F-D6F5514C0728}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{784169CC-99B9-4FF6-8F2D-45CC232CEDFB}"
 EndProject
@@ -90,7 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BAF61FF9-F
 		libs\system\test\Directory.Build.props = libs\system\test\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Tests", "libs\system\test\System.Tests\System.Tests.csproj", "{2116A015-6476-48F6-8F85-757611BD18F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Tests", "libs\system\test\System.Tests\System.Tests.csproj", "{2116A015-6476-48F6-8F85-757611BD18F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
