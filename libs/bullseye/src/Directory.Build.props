@@ -4,7 +4,7 @@
   <Import Project="../../src.props" />
 
   <PropertyGroup>
-    <MinVerTagPrefix>bullseye-v</MinVerTagPrefix>
+    <MinVerTagPrefix>bullseye-</MinVerTagPrefix>
     <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
   </PropertyGroup>
  

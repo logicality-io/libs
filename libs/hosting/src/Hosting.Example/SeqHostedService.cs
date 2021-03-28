@@ -10,7 +10,7 @@ namespace Logicality.Extensions.Hosting.Example
     public class SeqHostedService : DockerHostedService
     {
         private readonly HostedServiceContext _context;
-        public const int Port = 5010;
+        private const int Port = 5010;
         private const int ContainerPort = 80;
 
         public SeqHostedService(
@@ -19,11 +19,12 @@ namespace Logicality.Extensions.Hosting.Example
             : base(logger)
         {
             _context = context;
+            SinkUri = new Uri($"http://localhost:{Port}");
         }
 
         protected override string ContainerName => "extensions-seq";
 
-        public Uri SinkUri { get; private set; }
+        public Uri SinkUri { get; }
 
         protected override IContainerService CreateContainerService()
             => new Builder()
@@ -39,7 +40,6 @@ namespace Logicality.Extensions.Hosting.Example
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
             await base.StartAsync(cancellationToken);
-            SinkUri = new Uri($"http://localhost:{Port}");
             _context.Seq = this;
         }
     }

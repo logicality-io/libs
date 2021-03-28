@@ -4,7 +4,7 @@
   <Import Project="../../src.props" />
 
   <PropertyGroup>
-    <MinVerTagPrefix>configuration-v</MinVerTagPrefix>
+    <MinVerTagPrefix>configuration-</MinVerTagPrefix>
     <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
   </PropertyGroup>
  
