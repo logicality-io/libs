@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Logicality.System
+namespace Logicality.SystemExtensions
 {
     public delegate DateTimeOffset GetUtcNow();
 }

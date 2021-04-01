@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Logicality.System
+namespace Logicality.SystemExtensions
 {
     /// <summary>
     /// Represent a mechanism to deterministically create GUIDs based on an input and an initial namespace.

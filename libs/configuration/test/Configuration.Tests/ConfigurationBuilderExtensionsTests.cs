@@ -4,13 +4,13 @@ using Shouldly;
 
 namespace Logicality.Extensions
 {
-    public class ConfigurationExtensionsTests
+    public class ConfigurationBuilderExtensionsTests
     {
         [Fact]
         public void CanAddObjectToConfiguration()
         {
             var config = new ConfigurationBuilder()
-                .AddObject(new Foo
+                .AddJsonStream(new Foo
                 {
                     Bar = "baz"
                 })

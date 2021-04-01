@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace Logicality.System.Net.Sockets
+namespace Logicality.SystemExtensions.Net.Sockets
 {
     public static class PortFinder
     {

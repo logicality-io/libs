@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\System\System.csproj" />
+    <ProjectReference Include="..\..\src\SystemExtensions\SystemExtensions.csproj" />
   </ItemGroup>
-  
+
 </Project>
