@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Xunit;
 using Shouldly;
+using Xunit;
 
-namespace Logicality.Extensions
+namespace Logicality.Extensions.Configuration
 {
     public class ConfigurationBuilderExtensionsTests
     {

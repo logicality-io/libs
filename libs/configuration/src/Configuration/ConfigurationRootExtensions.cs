@@ -78,26 +78,29 @@ namespace Logicality.Extensions.Configuration
 
             return (null, null)!;
         }
+    }
 
-        public class ConfigInfo
+    /// <summary>
+    /// Represents information about all configuration providers, paths and values.
+    /// </summary>
+    public class ConfigInfo
+    {
+        public ConfigInfo(IReadOnlyCollection<ConfigItem> items)
         {
-            public ConfigInfo(IReadOnlyCollection<ConfigItem> items)
+            Items = items;
+        }
+
+        public IReadOnlyCollection<ConfigItem> Items { get; }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var item in Items)
             {
-                Items = items;
+                stringBuilder.AppendLine(item.ToString());
             }
 
-            public IReadOnlyCollection<ConfigItem> Items { get; }
-
-            public override string ToString()
-            {
-                var stringBuilder = new StringBuilder();
-                foreach (var item in Items)
-                {
-                    stringBuilder.AppendLine(item.ToString());
-                }
-
-                return stringBuilder.ToString();
-            }
+            return stringBuilder.ToString();
         }
     }
 

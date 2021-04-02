@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <AssemblyName>$(Org).Extensions.Tests</AssemblyName>
-    <RootNamespace>$(Org).Extensions</RootNamespace>
+    <AssemblyName>$(Org).Extensions.Configuration.Tests</AssemblyName>
+    <RootNamespace>$(Org).Extensions.Configuration</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +13,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0-preview.1.21102.12" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.1.21102.12" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
     <PackageReference Include="Shouldly" Version="4.0.1" />
     <PackageReference Include="xunit.core" Version="2.4.1" />
@@ -26,10 +24,12 @@
 
   <ItemGroup Condition="$(TargetFramework) == 'netcoreapp3.1'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework) == 'net5.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
