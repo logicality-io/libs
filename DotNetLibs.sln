@@ -105,6 +105,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemExtensions", "libs\sy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemExtensions.Tests", "libs\system-extensions\test\SystemExtensions.Tests\SystemExtensions.Tests.csproj", "{723D27AE-E5E7-4ABC-802C-F67299C63257}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testing", "testing", "{E49DE013-4C18-4A9B-A541-842FC38E5E93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
