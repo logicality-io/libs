@@ -44,7 +44,7 @@ namespace Logicality.SystemExtensions
             }
 
             var buffer = new byte[16];
-            Array.Copy(hash, 0, buffer, 0, 16);
+            Array.Copy(hash!, 0, buffer, 0, 16);
 
             buffer[6] = (byte)((buffer[6] & 0x0F) | (5 << 4));
             buffer[8] = (byte)((buffer[8] & 0x3F) | 0x80);
