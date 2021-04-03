@@ -24,7 +24,7 @@ var defaultTargets = new List<string>
     clean, build, test
 };
 
-var projectsToPack = new[] { "bullseye", "configuration", "hosting", "system-extensions" };
+var projectsToPack = new[] { "bullseye", "configuration", "hosting", "system-extensions", "testing" };
 
 foreach (var project in projectsToPack)
 {
