@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.Configuration
         }
 
         /// <summary>
-        ///     Add a runtime configuration provider that allows setting/opverriding configuration
+        ///     Add a runtime configuration provider that allows setting/overriding configuration
         ///     at runtime
         /// </summary>
         /// <param name="builder"></param>
