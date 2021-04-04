@@ -40,7 +40,7 @@ namespace Logicality.Testing.Fixtures
                         .ExposePort(port, ContainerPort)
                         .WithEnvironment("LS_LOG=debug")
                         .WithEnvironment("SERVICES={services}")
-                        .WaitForPort($"{ContainerPort}/tcp", TimeSpan.FromSeconds(5))
+                        .WaitForPort($"{ContainerPort}/tcp", TimeSpan.FromSeconds(10))
                         .Build();
                     containerService.Start();
                 }
@@ -53,7 +53,7 @@ namespace Logicality.Testing.Fixtures
                     var docker = hosts.FirstOrDefault(x => x.IsNative) ?? hosts.FirstOrDefault(x => x.Name == "default");
                     
                     var waitAndRetry = Polly.Policy.Handle<FluentDockerException>()
-                        .WaitAndRetry(10, _ => TimeSpan.FromMilliseconds(500));
+                        .WaitAndRetry(40, _ => TimeSpan.FromMilliseconds(500));
 
                     containerService = waitAndRetry.Execute(() =>
                     {
