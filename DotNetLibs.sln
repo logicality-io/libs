@@ -122,6 +122,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6ED4DFF8-F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Fixtures", "libs\testing\src\Testing.Fixtures\Testing.Fixtures.csproj", "{7943D27C-1268-43F0-85D0-5879F1E734F0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Fixtures.Tests", "libs\testing\test\Testing.Fixtures.Tests\Testing.Fixtures.Tests.csproj", "{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +186,10 @@ Global
 		{7943D27C-1268-43F0-85D0-5879F1E734F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7943D27C-1268-43F0-85D0-5879F1E734F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7943D27C-1268-43F0-85D0-5879F1E734F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +220,7 @@ Global
 		{0CB2B190-89C7-49A1-A380-53F862237F24} = {E49DE013-4C18-4A9B-A541-842FC38E5E93}
 		{6ED4DFF8-FAC8-402A-92EA-72DE7F5BFF93} = {E49DE013-4C18-4A9B-A541-842FC38E5E93}
 		{7943D27C-1268-43F0-85D0-5879F1E734F0} = {0CB2B190-89C7-49A1-A380-53F862237F24}
+		{FC5B745A-6E38-4B1B-ACDF-F6293BA30244} = {6ED4DFF8-FAC8-402A-92EA-72DE7F5BFF93}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}

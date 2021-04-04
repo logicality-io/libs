@@ -9,18 +9,22 @@ using Polly;
 
 namespace Logicality.Testing.Fixtures
 {
-    public class DynamoDBFixture : IDisposable
+    public class LocalstackFixture : IDisposable
     {
-        private const int ContainerPort = 8000;
+        private const int ContainerPort = 4566;
         private readonly IContainerService _containerService;
 
-        private DynamoDBFixture(IContainerService containerService, Uri serviceUrl)
+        private LocalstackFixture(IContainerService containerService, Uri serviceUrl)
         {
             _containerService = containerService;
             ServiceUrl = serviceUrl;
         }
 
-        public static Task<DynamoDBFixture> Create(string containerNamePrefix, string imageTag = "latest", int port = 0)
+        public static Task<LocalstackFixture> Create(
+            string containerNamePrefix,
+            string services,
+            string imageTag = "latest",
+            int port = 0)
         {
             return Task.Run(() =>
             {
@@ -30,11 +34,12 @@ namespace Logicality.Testing.Fixtures
                 {
                     containerService = new Builder()
                         .UseContainer()
-                        .WithName($"{containerNamePrefix}-dynamodb")
-                        .UseImage($"amazon/dynamodb-local:{imageTag}")
+                        .WithName($"{containerNamePrefix}-localstack")
+                        .UseImage($"localstack/localstack:{imageTag}")
                         .ReuseIfExists()
-                        .Command("", "-jar", "DynamoDBLocal.jar", "-inMemory", "-sharedDb")
                         .ExposePort(port, ContainerPort)
+                        .WithEnvironment("LS_LOG=debug")
+                        .WithEnvironment("SERVICES={services}")
                         .WaitForPort($"{ContainerPort}/tcp", TimeSpan.FromSeconds(5))
                         .Build();
                     containerService.Start();
@@ -45,15 +50,15 @@ namespace Logicality.Testing.Fixtures
                     // Assume the container is already running.
 
                     var hosts = new Hosts().Discover();
-                    var docker = hosts.FirstOrDefault(x => x.IsNative) 
-                                 ?? hosts.FirstOrDefault(x => x.Name == "default");
+                    var docker = hosts.FirstOrDefault(x => x.IsNative) ?? hosts.FirstOrDefault(x => x.Name == "default");
                     
                     var waitAndRetry = Polly.Policy.Handle<FluentDockerException>()
                         .WaitAndRetry(10, _ => TimeSpan.FromMilliseconds(500));
 
                     containerService = waitAndRetry.Execute(() =>
                     {
-                        return docker!.GetContainers()
+                        return docker!
+                            .GetContainers()
                             .Single(c => c.Name == name)
                             .WaitForPort($"{ContainerPort}/tcp", 5000);
                     });
@@ -80,7 +85,7 @@ namespace Logicality.Testing.Fixtures
                     serviceUrl.Port = ContainerPort;
                 }
 
-                return new DynamoDBFixture(containerService, serviceUrl.Uri);
+                return new LocalstackFixture(containerService, serviceUrl.Uri);
             });
         }
 

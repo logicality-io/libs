@@ -6,29 +6,28 @@ using Xunit;
 
 namespace Logicality.Testing.Fixtures
 {
-    public class DynamoDBFixtureTests
+    public class LocalStackFixtureTests
     {
         [Fact]
         public async Task Can_run()
         {
-            using var dynamoDBFixture = await DynamoDBFixture.Create("testing-fixtures-1");
+            using var fixture = await LocalstackFixture.Create("testing-fixtures-1", "s3");
 
-            dynamoDBFixture.ServiceUrl.ShouldNotBeNull();
-
-            dynamoDBFixture.ServiceUrl.Port.ShouldNotBe(0);
+            fixture.ServiceUrl.ShouldNotBeNull();
+            fixture.ServiceUrl.Port.ShouldNotBe(0);
         }
 
         [Fact]
         public async Task Can_run_in_parallel()
         {
-            var fixtures = new ConcurrentBag<DynamoDBFixture>();
+            var fixtures = new ConcurrentBag<LocalstackFixture>();
 
             var tasks = new List<Task>();
             for (var i = 0; i < 10; i++)
             {
                 var task = Task.Run(async () =>
                 {
-                    var fixture = await DynamoDBFixture.Create("testing-fixtures-2");
+                    var fixture = await LocalstackFixture.Create("testing-fixtures-2", "s3");
                     fixtures.Add(fixture);
                 });
 
@@ -36,10 +35,10 @@ namespace Logicality.Testing.Fixtures
             }
 
             await Task.WhenAll(tasks);
-            var dbFixtures = fixtures.ToArray();
-            foreach (var dynamoDBFixture in fixtures.ToArray())
+
+            foreach (var fixture in fixtures.ToArray())
             {
-                dynamoDBFixture.Dispose();
+                fixture.Dispose();
             }
         }
     }
