@@ -30,7 +30,7 @@ namespace Logicality.Testing.Fixtures
                 {
                     containerService = new Builder()
                         .UseContainer()
-                        .WithName($"{containerNamePrefix}-dynamodb")
+                        .WithName(name)
                         .UseImage($"amazon/dynamodb-local:{imageTag}")
                         .ReuseIfExists()
                         .Command("", "-jar", "DynamoDBLocal.jar", "-inMemory", "-sharedDb")
@@ -53,9 +53,10 @@ namespace Logicality.Testing.Fixtures
 
                     containerService = waitAndRetry.Execute(() =>
                     {
-                        return docker!.GetContainers()
-                            .Single(c => c.Name == name)
-                            .WaitForPort($"{ContainerPort}/tcp", 5000);
+                        var containers = docker!.GetContainers();
+                        var container = containers.Single(c => c.Name == name);
+                        container.WaitForPort($"{ContainerPort}/tcp", 5000);
+                        return container;
                     });
                 }
 

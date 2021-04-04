@@ -29,17 +29,17 @@ namespace Logicality.Testing.Fixtures
             return Task.Run(() =>
             {
                 IContainerService containerService;
-                var name = $"{containerNamePrefix}-dynamodb";
+                var name = $"{containerNamePrefix}-localstack";
                 try
                 {
                     containerService = new Builder()
                         .UseContainer()
-                        .WithName($"{containerNamePrefix}-localstack")
+                        .WithName(name)
                         .UseImage($"localstack/localstack:{imageTag}")
                         .ReuseIfExists()
                         .ExposePort(port, ContainerPort)
                         .WithEnvironment("LS_LOG=debug")
-                        .WithEnvironment("SERVICES={services}")
+                        .WithEnvironment($"SERVICES={services}")
                         .WaitForPort($"{ContainerPort}/tcp", TimeSpan.FromSeconds(10))
                         .Build();
                     containerService.Start();
@@ -52,15 +52,15 @@ namespace Logicality.Testing.Fixtures
                     var hosts = new Hosts().Discover();
                     var docker = hosts.FirstOrDefault(x => x.IsNative) ?? hosts.FirstOrDefault(x => x.Name == "default");
                     
-                    var waitAndRetry = Polly.Policy.Handle<FluentDockerException>()
-                        .WaitAndRetry(40, _ => TimeSpan.FromMilliseconds(500));
+                    var waitAndRetry = Policy.Handle<FluentDockerException>()
+                        .WaitAndRetry(30, _ => TimeSpan.FromMilliseconds(1000));
 
                     containerService = waitAndRetry.Execute(() =>
                     {
-                        return docker!
-                            .GetContainers()
-                            .Single(c => c.Name == name)
-                            .WaitForPort($"{ContainerPort}/tcp", 5000);
+                        var containers = docker!.GetContainers();
+                        var container = containers.Single(c => c.Name == name);
+                        container.WaitForPort($"{ContainerPort}/tcp", 5000);
+                        return container;
                     });
                 }
 
