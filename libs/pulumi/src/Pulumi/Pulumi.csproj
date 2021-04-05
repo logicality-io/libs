@@ -14,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Pulumi" Version="3.0.0-beta.1" />
+    <PackageReference Include="Pulumi.Automation" Version="3.0.0-beta.1" />
   </ItemGroup>
 
 </Project>
