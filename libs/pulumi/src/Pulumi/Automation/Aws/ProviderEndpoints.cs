@@ -472,6 +472,8 @@ namespace Logicality.Pulumi.Automation.Aws
                 IgnoreNullValues = true
             };
             var json = JsonSerializer.Serialize(this, options);
+            json = $"[{json}]"; // Needs to be a collection.
+            
             return new ConfigValue(json);
         }
     }
