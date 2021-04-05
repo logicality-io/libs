@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <DebugType>full</DebugType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <Org>Logicality</Org>
+  </PropertyGroup>
+</Project>

@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
+    <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyName>Logicality.Extensions.Hosting.Tests</AssemblyName>
-    <RootNamespace>Logicality.Extensions.Hosting</RootNamespace>
+    <AssemblyName>$(Org).Pulumi.Aws.Tests</AssemblyName>
+    <RootNamespace>$(Org).Pulumi.Aws</RootNamespace>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,9 +13,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Logicality.SystemExtensions" Version="0.2.0" />
-    <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="Shouldly" Version="4.0.3" />
     <PackageReference Include="xunit.core" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -24,8 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Hosting.Docker\Extensions.Hosting.Docker.csproj" />
-    <ProjectReference Include="..\..\src\Hosting.SerilogConsoleLogging\Extensions.Hosting.SerilogConsoleLogging.csproj" />
+    <ProjectReference Include="..\..\src\Pulumi.Aws\Pulumi.Aws.csproj" />
+    <ProjectReference Include="..\Pulumi.Aws.Tests.Stacks\Pulumi.Aws.Tests.Stacks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pulumi.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

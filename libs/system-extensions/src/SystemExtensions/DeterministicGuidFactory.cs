@@ -40,7 +40,7 @@ namespace Logicality.SystemExtensions
             {
                 algorithm.TransformBlock(_namespace, 0, _namespace.Length, null, 0);
                 algorithm.TransformFinalBlock(input, 0, input.Length);
-                hash = algorithm.Hash;
+                hash = algorithm.Hash!;
             }
 
             var buffer = new byte[16];

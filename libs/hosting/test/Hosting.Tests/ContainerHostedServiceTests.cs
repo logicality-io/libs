@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
+using Logicality.SystemExtensions.Net.Sockets;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
@@ -51,11 +52,11 @@ namespace Logicality.Extensions.Hosting
 
             protected override IContainerService CreateContainerService()
             {
-                var port = GetNextPort();
+                var port = PortFinder.GetNext();
 
                 return new Builder()
                     .UseContainer()
-                    .WithName(this.ContainerName)
+                    .WithName(ContainerName)
                     .UseImage("hello-world")
                     .ReuseIfExists()
                     .ExposePort(port, 80)
