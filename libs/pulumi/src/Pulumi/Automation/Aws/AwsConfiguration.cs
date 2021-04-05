@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pulumi.Automation;
 
-namespace Logicality.Pulumi.Automation
+namespace Logicality.Pulumi.Automation.Aws
 {
     public static class AwsConfiguration
     {

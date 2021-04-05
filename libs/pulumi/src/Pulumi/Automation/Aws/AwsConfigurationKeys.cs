@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Logicality.Pulumi.Automation
+﻿namespace Logicality.Pulumi.Automation.Aws
 {
     public static class AwsConfigurationKeys
     {
