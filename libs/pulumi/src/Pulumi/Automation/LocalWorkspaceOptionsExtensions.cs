@@ -12,7 +12,7 @@ namespace Logicality.Pulumi.Automation
         /// <typeparam name="TStack"></typeparam>
         /// <param name="options"></param>
         /// <param name="projectName"></param>
-        public static void ConfigureForLocalBackend<TStack>(this LocalWorkspaceOptions options, string projectName)
+        public static LocalWorkspaceOptions ConfigureForLocalBackend<TStack>(this LocalWorkspaceOptions options, string projectName)
             where TStack : global::Pulumi.Stack, new()
         {
             options.Program = PulumiFn.Create<TStack>();
@@ -22,6 +22,7 @@ namespace Logicality.Pulumi.Automation
                 {EnvironmentVariableKeys.ConfigPassphrase, "secret"},
                 {EnvironmentVariableKeys.ConfigBackendUrl, "file://~"}
             };
+            return options;
         }
     }
 }
