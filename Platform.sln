@@ -97,8 +97,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspnet-core", "aspnet-core", "{4A8FDF56-F8A0-453C-A484-E314525C7912}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CC2471BF-FC2B-4BC5-8E76-76996A938B52}"
+	ProjectSection(SolutionItems) = preProject
+		libs\aspnet-core\src\Directory.Build.props = libs\aspnet-core\src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F01A2FEE-A5E4-4649-AE63-C150E1345340}"
+	ProjectSection(SolutionItems) = preProject
+		libs\aspnet-core\test\Directory.Build.props = libs\aspnet-core\test\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore", "libs\aspnet-core\src\AspNetCore\AspNetCore.csproj", "{CC8BF0A6-DDC5-4CB6-8994-103BB513FF91}"
 EndProject

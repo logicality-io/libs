@@ -5,8 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <AssemblyName>$(Org).Pulumi.Aws.Tests.Stacks</AssemblyName>
-    <RootNamespace>$(Org).Pulumi.Aws.Tests.Stacks</RootNamespace>
+    <IsTestProject>false</IsTestProject>
+    <AssemblyName>$(Org).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(Org).$(MSBuildProjectName)</RootNamespace>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
