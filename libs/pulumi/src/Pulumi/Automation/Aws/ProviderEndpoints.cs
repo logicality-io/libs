@@ -1,5 +1,7 @@
-﻿using System.Text.Json.Serialization;
-using Pulumi;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Pulumi.Automation;
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
 
@@ -463,8 +465,14 @@ namespace Logicality.Pulumi.Automation.Aws
         [JsonPropertyName("xray")]
         public string? Xray { get; set; }
 
-        public ProviderEndpoints()
+        public ConfigValue AsConfigValue()
         {
+            var options = new JsonSerializerOptions()
+            {
+                IgnoreNullValues = true
+            };
+            var json = JsonSerializer.Serialize(this, options);
+            return new ConfigValue(json);
         }
     }
 }
