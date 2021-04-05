@@ -17,7 +17,7 @@ namespace Logicality.Pulumi.Aws.Ec2
             _outputHelper = outputHelper;
         }
 
-        [Fact]
+        [Fact(Skip ="Needs to be run manually")]
         public void StandardVpcTest()
         {
             _outputHelper.WriteLine(Environment.CurrentDirectory);
