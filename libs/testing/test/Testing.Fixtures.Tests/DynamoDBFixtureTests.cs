@@ -36,10 +36,9 @@ namespace Logicality.Testing.Fixtures
             }
 
             await Task.WhenAll(tasks);
-            var dbFixtures = fixtures.ToArray();
-            foreach (var dynamoDBFixture in fixtures.ToArray())
+            foreach (var fixture in fixtures.ToArray())
             {
-                dynamoDBFixture.Dispose();
+                fixture.Dispose();
             }
         }
     }
