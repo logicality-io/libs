@@ -10,21 +10,22 @@ const string clean = "clean";
 const string build = "build";
 const string test = "test";
 const string publish = "publish";
+const string sln = "Platform.sln";
 
 Target(clean, () => CleanDirectory(artifactsDir));
 
-Target(build, () => Run("dotnet", "build DotNetLibs.sln -c Release"));
+Target(build, () => Run("dotnet", $"build {sln} -c Release"));
 
 Target(test, () => Run(
     "dotnet",
-    "test DotNetLibs.sln -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
+    $"test {sln} -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
 
 var defaultTargets = new List<string>
 {
     clean, build, test
 };
 
-var projectsToPack = new[] { "bullseye", "configuration", "hosting", "system-extensions", "testing" };
+var projectsToPack = new[] { "bullseye", "configuration", "hosting", "pulumi", "system-extensions", "testing" };
 
 foreach (var project in projectsToPack)
 {
