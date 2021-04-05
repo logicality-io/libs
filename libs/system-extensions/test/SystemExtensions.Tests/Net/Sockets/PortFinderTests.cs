@@ -34,7 +34,7 @@ namespace Logicality.System.Net.Sockets
 
             await Task.WhenAll(tasks);
 
-            ports.Count.ShouldBe(10);
+            ports.Count.ShouldBe(5);
         }
     }
 }
