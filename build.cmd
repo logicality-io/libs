@@ -14,9 +14,9 @@ docker run --rm -it --name dotnet-libs-build ^
  -v /var/run/docker.sock:/var/run/docker.sock ^
  -v %cd%/artifacts:/repo/artifacts ^
  -v %cd%/.git:/repo/.git ^
- -v %cd%/temp:/repo/temp ^
- -e FEEDZ_LOGICALITY_API_KEY=%FEEDZ_LOGICALITY_API_KEY% ^
+ -v %userprofile%\.nuget\packages:/repo/temp/nuget-packages ^
  -e NUGET_PACKAGES=/repo/temp/nuget-packages ^
+ -e FEEDZ_LOGICALITY_API_KEY=%FEEDZ_LOGICALITY_API_KEY% ^
  -e BUILD_NUMBER=%GITHUB_RUN_NUMBER% ^
  --network host ^
  dotnet-libs-build ^
