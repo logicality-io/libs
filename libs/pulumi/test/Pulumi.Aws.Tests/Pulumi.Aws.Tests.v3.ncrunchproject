@@ -3,6 +3,7 @@
     <CopyReferencedAssembliesToWorkspace>True</CopyReferencedAssembliesToWorkspace>
     <HiddenComponentWarnings>
       <Value>CopyReferencedAssembliesToWorkspaceIsOn</Value>
+      <Value>LostReference</Value>
     </HiddenComponentWarnings>
     <InstrumentOutputAssembly>False</InstrumentOutputAssembly>
   </Settings>
