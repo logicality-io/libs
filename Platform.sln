@@ -150,6 +150,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.Tests", "libs\pu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.Tests.Stacks", "libs\pulumi\test\Pulumi.Aws.Tests.Stacks\Pulumi.Aws.Tests.Stacks.csproj", "{6CD6B439-75E3-4C8A-87C9-DA384B81C9EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambda", "lambda", "{3F895C6D-5714-40C5-8497-7A98AF8CBC94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7}"
+	ProjectSection(SolutionItems) = preProject
+		libs\lambda\src\Directory.Build.props = libs\lambda\src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4AB93844-4C34-4EC9-9D72-B8B9BF6BC833}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda", "libs\lambda\src\Lambda\Lambda.csproj", "{97D12A05-68A5-429E-905B-C81C99F52297}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.Example", "libs\lambda\src\Lambda.Example\Lambda.Example.csproj", "{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -232,6 +245,14 @@ Global
 		{6CD6B439-75E3-4C8A-87C9-DA384B81C9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CD6B439-75E3-4C8A-87C9-DA384B81C9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CD6B439-75E3-4C8A-87C9-DA384B81C9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D12A05-68A5-429E-905B-C81C99F52297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D12A05-68A5-429E-905B-C81C99F52297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D12A05-68A5-429E-905B-C81C99F52297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D12A05-68A5-429E-905B-C81C99F52297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +290,10 @@ Global
 		{DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F} = {CA1CB8E3-8811-4407-BA8E-952C2206D716}
 		{7E9A4B1F-7ACF-433A-959D-3211FA96EADF} = {DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}
 		{6CD6B439-75E3-4C8A-87C9-DA384B81C9EE} = {DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}
+		{8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7} = {3F895C6D-5714-40C5-8497-7A98AF8CBC94}
+		{4AB93844-4C34-4EC9-9D72-B8B9BF6BC833} = {3F895C6D-5714-40C5-8497-7A98AF8CBC94}
+		{97D12A05-68A5-429E-905B-C81C99F52297} = {8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7}
+		{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0} = {8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}
