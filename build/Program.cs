@@ -5,41 +5,50 @@ using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static Logicality.Bullseye.BullseyeUtils;
 
-const string artifactsDir = "artifacts";
-const string clean = "clean";
-const string build = "build";
-const string test = "test";
-const string publish = "publish";
-const string sln = "Platform.sln";
+const string ArtifactsDir = "artifacts";
+const string Clean = "clean";
+const string Build = "build";
+const string Test = "test";
+const string Publish = "publish";
+const string Solution = "Platform.sln";
 
-Target(clean, () => CleanDirectory(artifactsDir));
+Target(Clean, () => CleanDirectory(ArtifactsDir));
 
-Target(build, () => Run("dotnet", $"build {sln} -c Release"));
+Target(Build, () => Run("dotnet", $"build {Solution} -c Release"));
 
-Target(test, () => Run(
+Target(Test, () => Run(
     "dotnet",
-    $"test {sln} -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
+    $"test {Solution} -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
 
 var defaultTargets = new List<string>
 {
-    clean, build, test
+    Clean, Build, Test
 };
 
-var projectsToPack = new[] { "bullseye", "configuration", "hosting", "pulumi", "system-extensions", "testing" };
+var projectsToPack = new[]
+{
+    "bullseye",
+    "configuration",
+    "hosting",
+    "lambda",
+    "pulumi",
+    "system-extensions",
+    "testing"
+};
 
 foreach (var project in projectsToPack)
 {
     var packableProjects = Directory.GetFiles($"libs/{project}/src/", "*.csproj", SearchOption.AllDirectories);
     var packTarget = $"{project}-pack";
-    Target(packTarget, DependsOn(build),
+    Target(packTarget, DependsOn(Build),
         packableProjects,
-        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {artifactsDir} --no-build"));
+        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
     defaultTargets.Add(packTarget);
 }
 
-Target(publish, () =>
+Target(Publish, () =>
 {
-    var packagesToPush = Directory.GetFiles(artifactsDir, "*.nupkg", SearchOption.TopDirectoryOnly);
+    var packagesToPush = Directory.GetFiles(ArtifactsDir, "*.nupkg", SearchOption.TopDirectoryOnly);
     Console.WriteLine($"Found packages to publish: {string.Join("; ", packagesToPush)}");
 
     var apiKey = Environment.GetEnvironmentVariable("FEEDZ_LOGICALITY_API_KEY");
@@ -55,7 +64,7 @@ Target(publish, () =>
     }
 });
 
-defaultTargets.Add(publish);
+defaultTargets.Add(Publish);
 Target("default", DependsOn(defaultTargets.ToArray()));
 
 RunTargetsAndExit(args);
