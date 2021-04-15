@@ -1,25 +1,44 @@
+using System.Collections.Generic;
 using System.Net.Http;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 [assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
 
 namespace Logicality.Lambda.Example
 {
-    public class Function: FunctionBase<FunctionConfig>
+    public class ExampleFunction: FunctionBase<FunctionConfig, Handler>
     {
-        public Function() : base(ConfigureServices)
+        public ExampleFunction() 
+            : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
         { }
+
+        public ExampleFunction(string environmentVariables)
+            : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices, environmentVariables) 
+        { }
+
+        private static void ConfigureConfiguration(IConfigurationBuilder configuration)
+        {
+            configuration.AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"foo", "bar"}
+            });
+        }
+
+        private static void ConfigureLogging(ILoggingBuilder logging)
+        {
+            logging.SetMinimumLevel(LogLevel.Debug);
+        }
 
         private static void ConfigureServices(FunctionConfig config, IServiceCollection services)
         {
-            services.AddSingleton(config);
             services.AddHttpClient();
-            services.AddTransient<Handler>();
         }
 
-        public string? FunctionHandler(string input, ILambdaContext context)
+        public string? Handle(string input, ILambdaContext context)
         {
             var handler = ServiceProvider.GetRequiredService<Handler>();
             return handler.Handle(input, context);
@@ -33,11 +52,11 @@ namespace Logicality.Lambda.Example
 
     public class Handler
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public Handler(HttpClient client)
+        public Handler(IHttpClientFactory clientFactory)
         {
-            _client = client;
+            _clientFactory = clientFactory;
         }
 
         public string? Handle(string input, ILambdaContext context)
