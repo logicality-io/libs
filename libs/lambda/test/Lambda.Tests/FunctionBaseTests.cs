@@ -9,7 +9,7 @@ namespace Logicality.Extensions.Configuration
         [Fact]
         public void Can_activate_lambda()
         {
-            var testFunction = new ExampleFunction();
+            var testFunction = new ExampleFunction(configuration => {});
 
             testFunction.Handle("foo", new TestLambdaContext());
         }

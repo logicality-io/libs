@@ -151,6 +151,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.Tests.Stacks", "libs\pulumi\test\Pulumi.Aws.Tests.Stacks\Pulumi.Aws.Tests.Stacks.csproj", "{6CD6B439-75E3-4C8A-87C9-DA384B81C9EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambda", "lambda", "{3F895C6D-5714-40C5-8497-7A98AF8CBC94}"
+	ProjectSection(SolutionItems) = preProject
+		libs\lambda\readme.md = libs\lambda\readme.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7}"
 	ProjectSection(SolutionItems) = preProject
@@ -166,9 +169,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda", "libs\lambda\src\L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.Example", "libs\lambda\src\Lambda.Example\Lambda.Example.csproj", "{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lambda.Tests", "libs\lambda\test\Lambda.Tests\Lambda.Tests.csproj", "{9DF2B8D7-B267-4F23-9BA0-02A3586459CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.Tests", "libs\lambda\test\Lambda.Tests\Lambda.Tests.csproj", "{9DF2B8D7-B267-4F23-9BA0-02A3586459CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lambda.TestUtilities", "libs\lambda\src\Lambda.TestUtilities\Lambda.TestUtilities.csproj", "{4E87F3D6-7CB0-41D9-A5ED-0057864B5298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.TestUtilities", "libs\lambda\src\Lambda.TestUtilities\Lambda.TestUtilities.csproj", "{4E87F3D6-7CB0-41D9-A5ED-0057864B5298}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

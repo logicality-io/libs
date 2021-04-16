@@ -14,14 +14,14 @@ namespace Logicality.Lambda.Example
             : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
         { }
 
-        public ExampleFunction(
-            Action<IConfigurationBuilder>? configureConfiguration = null,
-            Action<ILoggingBuilder>? configurelogging = null,
-            Action<FunctionConfig, IServiceCollection>? configureServices = null,
-            string environmentVariablesPrefix = "") 
-            :base(configureConfiguration, configurelogging, configureServices, environmentVariablesPrefix)
-        {
-        }
+        // This constuctor is to support tests.
+        public ExampleFunction(Action<IConfigurationBuilder> configureConfiguration)
+            : base(configuration =>
+            {
+                ConfigureConfiguration(configuration);
+                configureConfiguration(configuration);
+            }, ConfigureLogging, ConfigureServices)
+        {}
 
         private static void ConfigureConfiguration(IConfigurationBuilder configuration)
         {
