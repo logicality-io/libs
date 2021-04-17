@@ -158,7 +158,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7}"
 	ProjectSection(SolutionItems) = preProject
 		libs\lambda\src\Directory.Build.props = libs\lambda\src\Directory.Build.props
-		libs\lambda\src\Lambda.TestHost\Lambda.TestHost.csproj = libs\lambda\src\Lambda.TestHost\Lambda.TestHost.csproj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4AB93844-4C34-4EC9-9D72-B8B9BF6BC833}"
