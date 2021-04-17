@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>$(Org).Extensions.Configuration.Tests</AssemblyName>
-    <RootNamespace>$(Org).Extensions.Configuration</RootNamespace>
+    <AssemblyName>$(Org).Lambda.Tests</AssemblyName>
+    <RootNamespace>$(Org).Lambda</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
