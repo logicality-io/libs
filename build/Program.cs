@@ -9,7 +9,6 @@ using static Logicality.Bullseye.BullseyeUtils;
 const string ArtifactsDir = "artifacts";
 const string Clean = "clean";
 const string Build = "build";
-const string Test = "test";
 const string Publish = "publish";
 const string Solution = "Platform.sln";
 
@@ -19,52 +18,30 @@ Target(Build, () => Run("dotnet", $"build {Solution} -c Release"));
 
 var defaultTargets = new List<string>
 {
-    Clean, Build, Test
+    Clean, Build
 };
 
 var ignore = new[] {".github"};
 var libs = Directory.GetDirectories("libs")
     .Where(d => !ignore.Contains(d))
-    .Select(d => d.Replace("libs\\", ""));
+    .Select(d => new DirectoryInfo(d).Name);
 
 foreach (var lib in libs)
 {
     var testProjects = Directory.GetFiles($"libs/{lib}/test/", "*.csproj", SearchOption.AllDirectories);
-    var testTarget       = $"{lib}-test";
+    var testTarget = $"{lib}-test";
     Target(testTarget, DependsOn(Build),
         testProjects,
         p => Run("dotnet", $"pack {p} -c Release -o {ArtifactsDir} --no-build"));
     defaultTargets.Add(testTarget);
 
     var packableProjects = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);
-    var packTarget       = $"{lib}-pack";
+    var packTarget = $"{lib}-pack";
     Target(packTarget, DependsOn(Build),
         packableProjects,
         packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
     defaultTargets.Add(packTarget);
 }
-
-/*var projectsToPack = new[]
-{
-    "aspnet-core",
-    "bullseye",
-    "configuration",
-    "hosting",
-    "lambda",
-    "pulumi",
-    "system-extensions",
-    "testing"
-};
-
-foreach (var project in projectsToPack)
-{
-    var packableProjects = Directory.GetFiles($"libs/{project}/src/", "*.csproj", SearchOption.AllDirectories);
-    var packTarget = $"{project}-pack";
-    Target(packTarget, DependsOn(Build),
-        packableProjects,
-        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
-    defaultTargets.Add(packTarget);
-}*/
 
 Target(Publish, () =>
 {
