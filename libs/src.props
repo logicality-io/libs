@@ -16,8 +16,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <ProjectUrl>https://github.com/logicality-io/dotnet-libs</ProjectUrl>
-    <PackageReleaseNotes>See https://github.com/logicality-io/dotnet-libs/releases for release notes.</PackageReleaseNotes>
+    <ProjectUrl>https://github.com/logicality-io/platform</ProjectUrl>
+    <PackageReleaseNotes>See https://github.com/logicality-io/platform/releases for release notes.</PackageReleaseNotes>
     <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">0</BUILD_NUMBER>
     <MinVerBuildMetadata>build.$(BUILD_NUMBER)</MinVerBuildMetadata>
     <NoWarn>CS1591</NoWarn>

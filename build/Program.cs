@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static Logicality.Bullseye.BullseyeUtils;
@@ -16,17 +17,36 @@ Target(Clean, () => CleanDirectory(ArtifactsDir));
 
 Target(Build, () => Run("dotnet", $"build {Solution} -c Release"));
 
-Target(Test, () => Run(
-    "dotnet",
-    $"test {Solution} -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
-
 var defaultTargets = new List<string>
 {
     Clean, Build, Test
 };
 
-var projectsToPack = new[]
+var ignore = new[] {".github"};
+var libs = Directory.GetDirectories("libs")
+    .Where(d => !ignore.Contains(d))
+    .Select(d => d.Replace("libs\\", ""));
+
+foreach (var lib in libs)
 {
+    var testProjects = Directory.GetFiles($"libs/{lib}/test/", "*.csproj", SearchOption.AllDirectories);
+    var testTarget       = $"{lib}-test";
+    Target(testTarget, DependsOn(Build),
+        testProjects,
+        p => Run("dotnet", $"pack {p} -c Release -o {ArtifactsDir} --no-build"));
+    defaultTargets.Add(testTarget);
+
+    var packableProjects = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);
+    var packTarget       = $"{lib}-pack";
+    Target(packTarget, DependsOn(Build),
+        packableProjects,
+        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
+    defaultTargets.Add(packTarget);
+}
+
+/*var projectsToPack = new[]
+{
+    "aspnet-core",
     "bullseye",
     "configuration",
     "hosting",
@@ -44,7 +64,7 @@ foreach (var project in projectsToPack)
         packableProjects,
         packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
     defaultTargets.Add(packTarget);
-}
+}*/
 
 Target(Publish, () =>
 {

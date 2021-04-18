@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <PropertyGroup>
-    <NoWarn>$(NoWarn);1591</NoWarn>
-    <DebugType>full</DebugType>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
-    <Org>Logicality</Org>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netstandard2.0'">
-    <FrameworkVersion>3.1.0</FrameworkVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0'">
-    <FrameworkVersion>5.0.0</FrameworkVersion>
-  </PropertyGroup>
+  <Import Project="../../test.props" />
 </Project>
