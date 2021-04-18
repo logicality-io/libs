@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static Logicality.Bullseye.BullseyeUtils;
@@ -8,7 +9,6 @@ using static Logicality.Bullseye.BullseyeUtils;
 const string ArtifactsDir = "artifacts";
 const string Clean = "clean";
 const string Build = "build";
-const string Test = "test";
 const string Publish = "publish";
 const string Solution = "Platform.sln";
 
@@ -16,30 +16,27 @@ Target(Clean, () => CleanDirectory(ArtifactsDir));
 
 Target(Build, () => Run("dotnet", $"build {Solution} -c Release"));
 
-Target(Test, () => Run(
-    "dotnet",
-    $"test {Solution} -c Release --collect:\"XPlat Code Coverage\" --settings build/coverlet-settings.xml"));
-
 var defaultTargets = new List<string>
 {
-    Clean, Build, Test
+    Clean, Build
 };
 
-var projectsToPack = new[]
-{
-    "bullseye",
-    "configuration",
-    "hosting",
-    "lambda",
-    "pulumi",
-    "system-extensions",
-    "testing"
-};
+var ignore = new[] {".github"};
+var libs = Directory.GetDirectories("libs")
+    .Where(d => !ignore.Contains(d))
+    .Select(d => new DirectoryInfo(d).Name);
 
-foreach (var project in projectsToPack)
+foreach (var lib in libs)
 {
-    var packableProjects = Directory.GetFiles($"libs/{project}/src/", "*.csproj", SearchOption.AllDirectories);
-    var packTarget = $"{project}-pack";
+    var testProjects = Directory.GetFiles($"libs/{lib}/test/", "*.csproj", SearchOption.AllDirectories);
+    var testTarget = $"{lib}-test";
+    Target(testTarget, DependsOn(Build),
+        testProjects,
+        p => Run("dotnet", $"pack {p} -c Release -o {ArtifactsDir} --no-build"));
+    defaultTargets.Add(testTarget);
+
+    var packableProjects = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);
+    var packTarget = $"{lib}-pack";
     Target(packTarget, DependsOn(Build),
         packableProjects,
         packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
