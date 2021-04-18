@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <AssemblyName>$(Org).Lambda.TestHost.Tests</AssemblyName>
-    <RootNamespace>$(Org).Lambda.TestHost</RootNamespace>
+    <AssemblyName>Logicality.Lambda.TestHost.Tests</AssemblyName>
+    <RootNamespace>Logicality.Lambda.TestHost</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
