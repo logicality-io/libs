@@ -1,4 +1,4 @@
-# Logicality Platform
+# Logicality Platform Libs
 
 A suite of .NET libraries used in a variety of Logicality applications and services.
 Managed in a mono-repo for convenience. Open source and shared under MIT for use,
