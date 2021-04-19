@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 
@@ -11,23 +11,16 @@ namespace Logicality.AspNetCore.Hosting
     public static class WebHostExtensions
     {
         /// <summary>
-        /// Gets the server port. Typically used with a server that was started on port 0 and
-        /// whose port was assigned by the OS.
+        /// Gets the addresses the server is listening on.
         /// </summary>
-        /// <param name="webHost">The web</param>
-        /// <returns></returns>
-        public static int GetServerPort(this IWebHost webHost)
-        {
-            var address = webHost.ServerFeatures.Get<IServerAddressesFeature>().Addresses.First();
-            var match = Regex.Match(address, @"^.+:(\d+)$");
-            var port = 0;
-
-            if (match.Success)
-            {
-                port = int.Parse(match.Groups[1].Value);
-            }
-
-            return port;
-        }
+        /// <param name="webHost">The WebHost</param>
+        /// <returns>The collection of URI the host is listening on.</returns>
+        public static Uri[] GetServerUris(this IWebHost webHost) =>
+            webHost
+                .ServerFeatures
+                .Get<IServerAddressesFeature>()
+                .Addresses
+                .Select(a => new Uri(a))
+                .ToArray();
     }
 }
