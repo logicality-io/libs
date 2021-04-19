@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyName>$(Org).Pulumi.Aws.Tests</AssemblyName>
-    <RootNamespace>$(Org).Pulumi.Aws</RootNamespace>
+    <AssemblyName>Logicality.Pulumi.Aws.Tests</AssemblyName>
+    <RootNamespace>Logicality.Pulumi.Aws</RootNamespace>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
