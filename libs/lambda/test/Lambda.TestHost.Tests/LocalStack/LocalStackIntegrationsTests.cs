@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Amazon.Lambda;
 using Amazon.Lambda.Model;
-using Amazon.SQS.Model;
 using Shouldly;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Logicality.AWS.Lambda.TestHost.LocalStack
+namespace Logicality.Lambda.TestHost.LocalStack
 {
     public class LocalStackIntegrationsTests
     {

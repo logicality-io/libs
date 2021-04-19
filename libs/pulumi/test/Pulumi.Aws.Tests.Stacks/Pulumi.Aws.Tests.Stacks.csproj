@@ -6,13 +6,13 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>false</IsTestProject>
-    <AssemblyName>$(Org).$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>$(Org).$(MSBuildProjectName)</RootNamespace>
+    <AssemblyName>Logicality.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Logicality.$(MSBuildProjectName)</RootNamespace>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.Aws" Version="3.*" />
+    <PackageReference Include="Pulumi.Aws" Version="3.38.1" />
   </ItemGroup>
 
   <ItemGroup>

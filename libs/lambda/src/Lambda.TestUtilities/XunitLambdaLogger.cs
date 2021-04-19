@@ -1,9 +1,9 @@
 ﻿using Amazon.Lambda.Core;
 using Xunit.Abstractions;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestUtilities
 {
-    internal class XunitLambdaLogger : ILambdaLogger
+    public class XunitLambdaLogger : ILambdaLogger
     {
         private readonly ITestOutputHelper _outputHelper;
 

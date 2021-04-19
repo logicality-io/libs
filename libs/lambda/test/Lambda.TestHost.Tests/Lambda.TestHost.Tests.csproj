@@ -7,20 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.0.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
-    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
-    <PackageReference Include="AWSSDK.Lambda" Version="3.5.9.1" />
-    <PackageReference Include="AWSSDK.SQS" Version="3.5.1.27" />
-    <PackageReference Include="AWSSDK.StepFunctions" Version="3.5.3.36" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.0.0" />
+    <PackageReference Include="AWSSDK.Lambda" Version="3.7.0.12" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.0.13" />
+    <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.0.12" />
     <PackageReference Include="coverlet.collector" Version="3.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Ductus.FluentDocker" Version="2.8.2" />
-    <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+    <PackageReference Include="Ductus.FluentDocker" Version="2.10.3" />
+    <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Shouldly" Version="4.0.3" />
     <PackageReference Include="xunit.core" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Lambda.ClientExtensions\Lambda.ClientExtensions.csproj" />
     <ProjectReference Include="..\..\src\Lambda.TestHost\Lambda.TestHost.csproj" />
+    <ProjectReference Include="..\..\src\Lambda.TestUtilities\Lambda.TestUtilities.csproj" />
   </ItemGroup>
 
 </Project>

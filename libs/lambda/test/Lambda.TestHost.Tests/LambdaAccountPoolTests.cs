@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Logicality.AWS.Lambda.TestHost.Functions;
+using Logicality.Lambda.TestHost.Functions;
 using Shouldly;
 using Xunit;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestHost
 {
     public class LambdaAccountPoolTests
     {
