@@ -4,7 +4,7 @@
   <Import Project="../../src.props" />
 
   <PropertyGroup>
-    <MinVerTagPrefix>anc-</MinVerTagPrefix>
+    <MinVerTagPrefix>aspnetcore-</MinVerTagPrefix>
     <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
   </PropertyGroup>
 
