@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
+using Logicality.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,7 +50,7 @@ namespace Logicality.Lambda.TestHost
 
             await host.StartAsync();
 
-            var serviceUrl = host.GetUris().Single();
+            var serviceUrl = host.GetServerUris().Single();
 
             return new LambdaTestHost(settings, host, serviceUrl);
         }
