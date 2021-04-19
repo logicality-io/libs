@@ -7,12 +7,13 @@ using Amazon.Lambda;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Model;
 using Amazon.Runtime;
-using Logicality.AWS.Lambda.TestHost.Functions;
+using Logicality.Lambda.TestHost.Functions;
+using Logicality.Lambda.TestUtilities;
 using Shouldly;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestHost
 {
     public class LambdaTestHostTests: IAsyncLifetime
     {

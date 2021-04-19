@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestHost
 {
     internal class LambdaInstance
     {

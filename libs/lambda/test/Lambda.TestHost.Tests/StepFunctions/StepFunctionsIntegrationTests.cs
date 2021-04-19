@@ -11,7 +11,7 @@ using Xunit;
 using Xunit.Abstractions;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-namespace Logicality.AWS.Lambda.TestHost.StepFunctions
+namespace Logicality.Lambda.TestHost.StepFunctions
 {
     public class StepFunctionsIntegrationTests: IAsyncLifetime
     {

@@ -4,7 +4,7 @@ using System.Threading;
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.Logging;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestHost
 {
     public class LambdaTestHostSettings
     {

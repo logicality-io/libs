@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using Xunit.Abstractions;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestHost
 {
     internal static class FixtureUtils
     {

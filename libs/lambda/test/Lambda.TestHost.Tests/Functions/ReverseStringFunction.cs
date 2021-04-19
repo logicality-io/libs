@@ -2,7 +2,7 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 
-namespace Logicality.AWS.Lambda.TestHost.Functions
+namespace Logicality.Lambda.TestHost.Functions
 {
     public class ReverseStringFunction
     {

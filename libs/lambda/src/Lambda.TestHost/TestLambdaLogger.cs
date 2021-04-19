@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Amazon.Lambda.Core;
 
-namespace Logicality.AWS.Lambda.TestHost
+namespace Logicality.Lambda.TestHost
 {
     public class TestLambdaLogger : ILambdaLogger
     {

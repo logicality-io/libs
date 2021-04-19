@@ -3,7 +3,7 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.Lambda.SQSEvents;
 
-namespace Logicality.AWS.Lambda.TestHost.LocalStack
+namespace Logicality.Lambda.TestHost.LocalStack
 {
     public class SQSLambdaFunction
     {

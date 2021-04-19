@@ -10,7 +10,7 @@ using Ductus.FluentDocker.Services;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace Logicality.AWS.Lambda.TestHost.LocalStack
+namespace Logicality.Lambda.TestHost.LocalStack
 {
     public class LocalStackFixture : IAsyncDisposable
     {
