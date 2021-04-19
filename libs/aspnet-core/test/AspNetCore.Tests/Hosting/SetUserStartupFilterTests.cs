@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -80,9 +81,9 @@ namespace Logicality.AspNetCore.Hosting
 
             await _webHost.StartAsync();
 
-            var serverPort = _webHost.GetServerPort();
+            var serverPort = _webHost.GetServerUris().First().Port;
 
-            _client = new HttpClient()
+            _client = new HttpClient
             {
                 BaseAddress = new Uri($"http://127.0.0.1:{serverPort}")
             };

@@ -7,7 +7,7 @@ namespace Logicality.Lambda.TestHost
     {
         public string? AwsRequestId { get; set; }
 
-        public IClientContext ClientContext { get; set; }
+        public IClientContext? ClientContext { get; set; }
 
         public string? FunctionName { get; set; }
 
@@ -17,7 +17,7 @@ namespace Logicality.Lambda.TestHost
 
         public string? InvokedFunctionArn { get; set; }
 
-        public ILambdaLogger Logger { get; set; }
+        public ILambdaLogger? Logger { get; set; }
 
         public string? LogGroupName { get; set; }
 

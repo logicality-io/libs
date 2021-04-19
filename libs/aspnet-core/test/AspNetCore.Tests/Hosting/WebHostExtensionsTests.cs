@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +22,7 @@ namespace Logicality.AspNetCore.Hosting
 
             await webHost.StartAsync();
 
-            var serverPort = webHost.GetServerPort();
+            var serverPort = webHost.GetServerUris().First().Port;
 
             serverPort.ShouldNotBe(0);
         }
