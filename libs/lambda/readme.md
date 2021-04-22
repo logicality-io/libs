@@ -1,6 +1,12 @@
 # Lambda Libraries
 
+NuGet Feed: https://f.feedz.io/logicality/public/nuget/index.json
+
 ## 1. Logicality.Lambda
+
+Helper types for constructing lambda functions.
+
+[![feedz.io](https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Flogicality%2Fpublic%2Fshield%2FLogicality.Lambda%2Fstable)](https://f.feedz.io/logicality/public/packages/Logicality.Lambda/stable/download)
 
 ### FunctionBase
 
@@ -56,16 +62,14 @@ Example usage (See `Lambda.Example` project for complete ):
 
 ## 2. Logicality.Lambda.ClientExtensions
 
+TODO.
+
 ## 3. Logicality.Lambda.TestHost
 
 A .NET implementation of AWS Lambda's Invoke API that can host and execute .NET Lambdas
 for simulation, testing, and debugging purposes.
 
-### Packages
-
-| Name | Package | Description |
-|---|---|---|
-| `Logicality.Lambda.TestHost` | [![feedz.io][p1]][d1] | Main TestHost package. |
+[![feedz.io](https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Flogicality%2Fpublic%2Fshield%2FLogicality.Lambda.TestHost%2Fstable)](https://f.feedz.io/logicality/public/packages/Logicality.Lambda.TestHost/stable/download)
 
 ### Using
 
@@ -155,8 +159,6 @@ debugging application logic issues.".
 
 - See [Stepfunctions Local](https://docs.aws.amazon.com/step-functions/latest/dg/sfn-local.html) docs.
 - See an [`integration test`](test/Lambda.TestHost.Tests/StepFunctionsIntegrationTests.cs) for an example
-  that uses LocalStack container with `LAMBDA_FORWARD_URL` configued to call back to Lambda Test Host.
+  that uses LocalStack container with `LAMBDA_FORWARD_URL` configured to call back to Lambda Test Host.
 
-[p1]: https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Flogicality%2Fpublic%2Fshield%2FLogicality.AWS.Lambda.TestHost%2Fstable
-[d1]: https://f.feedz.io/logicality/public/nuget/index.json
 [lambda-test-tool]: https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool
