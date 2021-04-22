@@ -120,7 +120,7 @@ var lambdaClient = new AmazonLambdaClient(awsCredentials, lambdaConfig);
 
 Use the client to invoke the lambda:
 
-```
+```csharp
 var invokeRequest = new InvokeRequest
 {
     InvocationType = InvocationType.RequestResponse,
