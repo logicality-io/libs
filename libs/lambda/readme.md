@@ -52,7 +52,7 @@ Example usage (See `Lambda.Example` project for complete ):
             return handler.Handle(input, context);
         }
     }
-``csharp
+```
 
 ## 2. Logicality.Lambda.ClientExtensions
 
