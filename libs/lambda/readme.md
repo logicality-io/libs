@@ -67,7 +67,7 @@ for simulation, testing, and debugging purposes.
 |---|---|---|
 | `Logicality.Lambda.TestHost` | [![feedz.io][p1]][d1] | Main TestHost package. |
 
-##' Using
+### Using
 
 It works by running a web server that can handle lambda invocation requests,
 activate the appropriate lambda class, invoke it's handler (dealing with any
