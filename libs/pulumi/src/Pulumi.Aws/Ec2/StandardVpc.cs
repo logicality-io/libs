@@ -5,6 +5,17 @@ using Pulumi.Aws.Ec2;
 
 namespace Logicality.Pulumi.Aws.Ec2
 {
+    /// <summary>
+    /// Create a standard VPC across 2 availability zoned with
+    /// - 2 private subnets
+    /// - 2 public subnets
+    /// - Nat gateways with an elastic IPs attached to public subnets
+    /// - Internet gateway
+    /// - Appropriate route table
+    ///
+    /// CIDR blocs are in the /16 range. A cidr block segment can be supplied
+    /// so multiple VPCs can have non-overlaping cidr blocks.
+    /// </summary>
     public class StandardVpc : ComponentResource
     {
         private readonly StandardVpcArgs _args;
