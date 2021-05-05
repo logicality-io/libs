@@ -1,5 +1,6 @@
 using Amazon.Lambda.TestUtilities;
 using Logicality.Lambda.Example;
+using Shouldly;
 using Xunit;
 
 namespace Logicality.Extensions.Configuration
@@ -9,9 +10,11 @@ namespace Logicality.Extensions.Configuration
         [Fact]
         public void Can_activate_lambda()
         {
-            var testFunction = new ExampleFunction(configuration => {});
+            var testFunction = new ExampleFunction(_ => {});
 
-            testFunction.Handle("foo", new TestLambdaContext());
+            var result = testFunction.Handle("foo", new TestLambdaContext());
+
+            result.ShouldNotBeNullOrEmpty();
         }
     }
 }
