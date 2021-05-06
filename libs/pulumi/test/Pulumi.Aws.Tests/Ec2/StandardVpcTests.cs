@@ -1,26 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
+using Logicality.Pulumi.Automation;
+using Pulumi.Automation;
 using Pulumi.Aws.S3;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Logicality.Pulumi.Aws.Ec2
 {
-    public class StandardVpcTests
+    public class StandardVpcTests : IAsyncLifetime
     {
         private readonly ITestOutputHelper _outputHelper;
+        private LocalWorkspace _localWorkspace;
+        private WorkspaceStack _workspaceStack;
 
         public StandardVpcTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
 
-        [Fact(Skip ="Needs to be run manually")]
-        public void StandardVpcTest()
+        [Fact]
+        public async Task StandardVpcTest()
         {
-            _outputHelper.WriteLine(Environment.CurrentDirectory);
+            var previewResult = await _workspaceStack.PreviewAsync();
+            /*_outputHelper.WriteLine(Environment.CurrentDirectory);
             _outputHelper.WriteLine(Assembly.GetExecutingAssembly().Location);
             
             var stackName = nameof(StandardVpcTest);
@@ -43,87 +50,36 @@ namespace Logicality.Pulumi.Aws.Ec2
             finally
             {
                 PulumiProcess.Run($"stack rm {stackName} -y --non-interactive", _outputHelper);
-            }
+            }*/
         }
 
         public void StandardVpcTestStack()
         {
-            var bucket = new Bucket("bucket", new BucketArgs
-            {
-                BucketName = "temp-bucket",
-            });
-        }
-    }
+            // Create an AWS resource (S3 Bucket)
+            var bucket = new Bucket("my-bucket");
 
-    public class PulumiProcess
-    {
-        private PulumiProcess(string output, string error)
+            // Export the name of the bucket
+            //this.BucketName = bucket.Id;
+        }
+
+        public async Task InitializeAsync()
         {
-            Output = output;
-            Error = error;
+            // This setup expects Pulumi CLI on PATH. TODO: can this be done in a container?
+            // Clean this up
+            var workspaceOptions = new LocalWorkspaceOptions
+            {
+                Program = PulumiFn.Create(StandardVpcTestStack),
+            }.ConfigureForLocalBackend(nameof(StandardVpcTests));
+
+            _localWorkspace = await LocalWorkspace.CreateAsync(workspaceOptions);
+            await _localWorkspace.InstallPluginAsync<global::Pulumi.Aws.Provider>();
+
+            _workspaceStack = await WorkspaceStack.CreateOrSelectAsync("test", _localWorkspace);
         }
 
-        public string Output { get; }
-        
-        public string Error { get; }
-
-        public static PulumiProcess Run(string args, ITestOutputHelper outputHelper)
+        public Task DisposeAsync()
         {
-            var processStartInfo = new ProcessStartInfo("pulumi", args)
-            {
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-
-            var process = new Process
-            {
-                StartInfo = processStartInfo
-            };
-            var error = new StringBuilder();
-            var output = new StringBuilder();
-            process.ErrorDataReceived += (sender, args) =>
-            {
-                error.AppendLine(args.Data);
-            };
-            process.OutputDataReceived += (sender, args) =>
-            {
-                output.AppendLine(args.Data);
-            };
-            process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-            var exitCode = process.ExitCode;
-            process.Close();
-
-            outputHelper.WriteLine($"pulumi {args}");
-            outputHelper.WriteLine($"Exit code: {exitCode}");
-            if (!string.IsNullOrWhiteSpace(output.ToString()))
-            {
-                outputHelper.WriteLine("-- Output --");
-                outputHelper.WriteLine($"{output}");
-            }
-            if (!string.IsNullOrWhiteSpace(error.ToString()))
-            {
-                outputHelper.WriteLine("-- Error --");
-                outputHelper.WriteLine($"Error: {error}");
-            }
-            if (exitCode != 0)
-            {
-                throw new NonZeroExitCodeException(exitCode);
-
-            }
-
-            return new PulumiProcess(output.ToString(), error.ToString());
+            return _workspaceStack.DestroyAsync();
         }
-    }
-
-    public class NonZeroExitCodeException : Exception
-    {
-        public NonZeroExitCodeException(int exitCode)
-            : base($"The process exited with code {exitCode}.") => this.ExitCode = exitCode;
-
-        public int ExitCode { get; }
     }
 }

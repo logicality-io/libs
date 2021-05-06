@@ -185,7 +185,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EBD9C8FF-D
 		libs\bullseye\test\Directory.Build.props = libs\bullseye\test\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bullseye.Tests", "libs\bullseye\test\Bullseye.Tests\Bullseye.Tests.csproj", "{35640368-8A5B-42A8-8F04-694E83DA51C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye.Tests", "libs\bullseye\test\Bullseye.Tests\Bullseye.Tests.csproj", "{35640368-8A5B-42A8-8F04-694E83DA51C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulumi.Aws.IntegrationTests", "libs\pulumi\test\Pulumi.Aws.IntegrationTests\Pulumi.Aws.IntegrationTests.csproj", "{0CEED400-3F8D-4011-8FD9-63EB1AF28634}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -301,6 +303,10 @@ Global
 		{35640368-8A5B-42A8-8F04-694E83DA51C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35640368-8A5B-42A8-8F04-694E83DA51C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35640368-8A5B-42A8-8F04-694E83DA51C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -349,6 +355,7 @@ Global
 		{7FA0338D-14D9-4D1B-A857-875F3025216D} = {8DE1F929-BB06-4BAA-A90F-3DB49C17FFC7}
 		{EBD9C8FF-D56D-48C4-AA11-9F44183114A4} = {EF3DD315-B854-4C2B-9EF2-45596D5CD0F5}
 		{35640368-8A5B-42A8-8F04-694E83DA51C8} = {EBD9C8FF-D56D-48C4-AA11-9F44183114A4}
+		{0CEED400-3F8D-4011-8FD9-63EB1AF28634} = {DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}

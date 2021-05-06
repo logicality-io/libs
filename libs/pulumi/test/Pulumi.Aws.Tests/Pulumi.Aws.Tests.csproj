@@ -25,13 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Pulumi.Aws\Pulumi.Aws.csproj" />
-    <ProjectReference Include="..\Pulumi.Aws.Tests.Stacks\Pulumi.Aws.Tests.Stacks.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Pulumi.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

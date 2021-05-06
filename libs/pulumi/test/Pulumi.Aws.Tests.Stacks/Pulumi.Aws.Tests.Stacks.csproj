@@ -12,7 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.Aws" Version="3.38.1" />
+    <PackageReference Include="Pulumi.Automation" Version="3.1.0" />
+    <PackageReference Include="Pulumi.Aws" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>
