@@ -2,7 +2,7 @@ using Amazon.Lambda.TestUtilities;
 using Logicality.Lambda.Example;
 using Xunit;
 
-namespace Logicality.Extensions.Configuration
+namespace Logicality.Lambda
 {
     public class FunctionBaseTests
     {
