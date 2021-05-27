@@ -44,7 +44,12 @@ namespace Logicality.Pulumi.Aws.Ec2
 
         private async Task<VpcData> Define()
         {
-            var availabilityZonesResult = await GetAvailabilityZones.InvokeAsync(null, new InvokeOptions { Provider = _options?.Provider });
+            var availabilityZonesResult = await GetAvailabilityZones.InvokeAsync(
+                null, 
+                new InvokeOptions
+                {
+                    Provider = _options?.Provider
+                });
 
             var azA = availabilityZonesResult.Names[0];
             var azB = availabilityZonesResult.Names[1];

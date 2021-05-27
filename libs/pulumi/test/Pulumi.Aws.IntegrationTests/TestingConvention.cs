@@ -8,7 +8,7 @@ namespace Logicality.Pulumi.Aws
         {
             Classes.Where(t => t.Name.EndsWith("Tests"));
 
-            Methods.Where(t => t.IsPublic);
+            Methods.Where(t => t.IsPublic && !t.IsStatic);
         }
     }
 }
