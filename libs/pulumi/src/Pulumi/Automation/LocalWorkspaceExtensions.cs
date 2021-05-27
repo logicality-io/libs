@@ -10,9 +10,9 @@ namespace Logicality.Pulumi.Automation
         /// Installs the plug-in related to the TProvider type.
         /// </summary>
         /// <typeparam name="TProvider"></typeparam>
-        /// <param name="localWorkspace"></param>
+        /// <param name="workspace"></param>
         /// <returns></returns>
-        public static async Task<LocalWorkspace> InstallPluginAsync<TProvider>(this LocalWorkspace localWorkspace)
+        public static async Task<Workspace> InstallPluginAsync<TProvider>(this Workspace workspace)
             where TProvider: ProviderResource
         {
             var assemblyName = typeof(TProvider).Assembly.GetName()!;
@@ -20,9 +20,9 @@ namespace Logicality.Pulumi.Automation
             var pluginName = assemblyName.Name!.Replace("Pulumi.", "").ToLower();
             var pluginVersion = $"v{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}";
 
-            await localWorkspace.InstallPluginAsync(pluginName, pluginVersion);
+            await workspace.InstallPluginAsync(pluginName, pluginVersion);
 
-            return localWorkspace;
+            return workspace;
         }
     }
 }

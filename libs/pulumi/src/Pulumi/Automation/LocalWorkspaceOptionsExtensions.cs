@@ -10,15 +10,11 @@ namespace Logicality.Pulumi.Automation
         /// integration testing.
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="projectName"></param>
-        public static LocalWorkspaceOptions ConfigureForLocalBackend(this LocalWorkspaceOptions options, string projectName)
+        public static LocalWorkspaceOptions ConfigureForLocalBackend(this LocalWorkspaceOptions options)
         {
-            options.ProjectSettings = new ProjectSettings(projectName, ProjectRuntimeName.Dotnet);
-            options.EnvironmentVariables = new Dictionary<string, string?>
-            {
-                { EnvironmentVariableKeys.ConfigPassphrase, "secret" },
-                { EnvironmentVariableKeys.ConfigBackendUrl, "file://~" }
-            };
+            options.EnvironmentVariables ??= new Dictionary<string, string?>();
+            options.EnvironmentVariables.Add(EnvironmentVariableKeys.ConfigPassphrase, "secret");
+            options.EnvironmentVariables.Add(EnvironmentVariableKeys.ConfigBackendUrl, "file://~");
             return options;
         }
     }

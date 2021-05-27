@@ -1,52 +1,33 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Logicality.Pulumi.Automation;
-using Pulumi;
 using Pulumi.Automation;
 using Pulumi.Aws;
 using Pulumi.Aws.S3;
 
 namespace Logicality.Pulumi.Aws.Ec2
 {
-    public class StandardVpcTests
+    public class StandardVpcTests 
     {
-        public async Task Can_deploy_vpc()
+        public async Task Can_deploy()
         {
-            var workspaceOptions = new LocalWorkspaceOptions
+            var program = PulumiFn.Create(() =>
             {
-                Program = PulumiFn.Create<MyStack>(),
-            }.ConfigureForLocalBackend(nameof(Can_deploy_vpc));
+                var bucket = new Bucket("my-bucket");
+            });
+            var projectName = $"{typeof(StandardVpcTests)}-{nameof(Can_deploy)}";
+            var stackName   = "test";
+            var stackArgs   = new InlineProgramArgs(projectName, stackName, program);
+            stackArgs.ConfigureForLocalBackend();
+            var stack = await LocalWorkspace.CreateOrSelectStackAsync(stackArgs);
+            await stack.Workspace.InstallPluginAsync<Provider>();
+            await stack.SetConfigAsync("aws:region", new ConfigValue("eu-west-1"));
 
-            var localWorkspace = await LocalWorkspace.CreateAsync(workspaceOptions);
-            await localWorkspace.InstallPluginAsync<Provider>();
+            var upResult = await stack.UpAsync();
 
-            var workspaceStack = await WorkspaceStack.CreateOrSelectAsync("test", localWorkspace);
-            var previewResult = await workspaceStack.PreviewAsync();
+            Console.WriteLine(upResult.StandardOutput);
 
-            await workspaceStack.DestroyAsync();
+            await stack.DestroyAsync();
         }
-
-        private void StandardVpcTestStack()
-        {
-            // Create an AWS resource (S3 Bucket)
-            var bucket = new Bucket("my-bucket");
-
-            // Export the name of the bucket
-            //this.BucketName = bucket.Id;
-        }
-    }
-
-    public class MyStack : Stack
-    {
-        public MyStack()
-        {
-            // Create an AWS resource (S3 Bucket)
-            var bucket = new Bucket("my-bucket");
-
-            // Export the name of the bucket
-            this.BucketName = bucket.Id;
-        }
-
-        [Output]
-        public Output<string> BucketName { get; set; }
     }
 }
