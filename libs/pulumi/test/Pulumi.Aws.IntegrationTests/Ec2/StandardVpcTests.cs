@@ -9,13 +9,13 @@ namespace Logicality.Pulumi.Aws.Ec2
 {
     public class StandardVpcTests 
     {
-        public async Task Can_deploy()
+        public async Task CanDeploy()
         {
             var program = PulumiFn.Create(() =>
             {
                 var bucket = new Bucket("my-bucket");
             });
-            var projectName = $"{typeof(StandardVpcTests)}-{nameof(Can_deploy)}";
+            var projectName = $"{typeof(StandardVpcTests)}-{nameof(CanDeploy)}";
             var stackName   = "test";
             var stackArgs   = new InlineProgramArgs(projectName, stackName, program);
             stackArgs.ConfigureForLocalBackend();
