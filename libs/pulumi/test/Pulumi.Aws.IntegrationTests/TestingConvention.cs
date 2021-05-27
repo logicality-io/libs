@@ -1,5 +1,4 @@
 ﻿using Fixie;
-using Shouldly;
 
 namespace Logicality.Pulumi.Aws
 {

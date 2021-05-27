@@ -4,7 +4,7 @@ using Pulumi.Automation;
 
 namespace Logicality.Pulumi.Automation
 {
-    public static class LocalWorkspaceExtensions
+    public static class WorkspaceExtensions
     {
         /// <summary>
         /// Installs the plug-in related to the TProvider type.
