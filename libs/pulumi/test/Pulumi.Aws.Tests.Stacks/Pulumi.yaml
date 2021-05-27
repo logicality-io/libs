@@ -1,7 +1,0 @@
-name: logicality-pulumi-aws-tests
-runtime:
-    name: dotnet
-    options:
-        binary: Logicality.Pulumi.Aws.Tests.dll
-description: AWS infrastructure
-config: 

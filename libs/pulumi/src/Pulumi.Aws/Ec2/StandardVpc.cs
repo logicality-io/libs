@@ -15,6 +15,8 @@ namespace Logicality.Pulumi.Aws.Ec2
     ///
     /// CIDR blocs are in the /16 range. A cidr block segment can be supplied
     /// so multiple VPCs can have non-overlaping cidr blocks.
+    ///
+    /// This is a (not-full) port of VPC from Pulumi.Awsx 
     /// </summary>
     public class StandardVpc : ComponentResource
     {
@@ -42,7 +44,12 @@ namespace Logicality.Pulumi.Aws.Ec2
 
         private async Task<VpcData> Define()
         {
-            var availabilityZonesResult = await GetAvailabilityZones.InvokeAsync(null, new InvokeOptions { Provider = _options?.Provider });
+            var availabilityZonesResult = await GetAvailabilityZones.InvokeAsync(
+                null, 
+                new InvokeOptions
+                {
+                    Provider = _options?.Provider
+                });
 
             var azA = availabilityZonesResult.Names[0];
             var azB = availabilityZonesResult.Names[1];
@@ -185,14 +192,7 @@ namespace Logicality.Pulumi.Aws.Ec2
                 Parent = private1.Subnet
             });
 
-            return new VpcData
-            {
-                Vpc = vpc,
-                PrivateSubnet0 = private0.Subnet,
-                PrivateSubnet1 = private1.Subnet,
-                PublicSubnet0 = public0.Subnet,
-                PublicSubnet1 = public1.Subnet,
-            };
+            return new VpcData(vpc, private0.Subnet, private1.Subnet, public0.Subnet, public1.Subnet);
         }
 
         public Output<Vpc> Vpc { get; }
@@ -259,17 +259,11 @@ namespace Logicality.Pulumi.Aws.Ec2
             return (subnet, routeTable);
         }
 
-        private class VpcData
-        {
-            public Vpc Vpc { get; set; }
-
-            public Subnet PrivateSubnet0 { get; set; }
-
-            public Subnet PrivateSubnet1 { get; set; }
-
-            public Subnet PublicSubnet0 { get; set; }
-
-            public Subnet PublicSubnet1 { get; set; }
-        }
+        private record VpcData(
+            Vpc Vpc,
+            Subnet PrivateSubnet0,
+            Subnet PrivateSubnet1,
+            Subnet PublicSubnet0,
+            Subnet PublicSubnet1);
     }
 }

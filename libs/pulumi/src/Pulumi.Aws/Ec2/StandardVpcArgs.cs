@@ -1,12 +1,11 @@
-﻿namespace Logicality.Pulumi.Aws.Ec2
+﻿using System;
+using Pulumi;
+
+namespace Logicality.Pulumi.Aws.Ec2
 {
     public class StandardVpcArgs
     {
-        public StandardVpcArgs(int cidrBlockSegment)
-        {
-            CidrBlockSegment = cidrBlockSegment;
-        }
-
-        public int CidrBlockSegment { get; }
+        [Input("cidrBlockSegment")]
+        public int CidrBlockSegment { get; set; }
     }
 }

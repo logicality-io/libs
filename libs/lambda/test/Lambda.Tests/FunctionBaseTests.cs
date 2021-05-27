@@ -3,7 +3,7 @@ using Logicality.Lambda.Example;
 using Shouldly;
 using Xunit;
 
-namespace Logicality.Extensions.Configuration
+namespace Logicality.Lambda
 {
     public class FunctionBaseTests
     {
