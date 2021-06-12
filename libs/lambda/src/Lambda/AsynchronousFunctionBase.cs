@@ -27,9 +27,9 @@ namespace Logicality.Lambda
         ///     An action to configure the configuration. By default appsettings.json,
         ///     appsettings.{environment}.json and environment variables providers are added.
         /// </param>
-        /// <param name="configurelogging">
-        ///     An acction to configure logging services. By default the Lambda Logger provider
-        ///     is added and the minimum logging level isset to 'Information'.
+        /// <param name="configureLogging">
+        ///     An action to configure logging services. By default the Lambda Logger provider
+        ///     is added and the minimum logging level is set to 'Information'.
         /// </param>
         /// <param name="configureServices">
         ///     Configure any services needed for injection into your handler. By default,
@@ -41,10 +41,10 @@ namespace Logicality.Lambda
         /// </param>
         protected AsynchronousFunctionBase(
             Action<IConfigurationBuilder>? configureConfiguration = null,
-            Action<ILoggingBuilder>? configurelogging = null,
+            Action<ILoggingBuilder>? configureLogging = null,
             Action<TConfig, IServiceCollection>? configureServices = null,
             string environmentVariablesPrefix = "")
-            :base(configureConfiguration, configurelogging, configureServices, environmentVariablesPrefix)
+            :base(configureConfiguration, configureLogging, configureServices, environmentVariablesPrefix)
         { }
 
         public Task Handle(TRequest input, ILambdaContext context)
