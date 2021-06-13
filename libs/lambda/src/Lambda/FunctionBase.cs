@@ -12,13 +12,13 @@ namespace Logicality.Lambda
     {
         protected FunctionBase(
             Action<IConfigurationBuilder>? configureConfiguration = null,
-            Action<ILoggingBuilder>? configurelogging = null,
+            Action<ILoggingBuilder>? configureLogging = null,
             Action<TConfig, IServiceCollection>? configureServices = null,
             string environmentVariablesPrefix = "")
         {
             configureConfiguration ??= _ => { };
             configureServices ??= (_, _) => { };
-            configurelogging ??= _ => { };
+            configureLogging ??= _ => { };
 
             var hostConfiguration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
@@ -48,7 +48,7 @@ namespace Logicality.Lambda
                 };
                 logging.AddLambdaLogger(loggerOptions);
                 logging.SetMinimumLevel(LogLevel.Information);
-                configurelogging(logging);
+                configureLogging(logging);
             });
             services.AddSingleton(appConfiguration);
             services.AddTransient<THandler>();

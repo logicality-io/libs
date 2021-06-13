@@ -4,7 +4,7 @@ using Amazon.Lambda.Core;
 namespace Logicality.Lambda
 {
     /// <summary>
-    /// Represents a synchronus lambda handler.
+    /// Represents a synchronous lambda handler.
     /// </summary>
     /// <typeparam name="TRequest"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
