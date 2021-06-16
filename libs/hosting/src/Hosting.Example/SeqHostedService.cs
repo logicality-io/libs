@@ -30,7 +30,7 @@ namespace Logicality.Extensions.Hosting.Example
             => new Builder()
                 .UseContainer()
                 .WithName(ContainerName)
-                .UseImage("datalust/seq:5.1.3000")
+                .UseImage("datalust/seq:latest")
                 .ReuseIfExists()
                 .ExposePort(Port, ContainerPort)
                 .WithEnvironment("ACCEPT_EULA=Y")
