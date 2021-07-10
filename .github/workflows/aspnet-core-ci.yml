@@ -21,6 +21,11 @@ jobs:
     env: 
       FEEDZ_LOGICALITY_API_KEY: ${{secrets.FEEDZ_LOGICALITY_API_KEY}}
     steps:
+
+    - name: Print Environment
+      run: printenv
+      shell: bash
+
     - name: Checkout
       uses: actions/checkout@v2
       with:
