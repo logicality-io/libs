@@ -9,7 +9,7 @@ using static Logicality.Bullseye.BullseyeUtils;
 const string ArtifactsDir = "artifacts";
 const string Clean = "clean";
 const string Build = "build";
-const string Publish = "publish";
+const string Push = "push";
 const string Solution = "Platform.sln";
 
 Target(Clean, () => CleanDirectory(ArtifactsDir));
@@ -30,20 +30,20 @@ foreach (var lib in libs)
 {
     var testProjects = Directory.GetFiles($"libs/{lib}/test/", "*.csproj", SearchOption.AllDirectories);
     var testTarget = $"{lib}-test";
-    Target(testTarget, DependsOn(Build),
+    Target(testTarget,
         testProjects,
-        p => Run("dotnet", $"pack {p} -c Release -o {ArtifactsDir} --no-build"));
+        p => Run("dotnet", $"pack {p} -c Release -o {ArtifactsDir}"));
     defaultTargets.Add(testTarget);
 
     var packableProjects = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);
     var packTarget = $"{lib}-pack";
-    Target(packTarget, DependsOn(Build),
+    Target(packTarget, DependsOn(Clean),
         packableProjects,
-        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir} --no-build"));
+        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir}"));
     defaultTargets.Add(packTarget);
 }
 
-Target(Publish, () =>
+Target(Push, () =>
 {
     var packagesToPush = Directory.GetFiles(ArtifactsDir, "*.nupkg", SearchOption.TopDirectoryOnly);
     Console.WriteLine($"Found packages to publish: {string.Join("; ", packagesToPush)}");
@@ -61,7 +61,7 @@ Target(Publish, () =>
     }
 });
 
-defaultTargets.Add(Publish);
+defaultTargets.Add(Push);
 Target("default", DependsOn(defaultTargets.ToArray()));
 
 RunTargetsAndExit(args);
