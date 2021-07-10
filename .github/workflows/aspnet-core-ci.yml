@@ -42,3 +42,8 @@ jobs:
     - name: Push
       run: bash build.sh push
       shell: bash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: artifacts
+        path: artifacts
