@@ -20,16 +20,26 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       FEEDZ_LOGICALITY_API_KEY: ${{secrets.FEEDZ_LOGICALITY_API_KEY}}
-    steps:
 
-    - name: Print Environment
-      run: printenv
-      shell: bash
+    steps:
 
     - name: Checkout
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: Find PR Number
+      uses: jwalton/gh-find-current-pr@v1
+      id: findPr
+      # This will echo "Your PR is 7", or be skipped if there is no current PR.
+      run: echo "Your PR is ${PR}"
+        if: success() && steps.findPr.outputs.number
+        env:
+          PR: ${{ steps.findPr.outputs.pr }}
+    
+    - name: Print Environment
+      run: printenv
+      shell: bash
 
     - name: Test
       run: bash build.sh aspnet-core-test
