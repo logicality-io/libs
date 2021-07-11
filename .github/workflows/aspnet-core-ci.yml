@@ -49,6 +49,7 @@ jobs:
       shell: bash
 
     - name: Push
+      if: github.event_name == 'push'
       run: bash build.sh push
       shell: bash
 
