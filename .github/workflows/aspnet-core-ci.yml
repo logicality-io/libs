@@ -31,11 +31,6 @@ jobs:
     - name: Find PR Number
       uses: jwalton/gh-find-current-pr@v1
       
-    - run: echo "Your PR is ${PR}"
-      if: success() && steps.findPr.outputs.number
-      env:
-          PR: ${{ steps.findPr.outputs.pr }}
-    
     - name: Print Environment
       run: printenv
       shell: bash
