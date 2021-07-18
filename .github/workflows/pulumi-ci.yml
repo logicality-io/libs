@@ -1,18 +1,18 @@
-name: aspnet-core-ci
+name: pulumi-ci
 
 on:
   pull_request:
     paths:
-    - .github/workflows/aspnet-core-**
-    - libs/aspnet-core**
+    - .github/workflows/pulumi-**
+    - libs/pulumi**
   push:
     branches:
     - main
     paths:
-    - .github/workflows/aspnet-core-**
-    - libs/aspnet-core**
+    - .github/workflows/pulumi-**
+    - libs/pulumi**
     tags:
-    - "aspnet-core-*"
+    - "pulumi-*"
 
 jobs:
   build:
@@ -33,11 +33,11 @@ jobs:
       shell: bash
 
     - name: Test
-      run: bash build.sh aspnet-core-test
+      run: bash build.sh pulumi-test
       shell: bash
 
     - name: Pack
-      run: bash build.sh aspnet-core-pack
+      run: bash build.sh pulumi-pack
       shell: bash
 
     - name: Push

@@ -1,18 +1,18 @@
-name: aspnet-core-ci
+name: <lib>-ci
 
 on:
   pull_request:
     paths:
-    - .github/workflows/aspnet-core-**
-    - libs/aspnet-core**
+    - .github/workflows/<lib>-**
+    - libs/<lib>**
   push:
     branches:
     - main
     paths:
-    - .github/workflows/aspnet-core-**
-    - libs/aspnet-core**
+    - .github/workflows/<lib>-**
+    - libs/<lib>**
     tags:
-    - "aspnet-core-*"
+    - "<lib>-*"
 
 jobs:
   build:
@@ -33,11 +33,11 @@ jobs:
       shell: bash
 
     - name: Test
-      run: bash build.sh aspnet-core-test
+      run: bash build.sh <lib>-test
       shell: bash
 
     - name: Pack
-      run: bash build.sh aspnet-core-pack
+      run: bash build.sh <lib>-pack
       shell: bash
 
     - name: Push
@@ -49,4 +49,3 @@ jobs:
       with:
         name: artifacts
         path: artifacts
-
