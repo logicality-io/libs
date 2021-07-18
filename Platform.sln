@@ -70,8 +70,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{110F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worflows", "worflows", "{C49FC4EA-9AA4-4D53-9751-DD3EDF85788F}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci.yml = .github\workflows\ci.yml
-		.github\workflows\pr.yml = .github\workflows\pr.yml
+		.github\workflows\aspnet-core-ci.yml = .github\workflows\aspnet-core-ci.yml
+		.github\workflows\bullseye-ci.yml = .github\workflows\bullseye-ci.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\configuration-ci.yml = .github\workflows\configuration-ci.yml
+		.github\workflows\gen-workflows.ps1 = .github\workflows\gen-workflows.ps1
+		.github\workflows\hosting-ci.yml = .github\workflows\hosting-ci.yml
+		.github\workflows\lambda-ci.yml = .github\workflows\lambda-ci.yml
+		.github\workflows\lib.yml.template = .github\workflows\lib.yml.template
+		.github\workflows\pulumi-ci.yml = .github\workflows\pulumi-ci.yml
+		.github\workflows\system-extensions-ci.yml = .github\workflows\system-extensions-ci.yml
+		.github\workflows\testing-ci.yml = .github\workflows\testing-ci.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye", "libs\bullseye\src\Bullseye\Bullseye.csproj", "{558069C6-0126-45A2-89E0-A2739E5C1FBC}"
@@ -185,6 +194,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye.Tests", "libs\bull
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.IntegrationTests", "libs\pulumi\test\Pulumi.Aws.IntegrationTests\Pulumi.Aws.IntegrationTests.csproj", "{0CEED400-3F8D-4011-8FD9-63EB1AF28634}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulumi.Automation", "libs\pulumi\src\Pulumi.Automation\Pulumi.Automation.csproj", "{D6559733-C1F9-4E84-A2CB-228BE7B39C28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -295,6 +306,10 @@ Global
 		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CEED400-3F8D-4011-8FD9-63EB1AF28634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -342,6 +357,7 @@ Global
 		{EBD9C8FF-D56D-48C4-AA11-9F44183114A4} = {EF3DD315-B854-4C2B-9EF2-45596D5CD0F5}
 		{35640368-8A5B-42A8-8F04-694E83DA51C8} = {EBD9C8FF-D56D-48C4-AA11-9F44183114A4}
 		{0CEED400-3F8D-4011-8FD9-63EB1AF28634} = {DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}
+		{D6559733-C1F9-4E84-A2CB-228BE7B39C28} = {2209C4A6-1E2A-4F12-A707-22DEBBFEC78A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}
