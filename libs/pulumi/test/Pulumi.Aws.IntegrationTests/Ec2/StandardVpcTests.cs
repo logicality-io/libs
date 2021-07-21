@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.EC2;
-using Amazon.EC2.Model;
 using Logicality.Pulumi.Automation;
 using Pulumi.Automation;
 using Pulumi.Aws;
@@ -16,7 +13,7 @@ namespace Logicality.Pulumi.Aws.Ec2
 {
     public class StandardVpcTests 
     {
-        private AmazonEC2Client _ec2Client;
+        private readonly AmazonEC2Client _ec2Client;
 
         public StandardVpcTests()
         {
