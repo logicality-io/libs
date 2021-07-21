@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Pulumi.Automation\Pulumi.Automation.csproj" />
     <ProjectReference Include="..\..\src\Pulumi.Aws\Pulumi.Aws.csproj" />
   </ItemGroup>
 
