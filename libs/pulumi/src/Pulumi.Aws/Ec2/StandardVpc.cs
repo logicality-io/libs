@@ -259,11 +259,26 @@ namespace Logicality.Pulumi.Aws.Ec2
             return (subnet, routeTable);
         }
 
-        private record VpcData(
-            Vpc Vpc,
-            Subnet PrivateSubnet0,
-            Subnet PrivateSubnet1,
-            Subnet PublicSubnet0,
-            Subnet PublicSubnet1);
+        private class VpcData
+        {
+            public VpcData(
+                Vpc vpc,
+                Subnet privateSubnet0,
+                Subnet privateSubnet1,
+                Subnet publicSubnet0,
+                Subnet publicSubnet1)
+            {
+            }
+
+            public Vpc Vpc { get; }
+
+            public Subnet PrivateSubnet0 { get; }
+
+            public Subnet PrivateSubnet1 { get; }
+
+            public Subnet PublicSubnet0 { get; }
+
+            public Subnet PublicSubnet1 { get; }
+        }
     }
 }
