@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Logicality.Lambda.Example
 {
-    public class ExampleSynchronousFunction: SynchronousFunctionBase<FunctionConfig, string, string, SynchronousHandler>
+    public class ExampleSynchronousFunction: SynchronousFunctionBase<FunctionOptions, string, string, SynchronousHandler>
     {
         // This constructor will be called by Lambda runtime.
         public ExampleSynchronousFunction() 
@@ -35,13 +35,13 @@ namespace Logicality.Lambda.Example
             logging.SetMinimumLevel(LogLevel.Debug);
         }
 
-        private static void ConfigureServices(FunctionConfig config, IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
         }
     }
 
-    public class ExampleAsynchronousFunction : AsynchronousFunctionBase<FunctionConfig, string, AsynchronousHandler>
+    public class ExampleAsynchronousFunction : AsynchronousFunctionBase<string, FunctionOptions, AsynchronousHandler>
     {
         // This constructor will be called by Lambda runtime.
         public ExampleAsynchronousFunction()
@@ -70,7 +70,7 @@ namespace Logicality.Lambda.Example
             logging.SetMinimumLevel(LogLevel.Debug);
         }
 
-        private static void ConfigureServices(FunctionConfig config, IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
         }

@@ -5,7 +5,7 @@ using Amazon.Lambda.Serialization.SystemTextJson;
 
 namespace Logicality.Lambda.Example
 {
-    public class FunctionConfig
+    public class FunctionOptions
     {
         public string? Foo { get; set; }
     }

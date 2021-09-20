@@ -13,12 +13,11 @@ namespace Logicality.Lambda
     /// 
     /// By default configuration is loaded from environment variables, appsettings.json and appsettings.{environment}.json
     /// </summary>
-    /// <typeparam name="TConfig">The configuration object that configuration will be bound to.</typeparam>
     /// <typeparam name="THandler">The handler that will be activated to handle the request.</typeparam>
     /// <typeparam name="TRequest">The request type.</typeparam>
-    public abstract class AsynchronousFunctionBase<TConfig, TRequest, THandler> : FunctionBase<TConfig, THandler>
-        where TConfig : class, new()
-        where THandler: class, IAsynchronousHandler<TRequest>
+    /// <typeparam name="TOptions">The options type.</typeparam>
+    public abstract class AsynchronousFunctionBase<TRequest, TOptions, THandler> : FunctionBase<TOptions, THandler>
+        where THandler : class, IAsynchronousHandler<TRequest> where TOptions : class, new()
     {
         /// <summary>
         /// Initializes a new instance of <see cref="SynchronousFunctionBase{TConfig, TRequest, TResponse, THandler}"/>
@@ -27,9 +26,9 @@ namespace Logicality.Lambda
         ///     An action to configure the configuration. By default appsettings.json,
         ///     appsettings.{environment}.json and environment variables providers are added.
         /// </param>
-        /// <param name="configureLogging">
-        ///     An action to configure logging services. By default the Lambda Logger provider
-        ///     is added and the minimum logging level is set to 'Information'.
+        /// <param name="configurelogging">
+        ///     An acction to configure logging services. By default the Lambda Logger provider
+        ///     is added and the minimum logging level isset to 'Information'.
         /// </param>
         /// <param name="configureServices">
         ///     Configure any services needed for injection into your handler. By default,
@@ -41,10 +40,10 @@ namespace Logicality.Lambda
         /// </param>
         protected AsynchronousFunctionBase(
             Action<IConfigurationBuilder>? configureConfiguration = null,
-            Action<ILoggingBuilder>? configureLogging = null,
-            Action<TConfig, IServiceCollection>? configureServices = null,
+            Action<ILoggingBuilder>? configurelogging = null,
+            Action<IServiceCollection>? configureServices = null,
             string environmentVariablesPrefix = "")
-            :base(configureConfiguration, configureLogging, configureServices, environmentVariablesPrefix)
+            : base(configureConfiguration, configurelogging, configureServices, environmentVariablesPrefix)
         { }
 
         public Task Handle(TRequest input, ILambdaContext context)

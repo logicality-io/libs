@@ -3,21 +3,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
 
 namespace Logicality.Lambda
 {
-    public abstract class FunctionBase<TConfig, THandler>
-        where TConfig : class, new()
-        where THandler : class
+    public abstract class FunctionBase<TOptions, THandler>
+       where THandler : class where TOptions : class
     {
         protected FunctionBase(
             Action<IConfigurationBuilder>? configureConfiguration = null,
             Action<ILoggingBuilder>? configureLogging = null,
-            Action<TConfig, IServiceCollection>? configureServices = null,
+            Action<IServiceCollection>? configureServices = null,
             string environmentVariablesPrefix = "")
         {
             configureConfiguration ??= _ => { };
-            configureServices ??= (_, _) => { };
+            configureServices ??= _ => { };
             configureLogging ??= _ => { };
 
             var hostConfiguration = new ConfigurationBuilder()
@@ -25,7 +25,6 @@ namespace Logicality.Lambda
                 .Build();
             var environment = hostConfiguration[HostDefaults.EnvironmentKey] ?? Environments.Production;
 
-            var appConfiguration = new TConfig();
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true)
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
@@ -33,13 +32,12 @@ namespace Logicality.Lambda
 
             configureConfiguration(configurationBuilder);
 
-            configurationBuilder
-                .Build()
-                .Bind(appConfiguration);
+            var configurationRoot = configurationBuilder.Build();
 
             var services = new ServiceCollection();
             services.AddLogging(logging =>
             {
+                logging.AddConfiguration(configurationRoot);
                 var loggerOptions = new LambdaLoggerOptions
                 {
                     IncludeException = true,
@@ -47,13 +45,14 @@ namespace Logicality.Lambda
                     IncludeScopes = true
                 };
                 logging.AddLambdaLogger(loggerOptions);
-                logging.SetMinimumLevel(LogLevel.Information);
                 configureLogging(logging);
             });
-            services.AddSingleton(appConfiguration);
+            services.AddSingleton<IConfiguration>(configurationRoot);
+            services.AddOptions<TOptions>().Bind(configurationRoot);
             services.AddTransient<THandler>();
+            services.AddFeatureManagement();
 
-            configureServices(appConfiguration, services);
+            configureServices(services);
 
             ServiceProvider = services.BuildServiceProvider();
         }

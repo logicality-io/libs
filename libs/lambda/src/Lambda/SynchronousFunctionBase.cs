@@ -43,7 +43,7 @@ namespace Logicality.Lambda
         protected SynchronousFunctionBase(
             Action<IConfigurationBuilder>? configureConfiguration = null,
             Action<ILoggingBuilder>? configureLogging = null,
-            Action<TConfig, IServiceCollection>? configureServices = null,
+            Action<IServiceCollection>? configureServices = null,
             string environmentVariablesPrefix = "")
             :base(configureConfiguration, configureLogging, configureServices, environmentVariablesPrefix)
         { }
