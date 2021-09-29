@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="CompareNETObjects" Version="4.67.0" />
-    <PackageReference Include="SqlStreamStore" Version="1.2.1-alpha.3.18" />
+    <PackageReference Include="SqlStreamStore" Version="1.2.1-alpha.3" />
   </ItemGroup>
 
   <ItemGroup>
