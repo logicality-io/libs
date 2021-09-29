@@ -194,7 +194,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye.Tests", "libs\bull
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.IntegrationTests", "libs\pulumi\test\Pulumi.Aws.IntegrationTests\Pulumi.Aws.IntegrationTests.csproj", "{0CEED400-3F8D-4011-8FD9-63EB1AF28634}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulumi.Automation", "libs\pulumi\src\Pulumi.Automation\Pulumi.Automation.csproj", "{D6559733-C1F9-4E84-A2CB-228BE7B39C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Automation", "libs\pulumi\src\Pulumi.Automation\Pulumi.Automation.csproj", "{D6559733-C1F9-4E84-A2CB-228BE7B39C28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eventsourcing-domain", "eventsourcing-domain", "{498AADAB-47D0-42A9-A0CB-FDCB88EA9851}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{27A73E33-80F2-454E-ABC5-48152B71AB40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{910A4153-8490-4C9A-93C3-33941F3D8F3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Testing", "..\eventsourced-domain\src\EventSourcing.Domain.Testing\EventSourcing.Domain.Testing.csproj", "{671F7C0F-80FF-4C16-87C0-AE19E4CE1DF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain", "..\eventsourced-domain\src\EventSourcing.Domain\EventSourcing.Domain.csproj", "{C4F0BE87-5005-40DF-873E-2E7E9FED2A7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Tests", "..\eventsourced-domain\test\EventSourcing.Domain.Tests\EventSourcing.Domain.Tests.csproj", "{CF9308DE-1DE1-401E-9A02-7ED1948F3179}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -310,6 +322,18 @@ Global
 		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6559733-C1F9-4E84-A2CB-228BE7B39C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671F7C0F-80FF-4C16-87C0-AE19E4CE1DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671F7C0F-80FF-4C16-87C0-AE19E4CE1DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671F7C0F-80FF-4C16-87C0-AE19E4CE1DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671F7C0F-80FF-4C16-87C0-AE19E4CE1DF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F0BE87-5005-40DF-873E-2E7E9FED2A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F0BE87-5005-40DF-873E-2E7E9FED2A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F0BE87-5005-40DF-873E-2E7E9FED2A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F0BE87-5005-40DF-873E-2E7E9FED2A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF9308DE-1DE1-401E-9A02-7ED1948F3179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF9308DE-1DE1-401E-9A02-7ED1948F3179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF9308DE-1DE1-401E-9A02-7ED1948F3179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF9308DE-1DE1-401E-9A02-7ED1948F3179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -358,6 +382,11 @@ Global
 		{35640368-8A5B-42A8-8F04-694E83DA51C8} = {EBD9C8FF-D56D-48C4-AA11-9F44183114A4}
 		{0CEED400-3F8D-4011-8FD9-63EB1AF28634} = {DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}
 		{D6559733-C1F9-4E84-A2CB-228BE7B39C28} = {2209C4A6-1E2A-4F12-A707-22DEBBFEC78A}
+		{27A73E33-80F2-454E-ABC5-48152B71AB40} = {498AADAB-47D0-42A9-A0CB-FDCB88EA9851}
+		{910A4153-8490-4C9A-93C3-33941F3D8F3F} = {498AADAB-47D0-42A9-A0CB-FDCB88EA9851}
+		{671F7C0F-80FF-4C16-87C0-AE19E4CE1DF1} = {27A73E33-80F2-454E-ABC5-48152B71AB40}
+		{C4F0BE87-5005-40DF-873E-2E7E9FED2A7D} = {27A73E33-80F2-454E-ABC5-48152B71AB40}
+		{CF9308DE-1DE1-401E-9A02-7ED1948F3179} = {910A4153-8490-4C9A-93C3-33941F3D8F3F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}
