@@ -2,7 +2,7 @@
 using Shouldly;
 using Xunit;
 
-namespace Logicality.EventSourcing.Domain.Tests
+namespace Logicality.EventSourcing.Domain
 {
     namespace EventRecorderTests
     {
