@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.EC2" Version="3.7.28.3" />
+    <PackageReference Include="AWSSDK.EC2" Version="3.7.35.1" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.1.58" />
     <PackageReference Include="Fixie" Version="3.2.0" />
     <PackageReference Include="Shouldly" Version="4.0.3" />
