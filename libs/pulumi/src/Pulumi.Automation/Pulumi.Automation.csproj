@@ -13,7 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Pulumi.Automation" Version="3.12.0" />
+    <PackageReference Include="Pulumi.Automation" Version="3.16.0" />
   </ItemGroup>
 
 </Project>
