@@ -8,12 +8,8 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netstandard2.0'">
-    <FrameworkVersion>3.1.0</FrameworkVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0'">
-    <FrameworkVersion>5.0.0</FrameworkVersion>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+    <FrameworkVersion>6.0.0</FrameworkVersion>
   </PropertyGroup>
 
 </Project>
