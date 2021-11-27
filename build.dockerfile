@@ -1,4 +1,4 @@
-FROM damianh/dotnet-sdks:6
+FROM ghcr.io/logicality-io/docker-images/build-dotnet:latest
 
 COPY . ./repo/
 
