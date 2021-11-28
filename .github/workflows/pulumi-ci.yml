@@ -28,22 +28,25 @@ jobs:
       with:
         fetch-depth: 0
     
+    - name: Log into ghcr
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
     - name: Print Environment
       run: printenv
       shell: bash
 
     - name: Test
-      run: bash build.sh pulumi-test
-      shell: bash
+      run: ./build.ps1 pulumi-test
+      shell: pwsh
 
     - name: Pack
-      run: bash build.sh pulumi-pack
-      shell: bash
+      run: ./build.ps1 pulumi-pack
+      shell: pwsh
 
     - name: Push
       if: github.event_name == 'push'
-      run: bash build.sh push
-      shell: bash
+      run: ./build.ps1 push
+      shell: pwsh
 
     - uses: actions/upload-artifact@v2
       with:
