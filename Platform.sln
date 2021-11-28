@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "build\Build.csproj", "{E98FED2D-556C-476A-AD30-5724D3C6BD19}"
 EndProject
@@ -56,11 +56,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		build-local.cmd = build-local.cmd
-		build-local.sh = build-local.sh
-		build.cmd = build.cmd
 		build.dockerfile = build.dockerfile
-		build.sh = build.sh
+		build.ps1 = build.ps1
 		LICENSE = LICENSE
 		libs\src.props = libs\src.props
 		libs\test.props = libs\test.props
