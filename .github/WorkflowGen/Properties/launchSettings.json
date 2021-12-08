@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WorkflowGen": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\dev\\logicality\\platform-libs\\.github\\WorkflowGen"
+    }
+  }
+}
