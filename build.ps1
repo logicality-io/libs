@@ -10,10 +10,10 @@ Write-Host "Building in docker (use './build.ps1 local' to build without using d
 
 $GITHUB_RUN_NUMBER=$Env:GITHUB_RUN_NUMBER
 
-$FeedzApiKey=$Env:FEEDZ_LOGICALITY_API_KEY
+$FeedzLogicalityApiKey=$Env:FEEDZ_LOGICALITY_API_KEY
 $GitHubRunNumber=$Env:GITHUB_RUN_NUMBER
 
-if ($FeedzApiKey -eq $null -or $FeedzApiKey -eq "") {
+if ($FeedzLogicalityApiKey -eq $null -or $FeedzLogicalityApiKey -eq "") {
 	Write-Warning "FEEDZ_LOGICALITY_API_KEY environment variable empty or missing."
 }
 
@@ -35,7 +35,7 @@ docker run --rm --name $tag `
  -v $PWD/artifacts:/repo/artifacts `
  -v $PWD/.git:/repo/.git `
  -v $PWD/temp:/repo/temp `
- -e FEEDZ_LOGICALITY_API_KEY=$FEEDZ_LOGICALITY_API_KEY `
+ -e FEEDZ_LOGICALITY_API_KEY=$FeedzLogicalityApiKey `
  -e NUGET_PACKAGES=/repo/temp/nuget-packages `
  -e BUILD_NUMBER=$GitHubRunNumber `
  --network host `
