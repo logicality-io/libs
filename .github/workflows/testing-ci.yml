@@ -5,12 +5,14 @@ on:
     paths:
     - .github/workflows/testing-**
     - libs/testing**
+    - build*
   push:
     branches:
     - main
     paths:
     - .github/workflows/testing-**
     - libs/testing**
+    - build*
     tags:
     - "testing-*"
 
@@ -18,8 +20,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env: 
-      FEEDZ_LOGICALITY_API_KEY: ${{secrets.FEEDZ_LOGICALITY_API_KEY}}
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     steps:
 

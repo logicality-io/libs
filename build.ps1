@@ -8,13 +8,11 @@ if ($args[0] -eq "local") {
 
 Write-Host "Building in docker (use './build.ps1 local' to build without using docker)..."
 
-$GITHUB_RUN_NUMBER=$Env:GITHUB_RUN_NUMBER
-
-$FeedzLogicalityApiKey=$Env:FEEDZ_LOGICALITY_API_KEY
+$GitHubToken=$Env:GITHUB_TOKEN
 $GitHubRunNumber=$Env:GITHUB_RUN_NUMBER
 
-if ($FeedzLogicalityApiKey -eq $null -or $FeedzLogicalityApiKey -eq "") {
-	Write-Warning "FEEDZ_LOGICALITY_API_KEY environment variable empty or missing."
+if ($GitHubToken -eq $null -or $GitHubToken -eq "") {
+	Write-Warning "GITHUB_TOKEN environment variable empty or missing."
 }
 
 if ($GitHubRunNumber -eq $null -or $GitHubRunNumber -eq "") {
@@ -25,7 +23,7 @@ $tag="logicality-platform-libs-build"
 
 # Build the build environment image.
 docker build `
- --build-arg GITHUB_RUN_NUMBER=$GITHUB_RUN_NUMBER `
+ --build-arg GITHUB_TOKEN=$GitHubToken `
  -f build.dockerfile `
  --tag $tag.
 
@@ -35,7 +33,6 @@ docker run --rm --name $tag `
  -v $PWD/artifacts:/repo/artifacts `
  -v $PWD/.git:/repo/.git `
  -v $PWD/temp:/repo/temp `
- -e FEEDZ_LOGICALITY_API_KEY=$FeedzLogicalityApiKey `
  -e NUGET_PACKAGES=/repo/temp/nuget-packages `
  -e BUILD_NUMBER=$GitHubRunNumber `
  --network host `

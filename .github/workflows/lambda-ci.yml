@@ -5,12 +5,14 @@ on:
     paths:
     - .github/workflows/lambda-**
     - libs/lambda**
+    - build*
   push:
     branches:
     - main
     paths:
     - .github/workflows/lambda-**
     - libs/lambda**
+    - build*
     tags:
     - "lambda-*"
 
@@ -18,8 +20,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env: 
-      FEEDZ_LOGICALITY_API_KEY: ${{secrets.FEEDZ_LOGICALITY_API_KEY}}
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     steps:
 
