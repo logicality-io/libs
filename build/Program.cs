@@ -48,13 +48,13 @@ Target(Push, () =>
     var packagesToPush = Directory.GetFiles(ArtifactsDir, "*.nupkg", SearchOption.TopDirectoryOnly);
     Console.WriteLine($"Found packages to publish: {string.Join("; ", packagesToPush)}");
 
-    var apiKey = Environment.GetEnvironmentVariable("FEEDZ_LOGICALITY_API_KEY");
+    var apiKey = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
     if (string.IsNullOrWhiteSpace(apiKey))
     {
-        Console.WriteLine("Feedz API Key not available. No packages will be pushed.");
+        Console.WriteLine("GITHUB_TOKEN not available. No packages will be pushed.");
         return;
     }
-    Console.WriteLine($"Feedz API Key ({apiKey.Substring(0, 5)}) available. Pushing packages to Feedz...");
+    Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages...");
     foreach (var packageToPush in packagesToPush)
     {
         Run("dotnet", $"nuget push {packageToPush} -s https://f.feedz.io/logicality/public/nuget/index.json -k {apiKey} --skip-duplicate", noEcho: true);
