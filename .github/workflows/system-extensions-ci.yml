@@ -5,14 +5,14 @@ on:
     paths:
     - .github/workflows/system-extensions-**
     - libs/system-extensions**
-    - build*
+    - build/**
   push:
     branches:
     - main
     paths:
     - .github/workflows/system-extensions-**
     - libs/system-extensions**
-    - build*
+    - build/**
     tags:
     - "system-extensions-*"
 

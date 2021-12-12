@@ -5,14 +5,14 @@ on:
     paths:
     - .github/workflows/lambda-**
     - libs/lambda**
-    - build*
+    - build/**
   push:
     branches:
     - main
     paths:
     - .github/workflows/lambda-**
     - libs/lambda**
-    - build*
+    - build/**
     tags:
     - "lambda-*"
 

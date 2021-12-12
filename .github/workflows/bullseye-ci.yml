@@ -5,14 +5,14 @@ on:
     paths:
     - .github/workflows/bullseye-**
     - libs/bullseye**
-    - build*
+    - build/**
   push:
     branches:
     - main
     paths:
     - .github/workflows/bullseye-**
     - libs/bullseye**
-    - build*
+    - build/**
     tags:
     - "bullseye-*"
 

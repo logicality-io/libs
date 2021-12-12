@@ -5,14 +5,14 @@ on:
     paths:
     - .github/workflows/aspnet-core-**
     - libs/aspnet-core**
-    - build*
+    - build/**
   push:
     branches:
     - main
     paths:
     - .github/workflows/aspnet-core-**
     - libs/aspnet-core**
-    - build*
+    - build/**
     tags:
     - "aspnet-core-*"
 

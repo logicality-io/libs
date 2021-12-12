@@ -5,14 +5,14 @@ on:
     paths:
     - .github/workflows/<lib>-**
     - libs/<lib>**
-    - build*
+    - build/**
   push:
     branches:
     - main
     paths:
     - .github/workflows/<lib>-**
     - libs/<lib>**
-    - build*
+    - build/**
     tags:
     - "<lib>-*"
 
