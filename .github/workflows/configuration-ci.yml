@@ -5,12 +5,14 @@ on:
     paths:
     - .github/workflows/configuration-**
     - libs/configuration**
+    - build*
   push:
     branches:
     - main
     paths:
     - .github/workflows/configuration-**
     - libs/configuration**
+    - build*
     tags:
     - "configuration-*"
 
@@ -18,8 +20,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env: 
-      FEEDZ_LOGICALITY_API_KEY: ${{secrets.FEEDZ_LOGICALITY_API_KEY}}
+    env:
+      GitHubToken: ${{secrets.GITHUB_TOKEN}}
 
     steps:
 
