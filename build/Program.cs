@@ -57,7 +57,7 @@ Target(Push, () =>
     Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages...");
     foreach (var packageToPush in packagesToPush)
     {
-        Run("dotnet", $"nuget push {packageToPush} -s https://f.feedz.io/logicality/public/nuget/index.json -k {apiKey} --skip-duplicate", noEcho: true);
+        Run("dotnet", $"nuget push {packageToPush} -s https://https://nuget.pkg.github.com/logicality-io/index.json -k {apiKey} --skip-duplicate", noEcho: true);
     }
 });
 
