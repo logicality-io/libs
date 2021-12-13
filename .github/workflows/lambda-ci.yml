@@ -14,7 +14,7 @@ on:
     - libs/lambda**
     - build/**
     tags:
-    - "lambda-*"
+    - lambda-*
 
 jobs:
   build:

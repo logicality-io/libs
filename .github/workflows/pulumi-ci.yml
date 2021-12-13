@@ -14,7 +14,7 @@ on:
     - libs/pulumi**
     - build/**
     tags:
-    - "pulumi-*"
+    - pulumi-*
 
 jobs:
   build:
