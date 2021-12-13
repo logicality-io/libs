@@ -14,7 +14,7 @@ on:
     - libs/<lib>**
     - build/**
     tags:
-    - <lib>-*
+    - <lib>-**
 
 jobs:
   build:

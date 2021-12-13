@@ -14,7 +14,7 @@ on:
     - libs/configuration**
     - build/**
     tags:
-    - configuration-*
+    - configuration-**
 
 jobs:
   build:

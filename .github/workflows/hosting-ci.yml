@@ -14,7 +14,7 @@ on:
     - libs/hosting**
     - build/**
     tags:
-    - hosting-*
+    - hosting-**
 
 jobs:
   build:
