@@ -30,7 +30,7 @@ namespace Logicality.Extensions.Hosting.Example
                 Database = database
             };
 
-        protected override string ContainerName => "extensions-mysel";
+        protected override string ContainerName => "extensions-mysql";
 
         protected override IContainerService CreateContainerService()
          => new Builder()
@@ -40,7 +40,7 @@ namespace Logicality.Extensions.Hosting.Example
              .WithEnvironment($"MYSQL_ROOT_PASSWORD={SAPassword}", "MYSQL_ROOT_HOST=%")
              .ReuseIfExists()
              .ExposePort(HostPort, 3306)
-             .Wait("profiles-sql-server", (service, retryCount) =>
+             .Wait("mysql-server", (service, retryCount) =>
              {
                  if (retryCount > 60)
                  {
