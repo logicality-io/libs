@@ -14,7 +14,7 @@ on:
     - libs/system-extensions**
     - build/**
     tags:
-    - system-extensions-**
+    - 'system-extensions-**'
 
 jobs:
   build:

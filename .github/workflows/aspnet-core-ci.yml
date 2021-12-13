@@ -14,7 +14,7 @@ on:
     - libs/aspnet-core**
     - build/**
     tags:
-    - aspnet-core-**
+    - 'aspnet-core-**'
 
 jobs:
   build:
