@@ -10,7 +10,7 @@ namespace Logicality.Extensions.Configuration
         public void CanAddObjectToConfiguration()
         {
             var config = new ConfigurationBuilder()
-                .AddJsonStream(new Foo
+                .AddObject(new Foo
                 {
                     Bar = "baz"
                 })

@@ -17,14 +17,14 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="config">The configuration builder.</param>
         /// <param name="value">The object to be serialized and added to configuration.</param>
         /// <returns></returns>
-        public static IConfigurationBuilder AddJsonStream<T>(this IConfigurationBuilder config, T value) where T:class
+        public static IConfigurationBuilder AddObject<T>(this IConfigurationBuilder config, T value) where T:class
         {
             var jsonVersion = JsonSerializer.Serialize(value);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonVersion))
             {
                 Position = 0
             };
-            return JsonConfigurationExtensions.AddJsonStream(config, stream);
+            return config.AddJsonStream(stream);
         }
 
         /// <summary>

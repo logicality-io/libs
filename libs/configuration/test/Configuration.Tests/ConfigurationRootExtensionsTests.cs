@@ -38,7 +38,7 @@ namespace Logicality.Extensions
                     {"foo:bar", "a"},
                     {"foo:bar:baz", "b"}
                 })
-                .AddJsonStream(config)
+                .AddObject(config)
                 .AddJsonFile("testappsettings.json", false)
                 .Build();
 
@@ -70,7 +70,7 @@ namespace Logicality.Extensions
                     {"foo:bar", "a"},
                     {"foo:bar:baz", "b"}
                 })
-                .AddJsonStream(config)
+                .AddObject(config)
                 .AddJsonFile("testappsettings.json", false)
                 .Build();
 
