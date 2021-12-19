@@ -22,7 +22,9 @@ namespace DynamoDBLock.Tests
 
         public Task DisposeAsync()
         {
-            throw new NotImplementedException();
+            _fixture.Dispose();
+
+            return Task.CompletedTask;
         }
     }
 }

@@ -204,6 +204,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Testing", "libs\eventsourcing-domain\src\EventSourcing.Domain.Testing\EventSourcing.Domain.Testing.csproj", "{C8B8164A-AF2D-4728-9C65-BE0796FF9DFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Tests", "libs\eventsourcing-domain\test\EventSourcing.Domain.Tests\EventSourcing.Domain.Tests.csproj", "{8A89A8D1-7966-43E8-B08E-CAA618415BD6}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dynamodb-lock", "dynamodb-lock", "{F2A8CB17-D717-431C-BB69-9503A602EC82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{94122643-6B91-4713-ABF8-AC60EE3DE540}"
@@ -219,6 +220,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDBLock.Pulumi", "libs\dynamodb-lock\src\DynamoDBLock.Pulumi\DynamoDBLock.Pulumi.csproj", "{2BF7E9C0-84BD-4169-A9C7-F2A869867052}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDBLock.Tests", "libs\dynamodb-lock\test\DynamoDBLock.Tests\DynamoDBLock.Tests.csproj", "{5F9832CE-6B71-4E2F-9735-32DBF53DE090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDBLock", "libs\dynamodb-lock\src\DynamoDBLock\DynamoDBLock.csproj", "{4AD5CD88-9FC2-4AAC-9608-1FFF08571801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -354,6 +357,10 @@ Global
 		{5F9832CE-6B71-4E2F-9735-32DBF53DE090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F9832CE-6B71-4E2F-9735-32DBF53DE090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F9832CE-6B71-4E2F-9735-32DBF53DE090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD5CD88-9FC2-4AAC-9608-1FFF08571801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD5CD88-9FC2-4AAC-9608-1FFF08571801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD5CD88-9FC2-4AAC-9608-1FFF08571801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD5CD88-9FC2-4AAC-9608-1FFF08571801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -411,6 +418,7 @@ Global
 		{9D87D61C-B62E-4D57-B34E-57ECFE23346F} = {F2A8CB17-D717-431C-BB69-9503A602EC82}
 		{2BF7E9C0-84BD-4169-A9C7-F2A869867052} = {94122643-6B91-4713-ABF8-AC60EE3DE540}
 		{5F9832CE-6B71-4E2F-9735-32DBF53DE090} = {9D87D61C-B62E-4D57-B34E-57ECFE23346F}
+		{4AD5CD88-9FC2-4AAC-9608-1FFF08571801} = {94122643-6B91-4713-ABF8-AC60EE3DE540}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4306F166-DCCF-4316-88FC-9E339F1ABEFE}
