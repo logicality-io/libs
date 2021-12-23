@@ -2,11 +2,10 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Logicality.SystemExtensions.Net.Http;
 using Shouldly;
 using Xunit;
 
-namespace Logicality.System.Net.Http
+namespace Logicality.SystemExtensions.Net.Http
 {
     public class DownloadFileTests
     {

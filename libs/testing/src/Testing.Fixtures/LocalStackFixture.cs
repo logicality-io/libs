@@ -20,10 +20,26 @@ namespace Logicality.Testing.Fixtures
             ServiceUrl = serviceUrl;
         }
 
+        /// <summary>
+        /// Create an instance of <see cref="LocalstackFixture"/>
+        /// </summary>
+        /// <param name="containerNamePrefix">
+        ///     A prefix for the container name.
+        ///     Use to isolate between multiple local stack instances running concurrently.
+        /// </param>
+        /// <param name="services">The collection os services to run. See LocalStack documentation.</param>
+        /// <param name="imageTag">LocalStack image tag. Default is 'latest'.</param>
+        /// <param name="proApiKey">LocalStack Pro API key</param>
+        /// <param name="port">
+        ///     Default is '0' which will bind to a random free port. Useful when
+        ///     running multiple container instances and not having port conflicts on the host.
+        /// </param>
+        /// <returns></returns>
         public static Task<LocalstackFixture> Create(
             string containerNamePrefix,
             string services,
             string imageTag = "latest",
+            string proApiKey = "",
             int port = 0)
         {
             return Task.Run(() =>
@@ -39,6 +55,7 @@ namespace Logicality.Testing.Fixtures
                         .ReuseIfExists()
                         .ExposePort(port, ContainerPort)
                         .WithEnvironment("LS_LOG=debug")
+                        .WithEnvironment($"LOCALSTACK_API_KEY={proApiKey}")
                         .WithEnvironment($"SERVICES={services}")
                         .WaitForPort($"{ContainerPort}/tcp", TimeSpan.FromSeconds(10))
                         .Build();
