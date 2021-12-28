@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Logicality.SystemExtensions
+﻿namespace Logicality.GitHubActionsWorkflowBuilder
 {
-    /// <summary>
-    /// A disposable that invokes the supplied Action.
-    /// </summary>
-    public class DisposableAction : IDisposable
+    // TODO replace with system extensions package reference.
+    internal class DisposableAction : IDisposable
     {
         private readonly Action _onDispose;
 
