@@ -1,25 +1,81 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Logicality.GithubActionsWorkflowBuilder;
 
-using System.Text;
-using Nuke.Common.CI.GitHubActions.Configuration;
-using Nuke.Common.Utilities;
-
-var libs = new [] { "aspnet-core", "bullseye", "configuration", "hosting", "lambda", "pulumi", "system-extensions", "testing"};
+var libs = new []
+{
+    "aspnet-core",
+    "bullseye",
+    "configuration",
+    "github-actions-workflow-builder",
+    "hosting",
+    "lambda",
+    "pulumi",
+    "system-extensions",
+    "testing"
+};
 
 var path = "../workflows";
 
 foreach (var lib in libs)
 {
-    Console.WriteLine($"Genering workflow for {lib}");
-    var file = Path.Combine(path, $"{lib}-ci-2.yaml");
+    var workflow = new WorkflowBuilder($"{lib}-ci");
 
-    var configuration = new GitHubActionsConfiguration
-    {
-        Name = $"{lib}-ci",
-    };
-    using var fileStream   = File.OpenWrite(file);
-    using var streamWriter = new StreamWriter(fileStream, Encoding.UTF8);
-    var       fileWriter   = new CustomFileWriter(streamWriter, 2, "#");
+    var paths = new[] { $".github/workflows/{lib}-**", $"libs/{lib}**", "build/**" };
 
-    configuration.Write(fileWriter);
+    workflow.OnPullRequest()
+        .Paths(paths);
+
+    workflow.OnPush()
+        .Branches("main")
+        .Paths(paths)
+        .Tags($"'{lib}-**");
+
+    var job = workflow.AddJob("build")
+        .RunsOn("ubuntu-latest")
+        .WithEnvironment(new Dictionary<string, string>
+        {
+            { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
+        });
+
+    job.AddStep()
+        .Name("Checkout")
+        .Uses("actions/checkout@v2")
+        .With("fetch-depth", "0");
+
+    job.AddStep()
+        .Name("Log into ghcr")
+        .Run("echo \"${{secrets.GITHUB_TOKEN}}\" | docker login ghcr.io -u ${{ github.actor }} --password-stdin");
+
+    job.AddStep()
+        .Name("Print Environment")
+        .Run("printenv")
+        .Shell("bash");
+
+    job.AddStep()
+        .Name("Test")
+        .Run($"./build.ps1 {lib}-test")
+        .Shell("pwsh");
+
+    job.AddStep()
+        .Name("Pack")
+        .Run($"./build.ps1 {lib}-pack")
+        .Shell("pwsh");
+
+    job.AddStep()
+        .Name("Push")
+        .If("github.event_name == 'push'")
+        .Run("./build.ps1 push");
+
+    job.AddStep()
+        .Name("Upload artifacts")
+        .Uses("actions/upload-artifact@v2")
+        .With("name", "artifcats")
+        .With("path", "artifacts");
+
+    var yaml     = workflow.Generate();
+    var fileName = $"{lib}-ci.yml";
+    var filePath = $"{path}/{fileName}";
+
+    File.WriteAllText(filePath, yaml);
+
+    Console.WriteLine($"Wrote workflow to {filePath}");
 }

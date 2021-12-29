@@ -239,6 +239,7 @@ public class WorkflowBuilder
                 writer.WriteLine("steps:");
                 foreach (var step in _steps)
                 {
+                    writer.WriteLine("");
                     step.Write(writer);
                 }
             }
@@ -248,8 +249,11 @@ public class WorkflowBuilder
     private class StepBuilder : IStepBuilder
     {
         private          string?                _name;
+        private          string?                _conditional;
         private          string?                _uses;
         private readonly List<(string, string)> _with = new();
+        private          string?                _run;
+        private          string?                _shell;
 
         public StepBuilder(IJobBuilder job)
         {
@@ -261,6 +265,12 @@ public class WorkflowBuilder
         public IStepBuilder Name(string name)
         {
             _name = name;
+            return this;
+        }
+
+        public IStepBuilder If(string conditional)
+        {
+            _conditional = conditional;
             return this;
         }
 
@@ -276,10 +286,28 @@ public class WorkflowBuilder
             return this;
         }
 
+        public IStepBuilder Run(string run)
+        {
+            _run = run;
+            return this;
+        }
+
+        public IStepBuilder Shell(string shell)
+        {
+            _shell = shell;
+            return this;
+        }
+
         public void Write(WorkflowWriter writer)
         {
             writer.WriteLine($"- name: {_name}");
-            if (_uses is not null)
+            if (!string.IsNullOrWhiteSpace(_conditional))
+            {
+                using var _ = writer.Indent();
+                writer.WriteLine($"if: {_conditional}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(_uses))
             {
                 using var _ = writer.Indent();
                 writer.WriteLine($"uses: {_uses}");
@@ -288,11 +316,23 @@ public class WorkflowBuilder
                 {
                     writer.WriteLine("with:");
                     using var __ = writer.Indent();
-                    foreach (var tuple in _with)
+                    foreach (var (item1, item2) in _with)
                     {
-                        writer.WriteLine($"{tuple.Item1}: {tuple.Item2}");
+                        writer.WriteLine($"{item1}: {item2}");
                     }
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(_run))
+            {
+                using var __ = writer.Indent();
+                writer.WriteLine($"run: {_run}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(_shell))
+            {
+                using var __ = writer.Indent();
+                writer.WriteLine($"shell: {_shell}");
             }
         }
     }
@@ -313,7 +353,13 @@ public interface IStepBuilder
 
     IStepBuilder Name(string name);
 
+    IStepBuilder If(string condition);
+
     IStepBuilder Uses(string uses);
 
     IStepBuilder With(string name, string value);
+
+    IStepBuilder Run(string run);
+
+    IStepBuilder Shell(string run);
 }
