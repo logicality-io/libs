@@ -1,4 +1,4 @@
-﻿using Logicality.GithubActionsWorkflowBuilder;
+﻿using Logicality.GitHubActionsWorkflowBuilder;
 
 var libs = new []
 {
@@ -36,41 +36,29 @@ foreach (var lib in libs)
             { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
         });
 
-    job.AddStep()
-        .Name("Checkout")
-        .Uses("actions/checkout@v2")
-        .With("fetch-depth", "0");
+    job.Checkout();
 
-    job.AddStep()
-        .Name("Log into ghcr")
-        .Run("echo \"${{secrets.GITHUB_TOKEN}}\" | docker login ghcr.io -u ${{ github.actor }} --password-stdin");
+    job.LogIntoGitHubContainerRegistry();
 
-    job.AddStep()
-        .Name("Print Environment")
-        .Run("printenv")
-        .Shell("bash");
+    job.PrintEnvironment();
 
     job.AddStep()
         .Name("Test")
         .Run($"./build.ps1 {lib}-test")
-        .Shell("pwsh");
+        .ShellPowerShell();
 
     job.AddStep()
         .Name("Pack")
         .Run($"./build.ps1 {lib}-pack")
-        .Shell("pwsh");
+        .ShellBash();
 
     job.AddStep()
         .Name("Push")
         .If("github.event_name == 'push'")
         .Run("./build.ps1 push")
-        .Shell("pwsh");
+        .ShellPowerShell();
 
-    job.AddStep()
-        .Name("Upload artifacts")
-        .Uses("actions/upload-artifact@v2")
-        .With("name", "artifacts")
-        .With("path", "artifacts");
+    job.UploadArtifacts();
 
     var yaml     = workflow.Generate();
     var fileName = $"{lib}-ci.yml";
