@@ -32,25 +32,16 @@ public class WorkflowBuilderTests
                 { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
             });
 
-        job.AddStep()
-            .Name("Checkout")
-            .Uses("actions/checkout@v2")
-            .With("fetch-depth", "0");
+        job.Checkout();
 
-        job.AddStep()
-            .Name("Log into ghcr")
-            .Run("echo \"${{secrets.GITHUB_TOKEN}}\" | docker login ghcr.io -u ${{github.actor}} --password-stdin");
+        job.LogIntoGitHubContainerRegistry();
 
-        job.AddStep()
-            .Name("Print Env")
-            .Run("printenv")
-            .Shell("bash");
+        job.PrintEnvironment();
 
-        job.AddStep()
-            .Name("Push")
+        job.AddStep("Push")
             .If("github.event_name == 'push'")
             .Run("./build.ps1 push")
-            .Shell("pwsh");
+            .ShellPowerShell();
 
         var actual = workflow.Generate();
 

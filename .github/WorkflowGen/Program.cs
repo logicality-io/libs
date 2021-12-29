@@ -42,18 +42,15 @@ foreach (var lib in libs)
 
     job.PrintEnvironment();
 
-    job.AddStep()
-        .Name("Test")
+    job.AddStep("Test")
         .Run($"./build.ps1 {lib}-test")
         .ShellPowerShell();
 
-    job.AddStep()
-        .Name("Pack")
+    job.AddStep("Pack")
         .Run($"./build.ps1 {lib}-pack")
         .ShellPowerShell();
 
-    job.AddStep()
-        .Name("Push")
+    job.AddStep("Push")
         .If("github.event_name == 'push'")
         .Run("./build.ps1 push")
         .ShellPowerShell();

@@ -211,9 +211,9 @@ public class WorkflowBuilder
             return this;
         }
 
-        public IStepBuilder AddStep()
+        public IStepBuilder AddStep(string name)
         {
-            var step = new StepBuilder(this);
+            var step = new StepBuilder(name, this);
             _steps.Add(step);
             return step;
         }
@@ -248,25 +248,20 @@ public class WorkflowBuilder
 
     private class StepBuilder : IStepBuilder
     {
-        private          string?                _name;
+        private readonly string                 _name;
         private          string?                _conditional;
         private          string?                _uses;
         private readonly List<(string, string)> _with = new();
         private          string?                _run;
         private          string?                _shell;
 
-        public StepBuilder(IJobBuilder job)
+        public StepBuilder(string name, IJobBuilder job)
         {
-            Job = job;
+            _name = name;
+            Job   = job;
         }
 
         public IJobBuilder Job { get; }
-
-        public IStepBuilder Name(string name)
-        {
-            _name = name;
-            return this;
-        }
 
         public IStepBuilder If(string conditional)
         {
@@ -336,30 +331,4 @@ public class WorkflowBuilder
             }
         }
     }
-}
-
-public interface IJobBuilder
-{
-    IJobBuilder RunsOn(string runsOn);
-
-    IJobBuilder WithEnvironment(IDictionary<string, string> environment);
-
-    IStepBuilder AddStep();
-}
-
-public interface IStepBuilder
-{
-    IJobBuilder Job { get; }
-
-    IStepBuilder Name(string name);
-
-    IStepBuilder If(string condition);
-
-    IStepBuilder Uses(string uses);
-
-    IStepBuilder With(string name, string value);
-
-    IStepBuilder Run(string run);
-
-    IStepBuilder Shell(string run);
 }
