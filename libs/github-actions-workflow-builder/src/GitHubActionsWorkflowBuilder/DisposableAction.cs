@@ -1,11 +1,10 @@
 ﻿namespace Logicality.GitHubActionsWorkflowBuilder
 {
-    // TODO replace with system extensions package reference.
-    internal class DisposableAction : IDisposable
+    internal class DelegateDisposable : IDisposable
     {
         private readonly Action _onDispose;
 
-        public DisposableAction(Action onDispose) 
+        public DelegateDisposable(Action onDispose) 
             => _onDispose = onDispose;
 
         public void Dispose() => _onDispose();
