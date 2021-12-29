@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using Logicality.GitHubActionsWorkflowBuilder;
 
-namespace Logicality.GithubActionsWorkflowBuilder;
+namespace Logicality.GitHubActionsWorkflowBuilder;
 
 public class WorkflowWriter
 {

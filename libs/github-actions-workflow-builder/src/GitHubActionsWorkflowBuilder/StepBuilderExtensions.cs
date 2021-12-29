@@ -1,6 +1,4 @@
-﻿using Logicality.GithubActionsWorkflowBuilder;
-
-namespace Logicality.GitHubActionsWorkflowBuilder;
+﻿namespace Logicality.GitHubActionsWorkflowBuilder;
 
 public static class StepBuilderExtensions
 {

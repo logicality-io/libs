@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Logicality.GithubActionsWorkflowBuilder;
 using Shouldly;
 using Xunit;
 

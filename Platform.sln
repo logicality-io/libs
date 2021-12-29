@@ -218,7 +218,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CA3347A0-5
 		libs\github-actions-workflow-builder\test\Directory.Build.props = libs\github-actions-workflow-builder\test\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubActionsWorkflowBuilder", "libs\github-actions-workflow-builder\src\GithubActionsWorkflowBuilder\GitHubActionsWorkflowBuilder.csproj", "{BD82E9D5-B63F-43F7-8B74-796D4715A8E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubActionsWorkflowBuilder", "libs\github-actions-workflow-builder\src\GitHubActionsWorkflowBuilder\GitHubActionsWorkflowBuilder.csproj", "{BD82E9D5-B63F-43F7-8B74-796D4715A8E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubActionWorkflowBuilder.Tests", "libs\github-actions-workflow-builder\test\GitHubActionWorkflowBuilder.Tests\GitHubActionWorkflowBuilder.Tests.csproj", "{B6931386-91D6-4BFE-BDA6-DAC0ADD0B3CA}"
 EndProject

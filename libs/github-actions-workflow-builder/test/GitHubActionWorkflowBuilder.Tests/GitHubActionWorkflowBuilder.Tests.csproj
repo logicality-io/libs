@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GithubActionsWorkflowBuilder\GitHubActionsWorkflowBuilder.csproj" />
+    <ProjectReference Include="..\..\src\GitHubActionsWorkflowBuilder\GitHubActionsWorkflowBuilder.csproj" />
   </ItemGroup>
 
 </Project>

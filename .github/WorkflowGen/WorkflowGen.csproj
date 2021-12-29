@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\github-actions-workflow-builder\src\GithubActionsWorkflowBuilder\GitHubActionsWorkflowBuilder.csproj" />
+    <ProjectReference Include="..\..\libs\github-actions-workflow-builder\src\GitHubActionsWorkflowBuilder\GitHubActionsWorkflowBuilder.csproj" />
   </ItemGroup>
 
 </Project>

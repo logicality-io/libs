@@ -50,7 +50,7 @@ foreach (var lib in libs)
     job.AddStep()
         .Name("Pack")
         .Run($"./build.ps1 {lib}-pack")
-        .ShellBash();
+        .ShellPowerShell();
 
     job.AddStep()
         .Name("Push")

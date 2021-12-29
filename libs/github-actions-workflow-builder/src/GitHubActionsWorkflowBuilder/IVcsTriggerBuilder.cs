@@ -1,4 +1,4 @@
-﻿namespace Logicality.GithubActionsWorkflowBuilder;
+﻿namespace Logicality.GitHubActionsWorkflowBuilder;
 
 public interface IVcsTriggerBuilder : ITriggerBuilder
 {
