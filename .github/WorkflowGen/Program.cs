@@ -27,7 +27,7 @@ foreach (var lib in libs)
     workflow.OnPush()
         .Branches("main")
         .Paths(paths)
-        .Tags($"'{lib}-**");
+        .Tags($"'{lib}-**'");
 
     var job = workflow.AddJob("build")
         .RunsOn("ubuntu-latest")
@@ -63,12 +63,13 @@ foreach (var lib in libs)
     job.AddStep()
         .Name("Push")
         .If("github.event_name == 'push'")
-        .Run("./build.ps1 push");
+        .Run("./build.ps1 push")
+        .Shell("pwsh");
 
     job.AddStep()
         .Name("Upload artifacts")
         .Uses("actions/upload-artifact@v2")
-        .With("name", "artifcats")
+        .With("name", "artifacts")
         .With("path", "artifacts");
 
     var yaml     = workflow.Generate();
