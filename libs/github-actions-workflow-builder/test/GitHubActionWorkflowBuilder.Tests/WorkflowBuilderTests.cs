@@ -8,7 +8,7 @@ public class WorkflowBuilderTests
 {
 
     [Fact]
-    public void Blah()
+    public void Can_generate_workflow()
     {
         var workflow = new WorkflowBuilder("my-workflow");
 
