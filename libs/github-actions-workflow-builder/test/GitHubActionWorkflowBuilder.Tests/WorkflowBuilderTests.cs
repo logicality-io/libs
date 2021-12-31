@@ -30,8 +30,7 @@ public class WorkflowBuilderTests
         workflow.OnEvent("release", "published", "created", "edited");
 
         workflow.OnWorkflowCall()
-            .Input("username", "'A username passed from the caller workflow'", "'john-doe'",
-                false, WorkflowCallType.String)
+            .Input("username", "'A username passed from the caller workflow'", "'john-doe'",  false, WorkflowCallType.String)
             .Output("workflow_output1", "'The first job output'", "${{ jobs.my_job.outputs.job_output1 }}");
 
         var job = workflow.AddJob("build")
