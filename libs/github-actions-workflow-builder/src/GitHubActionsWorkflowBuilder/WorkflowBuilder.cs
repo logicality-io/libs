@@ -249,10 +249,14 @@ public class WorkflowBuilder
 
     private class JobBuilder : IJobBuilder
     {
-        private readonly string                      _jobId;
-        private          string                      _runsOn;
-        private          IDictionary<string, string> _environment = new Dictionary<string, string>();
-        private readonly List<StepBuilder>           _steps       = new();
+        private readonly string                         _jobId;
+        private          string                         _runsOn;
+        private          IDictionary<string, string>    _environment      = new Dictionary<string, string>();
+        private readonly List<StepBuilder>              _steps            = new();
+        private          PermissionConfig               _permissionConfig = PermissionConfig.NotSpecified;
+        private readonly Dictionary<string, Permission> _permissions      = new();
+        private          string?                        _concurrencyGroup;
+        private          bool                           _concurrencyCancelInProgress;
 
         public JobBuilder(string jobId)
         {
@@ -268,6 +272,59 @@ public class WorkflowBuilder
         public IJobBuilder WithEnvironment(IDictionary<string, string> environment)
         {
             _environment = environment;
+            return this;
+        }
+
+        public IJobBuilder Permissions(
+            Permission actions     = Permission.None,
+            Permission checks      = Permission.None,
+            Permission contents    = Permission.None,
+            Permission deployments = Permission.None,
+            Permission discussions = Permission.None,
+            Permission idToken = Permission.None,
+            Permission issues = Permission.None,
+            Permission packages = Permission.None,
+            Permission pages = Permission.None,
+            Permission pullRequests = Permission.None,
+            Permission repositoryProjects = Permission.None,
+            Permission securityEvents = Permission.None,
+            Permission statuses = Permission.None)
+        {
+            _permissions[PermissionKeys.Actions]            = actions;
+            _permissions[PermissionKeys.Checks]             = checks;
+            _permissions[PermissionKeys.Contents]           = contents;
+            _permissions[PermissionKeys.Deployments]        = deployments;
+            _permissions[PermissionKeys.Discussions]        = discussions;
+            _permissions[PermissionKeys.IdToken]            = idToken;
+            _permissions[PermissionKeys.Issues]             = issues;
+            _permissions[PermissionKeys.Packages]           = packages;
+            _permissions[PermissionKeys.Pages]              = pages;
+            _permissions[PermissionKeys.PullRequests]       = pullRequests;
+            _permissions[PermissionKeys.RepositoryProjects] = repositoryProjects;
+            _permissions[PermissionKeys.SecurityEvents]     = securityEvents;
+            _permissions[PermissionKeys.Statuses]           = statuses;
+
+            _permissionConfig = PermissionConfig.Custom;
+
+            return this;
+        }
+
+        public IJobBuilder Concurrency(string @group, bool cancelInProgress = false)
+        {
+            _concurrencyGroup            = @group;
+            _concurrencyCancelInProgress = cancelInProgress;
+            return this;
+        }
+
+        public IJobBuilder PermissionsReadAll()
+        {
+            _permissionConfig = PermissionConfig.ReadAll;
+            return this;
+        }
+
+        public IJobBuilder PermissionsWriteAll()
+        {
+            _permissionConfig = PermissionConfig.WriteAll;
             return this;
         }
 
@@ -293,6 +350,38 @@ public class WorkflowBuilder
                 }
             }
 
+            if (_permissionConfig == PermissionConfig.ReadAll)
+            {
+                writer.WriteLine("permissions: read-all");
+            }
+            else if (_permissionConfig == PermissionConfig.WriteAll)
+            {
+                writer.WriteLine("permissions: write-all");
+            }
+            else if (_permissionConfig == PermissionConfig.Custom)
+            {
+                writer.WriteLine("permissions:");
+                using var _ = writer.Indent();
+                foreach (var permission in _permissions)
+                {
+                    if (permission.Value != Permission.None)
+                    {
+                        writer.WriteLine($"{permission.Key}: {permission.Value.ToString().ToLower()}");
+                    }
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(_concurrencyGroup))
+            {
+                writer.WriteLine("concurrency:");
+                using var _ = writer.Indent();
+                writer.WriteLine($"group: {_concurrencyGroup}");
+                if (_concurrencyCancelInProgress)
+                {
+                    writer.WriteLine($"cancel-in-progress: true");
+                }
+            }
+
             if (_steps.Any())
             {
                 writer.WriteLine("");
@@ -303,6 +392,31 @@ public class WorkflowBuilder
                     step.Write(writer);
                 }
             }
+        }
+
+        private enum PermissionConfig
+        {
+            NotSpecified,
+            ReadAll,
+            WriteAll,
+            Custom
+        }
+
+        private static class PermissionKeys
+        {
+            public const string Actions = "actions";
+            public const string Checks = "checks";
+            public const string Contents = "contents";
+            public const string Deployments = "deployments";
+            public const string IdToken = "id-token";
+            public const string Issues = "issues";
+            public const string Discussions = "discussions";
+            public const string Packages = "packages";
+            public const string Pages = "pages";
+            public const string PullRequests = "pull-requests";
+            public const string RepositoryProjects = "repository-projects";
+            public const string SecurityEvents = "security-events";
+            public const string Statuses = "statuses";
         }
     }
 

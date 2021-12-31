@@ -29,12 +29,15 @@ public class WorkflowBuilderTests
 
         workflow.OnEvent("release", "published", "created", "edited");
 
+
         var job = workflow.AddJob("build")
             .RunsOn("ubuntu-latest")
             .WithEnvironment(new Dictionary<string, string>
             {
                 { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
-            });
+            })
+            .Permissions(packages: Permission.Write)
+            .Concurrency("${{ github.head_ref }}", true);
 
         job.Checkout();
 
@@ -80,13 +83,18 @@ on:
   schedule:
     - cron: '0 5,17 * * *'
   release:
-      types: [published,created,edited]
+      types: [published, created, edited]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    permissions:
+      packages: write
+    concurrency:
+      group: ${{ github.head_ref }}
+      cancel-in-progress: true
 
     steps:
 
