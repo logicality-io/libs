@@ -25,3 +25,10 @@ public interface IJobBuilder
 
     IStepBuilder AddStep(string name);
 }
+
+public enum Permission
+{
+    Read,
+    Write,
+    None
+}

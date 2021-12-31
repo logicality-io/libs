@@ -1,6 +1,6 @@
 ﻿namespace Logicality.GitHubActionsWorkflowBuilder;
 
-public interface ITriggerBuilder
+public interface ITrigger
 {
     string EventName { get; }
 

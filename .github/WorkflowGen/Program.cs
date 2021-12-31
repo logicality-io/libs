@@ -87,9 +87,11 @@ void GenerateCodeAnalysisWorkflow()
 
     var job = workflow.AddJob("analyze")
         .RunsOn("ubuntu-latest")
-        .Permissions(actions: Permission.Read, contents: Permission.Read, securityEvents: Permission.Write);
+        .Permissions(
+            actions: Permission.Read,
+            contents: Permission.Read,
+            securityEvents: Permission.Write);
 
-    job.AddStep("")
-
+    job.AddStep("");
 }
 

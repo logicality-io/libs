@@ -29,6 +29,10 @@ public class WorkflowBuilderTests
 
         workflow.OnEvent("release", "published", "created", "edited");
 
+        workflow.OnWorkflowCall()
+            .Input("username", "'A username passed from the caller workflow'", "'john-doe'",
+                false, WorkflowCallType.String)
+            .Output("workflow_output1", "'The first job output'", "${{ jobs.my_job.outputs.job_output1 }}");
 
         var job = workflow.AddJob("build")
             .RunsOn("ubuntu-latest")
@@ -83,7 +87,18 @@ on:
   schedule:
     - cron: '0 5,17 * * *'
   release:
-      types: [published, created, edited]
+    types: [published, created, edited]
+  workflow_call:
+    inputs:
+      username:
+        description: 'A username passed from the caller workflow'
+        default: 'john-doe'
+        required: False
+        type: string
+    outputs:
+      workflow_output1:
+        description: 'The first job output'
+        value: ${{ jobs.my_job.outputs.job_output1 }}
 
 jobs:
   build:

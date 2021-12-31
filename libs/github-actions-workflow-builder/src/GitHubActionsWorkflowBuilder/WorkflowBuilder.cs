@@ -3,25 +3,24 @@
 public class WorkflowBuilder
 {
     private readonly string                         _name;
-    private readonly List<TriggerBuilder>           _triggers = new();
+    private readonly List<Trigger>                  _triggers = new();
     private readonly Dictionary<string, JobBuilder> _jobs     = new();
-    private          string?                        _cron;
 
     public WorkflowBuilder(string name)
     {
         _name = name;
     }
 
-    public IVcsTriggerBuilder OnPullRequest()
+    public IVcsTrigger OnPullRequest()
     {
-        var trigger = new VcsTriggerBuilder("pull_request", this);
+        var trigger = new VcsTrigger("pull_request", this);
         _triggers.Add(trigger);
         return trigger;
     }
 
-    public IVcsTriggerBuilder OnPush()
+    public IVcsTrigger OnPush()
     {
-        var trigger = new VcsTriggerBuilder("push", this);
+        var trigger = new VcsTrigger("push", this);
         _triggers.Add(trigger);
         return trigger;
     }
@@ -35,9 +34,16 @@ public class WorkflowBuilder
 
     public WorkflowBuilder OnSchedule(string cron)
     {
-        var scheduleTriggerBuilder = new ScheduleTriggerBuilder("schedule", cron, this);
+        var scheduleTriggerBuilder = new ScheduleTrigger("schedule", cron, this);
         _triggers.Add(scheduleTriggerBuilder);
         return this;
+    }
+
+    public IWorkflowCallTrigger OnWorkflowCall()
+    {
+        var trigger = new WorkflowCallTrigger(this);
+        _triggers.Add(trigger);
+        return trigger;
     }
 
     public IJobBuilder AddJob(string jobId)
@@ -83,9 +89,9 @@ public class WorkflowBuilder
         return writer.ToString();
     }
 
-    private abstract class TriggerBuilder : ITriggerBuilder
+    private abstract class Trigger : ITrigger
     {
-        protected TriggerBuilder(string eventName, WorkflowBuilder workflowBuilder)
+        protected Trigger(string eventName, WorkflowBuilder workflowBuilder)
         {
             EventName  = eventName;
             WorkflowBuilder = workflowBuilder;
@@ -97,7 +103,7 @@ public class WorkflowBuilder
         public abstract void Write(WorkflowWriter writer);
     }
 
-    private class VcsTriggerBuilder : TriggerBuilder, IVcsTriggerBuilder
+    private class VcsTrigger : Trigger, IVcsTrigger
     {
         private string[] _branches       = Array.Empty<string>();
         private string[] _branchesIgnore = Array.Empty<string>();
@@ -106,42 +112,42 @@ public class WorkflowBuilder
         private string[] _tags           = Array.Empty<string>();
         private string[] _tagsIgnore     = Array.Empty<string>();
 
-        public VcsTriggerBuilder(string eventName, WorkflowBuilder workflowBuilder)
+        public VcsTrigger(string eventName, WorkflowBuilder workflowBuilder)
             : base(eventName, workflowBuilder)
         {
         }
 
-        public IVcsTriggerBuilder Branches(params string[] branches)
+        public IVcsTrigger Branches(params string[] branches)
         {
             _branches = branches;
             return this;
         }
 
-        public IVcsTriggerBuilder BranchesIgnore(params string[] branches)
+        public IVcsTrigger BranchesIgnore(params string[] branches)
         {
             _branchesIgnore = branches;
             return this;
         }
 
-        public IVcsTriggerBuilder Paths(params string[] paths)
+        public IVcsTrigger Paths(params string[] paths)
         {
             _paths = paths;
             return this;
         }
 
-        public IVcsTriggerBuilder PathsIgnore(params string[] paths)
+        public IVcsTrigger PathsIgnore(params string[] paths)
         {
             _pathsIgnore = paths;
             return this;
         }
 
-        public IVcsTriggerBuilder Tags(params string[] tags)
+        public IVcsTrigger Tags(params string[] tags)
         {
             _tags = tags;
             return this;
         }
 
-        public IVcsTriggerBuilder TagsIgnore(params string[] tags)
+        public IVcsTrigger TagsIgnore(params string[] tags)
         {
             _tagsIgnore = tags;
             return this;
@@ -205,11 +211,11 @@ public class WorkflowBuilder
         }
     }
 
-    private class ScheduleTriggerBuilder: TriggerBuilder
+    private class ScheduleTrigger: Trigger
     {
         private readonly string _cron;
 
-        public ScheduleTriggerBuilder(
+        public ScheduleTrigger(
             string eventName, 
             string cron,
             WorkflowBuilder workflowBuilder)
@@ -226,7 +232,8 @@ public class WorkflowBuilder
         }
     }
 
-    private class EventTriggerBuilder : TriggerBuilder
+
+    private class EventTriggerBuilder : Trigger
     {
         private readonly string[] _types;
 
@@ -243,20 +250,88 @@ public class WorkflowBuilder
         {
             writer.WriteLine($"{EventName}:");
             using var _ = writer.Indent();
-            writer.WriteLine($"  types: [{string.Join(", ", _types)}]");
+            writer.WriteLine($"types: [{string.Join(", ", _types)}]");
         }
     }
 
+    private class WorkflowCallTrigger : Trigger, IWorkflowCallTrigger
+    {
+        private readonly Dictionary<string, InputInfo>  _inputs  = new();
+        private readonly Dictionary<string, OutputInfo> _outputs = new();
+
+        public WorkflowCallTrigger(WorkflowBuilder workflowBuilder)
+            : base("workflow_call", workflowBuilder)
+        {
+        }
+       
+        public IWorkflowCallTrigger Input(
+            string           id,
+            string           description,
+            string           @default,
+            bool             required,
+            WorkflowCallType type)
+        {
+            _inputs.Add(id, new InputInfo(id, description, @default, required, type));
+            return this;
+        }
+
+        public IWorkflowCallTrigger Output(
+            string id,
+            string description,
+            string value)
+        {
+            _outputs.Add(id, new OutputInfo(id, description, value));
+            return this;
+        }
+
+        public override void Write(WorkflowWriter writer)
+        {
+            writer.WriteLine($"{EventName}:");
+            using var _ = writer.Indent();
+            if (_inputs.Any())
+            {
+                writer.WriteLine("inputs:");
+                using var __ = writer.Indent();
+                foreach (var input in _inputs)
+                {
+                    writer.WriteLine($"{input.Key}:");
+                    using var ___ = writer.Indent();
+                    writer.WriteLine($"description: {input.Value.Description}");
+                    writer.WriteLine($"default: {input.Value.Default}");
+                    writer.WriteLine($"required: {input.Value.Required}");
+                    writer.WriteLine($"type: {input.Value.Type.ToString().ToLower()}");
+                }
+            }
+            if (_outputs.Any())
+            {
+                writer.WriteLine("outputs:");
+                using var __ = writer.Indent();
+                foreach (var output in _outputs)
+                {
+                    writer.WriteLine($"{output.Key}:");
+                    using var ___ = writer.Indent();
+                    writer.WriteLine($"description: {output.Value.Description}");
+                    writer.WriteLine($"value: {output.Value.Value}");
+                }
+            }
+        }
+
+        private record InputInfo(string Id, string Description, string Default, bool Required, WorkflowCallType Type);
+
+        private record OutputInfo(string Id, string Description, string Value);
+    }
+
+
     private class JobBuilder : IJobBuilder
     {
-        private readonly string                         _jobId;
-        private          string                         _runsOn;
-        private          IDictionary<string, string>    _environment      = new Dictionary<string, string>();
-        private readonly List<StepBuilder>              _steps            = new();
-        private          PermissionConfig               _permissionConfig = PermissionConfig.NotSpecified;
-        private readonly Dictionary<string, Permission> _permissions      = new();
-        private          string?                        _concurrencyGroup;
-        private          bool                           _concurrencyCancelInProgress;
+        private readonly string                               _jobId;
+        private          string                               _runsOn;
+        private          IDictionary<string, string>          _environment      = new Dictionary<string, string>();
+        private readonly List<StepBuilder>                    _steps            = new();
+        private          PermissionConfig                     _permissionConfig = PermissionConfig.NotSpecified;
+        private readonly Dictionary<string, Permission>       _permissions      = new();
+        private          string?                              _concurrencyGroup;
+        private          bool                                 _concurrencyCancelInProgress;
 
         public JobBuilder(string jobId)
         {
@@ -315,6 +390,8 @@ public class WorkflowBuilder
             _concurrencyCancelInProgress = cancelInProgress;
             return this;
         }
+
+      
 
         public IJobBuilder PermissionsReadAll()
         {
@@ -378,7 +455,7 @@ public class WorkflowBuilder
                 writer.WriteLine($"group: {_concurrencyGroup}");
                 if (_concurrencyCancelInProgress)
                 {
-                    writer.WriteLine($"cancel-in-progress: true");
+                    writer.WriteLine("cancel-in-progress: true");
                 }
             }
 
