@@ -87,10 +87,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Log into ghcr
+    - name: Log into GitHub Container Registry
       run: echo ""${{secrets.GITHUB_TOKEN}}"" | docker login ghcr.io -u ${{github.actor}} --password-stdin
 
-    - name: Print Env
+    - name: Print Environment
       run: printenv
       shell: bash
 
