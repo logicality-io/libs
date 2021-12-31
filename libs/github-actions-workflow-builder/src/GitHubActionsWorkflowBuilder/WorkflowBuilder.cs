@@ -2,24 +2,42 @@
 
 public class WorkflowBuilder
 {
-    private readonly string                          _name;
+    private readonly string                         _name;
     private readonly List<TriggerBuilder>           _triggers = new();
     private readonly Dictionary<string, JobBuilder> _jobs     = new();
+    private          string?                        _cron;
 
     public WorkflowBuilder(string name)
     {
         _name = name;
     }
 
-    public IVcsTriggerBuilder OnPullRequest() => On("pull_request");
-
-    public IVcsTriggerBuilder OnPush() => On("push");
-
-    public IVcsTriggerBuilder On(string eventName)
+    public IVcsTriggerBuilder OnPullRequest()
     {
-        var trigger = new VcsTriggerBuilder(eventName, this);
+        var trigger = new VcsTriggerBuilder("pull_request", this);
         _triggers.Add(trigger);
         return trigger;
+    }
+
+    public IVcsTriggerBuilder OnPush()
+    {
+        var trigger = new VcsTriggerBuilder("push", this);
+        _triggers.Add(trigger);
+        return trigger;
+    }
+
+    public WorkflowBuilder OnEvent(string eventName, params string[] types)
+    {
+        var trigger = new EventTriggerBuilder(eventName, types, this);
+        _triggers.Add(trigger);
+        return this;
+    }
+
+    public WorkflowBuilder OnSchedule(string cron)
+    {
+        var scheduleTriggerBuilder = new ScheduleTriggerBuilder("schedule", cron, this);
+        _triggers.Add(scheduleTriggerBuilder);
+        return this;
     }
 
     public IJobBuilder AddJob(string jobId)
@@ -184,6 +202,48 @@ public class WorkflowBuilder
                     writer.WriteLine($"- {tags}");
                 }
             }
+        }
+    }
+
+    private class ScheduleTriggerBuilder: TriggerBuilder
+    {
+        private readonly string _cron;
+
+        public ScheduleTriggerBuilder(
+            string eventName, 
+            string cron,
+            WorkflowBuilder workflowBuilder)
+            : base(eventName, workflowBuilder)
+        {
+            _cron = cron;
+        }
+
+        public override void Write(WorkflowWriter writer)
+        {
+            writer.WriteLine($"{EventName}:");
+            using var _ = writer.Indent();
+            writer.WriteLine($"- cron: {_cron}");
+        }
+    }
+
+    private class EventTriggerBuilder : TriggerBuilder
+    {
+        private readonly string[] _types;
+
+        public EventTriggerBuilder(
+            string          eventName,
+            string[]        types,
+            WorkflowBuilder workflowBuilder)
+            : base(eventName, workflowBuilder)
+        {
+            _types = types;
+        }
+
+        public override void Write(WorkflowWriter writer)
+        {
+            writer.WriteLine($"{EventName}:");
+            using var _ = writer.Indent();
+            writer.WriteLine($"  types: [{string.Join(", ", _types)}]");
         }
     }
 

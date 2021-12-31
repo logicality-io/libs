@@ -25,6 +25,10 @@ public class WorkflowBuilderTests
             .Paths("**")
             .Tags("'foo-**'");
 
+        workflow.OnSchedule("'0 5,17 * * *'");
+
+        workflow.OnEvent("release", "published", "created", "edited");
+
         var job = workflow.AddJob("build")
             .RunsOn("ubuntu-latest")
             .WithEnvironment(new Dictionary<string, string>
@@ -73,6 +77,10 @@ on:
     - **
     tags:
     - 'foo-**'
+  schedule:
+    - cron: '0 5,17 * * *'
+  release:
+      types: [published,created,edited]
 
 jobs:
   build:
