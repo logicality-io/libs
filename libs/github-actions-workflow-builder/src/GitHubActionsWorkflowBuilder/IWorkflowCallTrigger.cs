@@ -2,15 +2,20 @@
 
 public interface IWorkflowCallTrigger : ITrigger
 {
-    IWorkflowCallTrigger Input(
+    IWorkflowCallTrigger Inputs(
         string           id,
         string           description,
         string           @default,
         bool             required,
         WorkflowCallType workflowCallType);
 
-    IWorkflowCallTrigger Output(
+    IWorkflowCallTrigger Outputs(
         string id,
         string description,
         string value);
+
+    IWorkflowCallTrigger Secrets(
+        string secretId,
+        string description,
+        bool   required);
 }

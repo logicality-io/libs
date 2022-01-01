@@ -232,7 +232,6 @@ public class WorkflowBuilder
         }
     }
 
-
     private class EventTriggerBuilder : Trigger
     {
         private readonly string[] _types;
@@ -258,13 +257,14 @@ public class WorkflowBuilder
     {
         private readonly Dictionary<string, InputInfo>  _inputs  = new();
         private readonly Dictionary<string, OutputInfo> _outputs = new();
+        private readonly Dictionary<string, SecretInfo> _secrets = new();
 
         public WorkflowCallTrigger(WorkflowBuilder workflowBuilder)
             : base("workflow_call", workflowBuilder)
         {
         }
        
-        public IWorkflowCallTrigger Input(
+        public IWorkflowCallTrigger Inputs(
             string           id,
             string           description,
             string           @default,
@@ -275,7 +275,7 @@ public class WorkflowBuilder
             return this;
         }
 
-        public IWorkflowCallTrigger Output(
+        public IWorkflowCallTrigger Outputs(
             string id,
             string description,
             string value)
@@ -284,10 +284,20 @@ public class WorkflowBuilder
             return this;
         }
 
+        public IWorkflowCallTrigger Secrets(
+            string id,
+            string description,
+            bool required)
+        {
+            _secrets.Add(id, new SecretInfo(id, description, required));
+            return this;
+        }
+
         public override void Write(WorkflowWriter writer)
         {
             writer.WriteLine($"{EventName}:");
             using var _ = writer.Indent();
+
             if (_inputs.Any())
             {
                 writer.WriteLine("inputs:");
@@ -302,6 +312,7 @@ public class WorkflowBuilder
                     writer.WriteLine($"type: {input.Value.Type.ToString().ToLower()}");
                 }
             }
+
             if (_outputs.Any())
             {
                 writer.WriteLine("outputs:");
@@ -314,11 +325,26 @@ public class WorkflowBuilder
                     writer.WriteLine($"value: {output.Value.Value}");
                 }
             }
+
+            if (_secrets.Any())
+            {
+                writer.WriteLine("secrets:");
+                using var __ = writer.Indent();
+                foreach (var secret in _secrets)
+                {
+                    writer.WriteLine($"{secret.Key}:");
+                    using var ___ = writer.Indent();
+                    writer.WriteLine($"description: {secret.Value.Description}");
+                    writer.WriteLine($"required: {secret.Value.Required.ToString().ToLower()}");
+                }
+            }
         }
 
         private record InputInfo(string Id, string Description, string Default, bool Required, WorkflowCallType Type);
 
         private record OutputInfo(string Id, string Description, string Value);
+
+        private record SecretInfo(string Id, string Description, bool Required);
     }
 
 

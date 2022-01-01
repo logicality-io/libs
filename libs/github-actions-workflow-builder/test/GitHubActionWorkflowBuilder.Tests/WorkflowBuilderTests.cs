@@ -30,8 +30,9 @@ public class WorkflowBuilderTests
         workflow.OnEvent("release", "published", "created", "edited");
 
         workflow.OnWorkflowCall()
-            .Input("username", "'A username passed from the caller workflow'", "'john-doe'",  false, WorkflowCallType.String)
-            .Output("workflow_output1", "'The first job output'", "${{ jobs.my_job.outputs.job_output1 }}");
+            .Inputs("username", "'A username passed from the caller workflow'", "'john-doe'", false, WorkflowCallType.String)
+            .Outputs("workflow_output1", "'The first job output'", "${{ jobs.my_job.outputs.job_output1 }}")
+            .Secrets("access-token", "'A token passed from the caller workflow'", false);
 
         var job = workflow.AddJob("build")
             .RunsOn("ubuntu-latest")
@@ -98,6 +99,10 @@ on:
       workflow_output1:
         description: 'The first job output'
         value: ${{ jobs.my_job.outputs.job_output1 }}
+    secrets:
+      access-token:
+        description: 'A token passed from the caller workflow'
+        required: false
 
 jobs:
   build:
