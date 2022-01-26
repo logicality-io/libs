@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Pulumi.Aws" Version="4.34.0" />
+    <PackageReference Include="Pulumi.Aws" Version="4.36.0" />
   </ItemGroup>
 
   <ItemGroup>
