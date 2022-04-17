@@ -174,4 +174,11 @@ public class Workflow
 
         return yaml;
     }
+
+    public void WriteYaml(string filePath, SequenceStyle sequenceStyle = SequenceStyle.Block)
+    {
+        var yaml = GetYaml(sequenceStyle);
+
+        File.WriteAllText(filePath, yaml);
+    }
 }

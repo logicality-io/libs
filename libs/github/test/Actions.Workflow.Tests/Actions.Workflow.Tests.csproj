@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Actions.Workflow.Extensions\Actions.Workflow.Extensions.csproj" />
     <ProjectReference Include="..\..\src\Actions.Workflow\Actions.Workflow.csproj" />
   </ItemGroup>
 

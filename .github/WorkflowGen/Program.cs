@@ -2,12 +2,8 @@
 
 void WriteWorkflow(Workflow workflow, string fileName)
 {
-    var path     = "../workflows";
-    var yaml     = workflow.GetYaml();
-    var filePath = $"{path}/{fileName}.yml";
-
-    File.WriteAllText(filePath, yaml);
-
+    var filePath = $"../workflows/{fileName}.yml";
+    workflow.WriteYaml(filePath);
     Console.WriteLine($"Wrote workflow to {filePath}");
 }
 
