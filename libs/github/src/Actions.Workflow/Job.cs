@@ -1,5 +1,4 @@
-﻿using System.Net.NetworkInformation;
-using YamlDotNet.Core.Events;
+﻿using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
