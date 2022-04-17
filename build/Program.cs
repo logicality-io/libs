@@ -64,4 +64,4 @@ Target(Push, () =>
 defaultTargets.Add(Push);
 Target("default", DependsOn(defaultTargets.ToArray()));
 
-RunTargetsAndExit(args);
+await RunTargetsAndExitAsync(args);
