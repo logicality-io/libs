@@ -2,7 +2,7 @@
 
 public static class JobExtensions
 {
-    public static Job CheckoutStep(this Job job, int actionVersion = 3, int fetchDepth = 0)
+    public static Job StepActionsCheckout(this Job job, int actionVersion = 3, int fetchDepth = 0)
     {
         job.Step()
             .Name("Checkout")
@@ -11,7 +11,7 @@ public static class JobExtensions
         return job;
     }
 
-    public static Job LogIntoGitHubContainerRegistryStep(this Job job)
+    public static Job StepLogIntoGitHubContainerRegistry(this Job job)
     {
         job.Step()
             .Name("Log into GitHub Container Registry")
@@ -19,7 +19,7 @@ public static class JobExtensions
         return job;
     }
 
-    public static Job UploadArtifacts(
+    public static Job StepUploadArtifacts(
         this Job job,
         string   name = "artifacts",
         string   path = "artifacts")
@@ -32,7 +32,7 @@ public static class JobExtensions
         return job;
     }
 
-    public static Job PrintEnvironmentStep(this Job job)
+    public static Job StepPrintEnvironment(this Job job)
     {
         job.Step()
             .Name("Print Env")

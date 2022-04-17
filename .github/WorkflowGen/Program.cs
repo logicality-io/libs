@@ -50,11 +50,11 @@ void GenerateWorkflowsForLibs()
                 { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
             });
 
-        buildJob.CheckoutStep();
+        buildJob.StepActionsCheckout();
 
-        buildJob.LogIntoGitHubContainerRegistryStep();
+        buildJob.StepLogIntoGitHubContainerRegistry();
 
-        buildJob.PrintEnvironmentStep();
+        buildJob.StepPrintEnvironment();
 
         buildJob.Step()
             .Name("Test")
@@ -72,7 +72,7 @@ void GenerateWorkflowsForLibs()
             .Run("./build.ps1 push")
             .ShellPowerShell();
 
-        buildJob.UploadArtifacts();
+        buildJob.StepUploadArtifacts();
 
         var fileName = $"{lib}-ci";
 
@@ -91,16 +91,48 @@ void GenerateCodeAnalysisWorkflow()
         .PullRequest()
         .Branches("main");
     workflow.On
-        .Schedule("'39 8 * * 1'");
+        .Schedule("39 8 * * 1");
 
-    var job = workflow.Job("analyze")
+    var job = workflow
+        .Job("analyze")
+        .Name("Analyse")
         .RunsOn("ubuntu-latest")
         .Permissions(
             actions: Permission.Read,
             contents: Permission.Read,
-            securityEvents: Permission.Write);
+            securityEvents: Permission.Write)
+        .Strategy()
+        .FailFast(false)
+        .Matrix(new Dictionary<string, string[]>
+        {
+            { "language", new[] { "csharp" } }
+        })
+        .Job;
 
-    job.Step("");
+    job.StepActionsCheckout();
+
+    job.Step()
+        .Name("Setup dotnet")
+        .With("dotnet-version", "6.0.x");
+
+    job.Step()
+        .Run("dotnet --info");
+
+    job.Step()
+        .Name("Initialize CodeQL")
+        .Uses("github/codeql-action/init@v1")
+        .With("languages", "${{ matrix.language }}");
+
+    job.Step()
+        .Run("./build.ps1 local build")
+        .ShellPowerShell();
+
+    job.Step()
+        .Name("Perform CodeQL Analysis")
+        .Uses("github/codeql-action/analyze@v1");
+
+    WriteWorkflow(workflow, "codeql-analysis");
 }
 
 GenerateWorkflowsForLibs();
+GenerateCodeAnalysisWorkflow();
