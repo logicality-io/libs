@@ -15,10 +15,8 @@ public class Workflow
     private          PermissionConfig               _permissionConfig = PermissionConfig.NotSpecified;
     private          string?                        _concurrencyGroup;
     private          bool                           _concurrencyCancelInProgress;
-    private          IDictionary<string, string>    _env                   = new Dictionary<string, string>();
-    private          IDictionary<string, string>    _defaults              = new Dictionary<string, string>();
-    private          string                         _defaultsRunShell      = string.Empty;
-    private          string                         _defaultsRunWorkingDir = string.Empty;
+    private          IDictionary<string, string>    _env = new Dictionary<string, string>();
+    private          WorkflowDefaults?              _defaults;
 
     public Workflow(string name)
     {
@@ -87,17 +85,16 @@ public class Workflow
         return this;
     }
 
-    public Workflow Defaults(IDictionary<string, string> defaults)
+    public WorkflowDefaults Defaults()
     {
-        _defaults = defaults;
-        return this;
+        _defaults = new WorkflowDefaults(this);
+        return _defaults;
     }
 
-    public Workflow DefaultsRun(string shell, string workingDirectory)
+    public WorkflowDefaults Defaults(IDictionary<string, string> properties)
     {
-        _defaultsRunShell      = shell;
-        _defaultsRunWorkingDir = workingDirectory;
-        return this;
+        _defaults = new WorkflowDefaults(this, properties);
+        return _defaults;
     }
 
     public Job Job(string id)
@@ -144,25 +141,7 @@ public class Workflow
         }
 
         // Defaults
-        if (_defaults.Any() || !string.IsNullOrWhiteSpace(_defaultsRunShell))
-        {
-            var defaultsMappingNode = new YamlMappingNode();
-            foreach (var @default in _defaults)
-            {
-                defaultsMappingNode.Add(@default.Key, new YamlScalarNode(@default.Value));
-            }
-            // Defauls Run
-            if (!string.IsNullOrWhiteSpace(_defaultsRunShell))
-            {
-                var defaultsRunMappingNode = new YamlMappingNode()
-                {
-                    { "shell", _defaultsRunShell },
-                    { "working-directory", _defaultsRunWorkingDir }
-                };
-                defaultsMappingNode.Add("run", defaultsRunMappingNode);
-            }
-            rootNode.Add("defaults", defaultsMappingNode);
-        }
+        _defaults?.Build(rootNode);
 
         // Jobs
         if (_jobs.Any())

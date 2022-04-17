@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Shouldly;
 using Xunit;
 using YamlDotNet.Core.Events;
-using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
@@ -358,10 +355,9 @@ env:
     public void Workflow_Defaults()
     {
         var actual = new Workflow("workflow")
-            .Defaults(new Dictionary<string, string>
-            {
-                { "foo", "bar" }
-            })
+            .Defaults()
+            .Key("foo", "bar")
+            .Workflow
             .GetYaml();
 
         var expected = Workflow.Header + @"
@@ -378,7 +374,9 @@ defaults:
     public void Workflow_Defaults_Run()
     {
         var actual = new Workflow("workflow")
-            .DefaultsRun("bash", "./dir")
+            .Defaults()
+            .Run("bash", "./dir")
+            .Workflow
             .GetYaml();
 
         var expected = Workflow.Header + @"
