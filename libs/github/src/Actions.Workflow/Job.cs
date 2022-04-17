@@ -26,6 +26,7 @@ public class Job
     private          JobWith?                       _with;
     private          JobSecrets?                    _secrets;
     private          JobContainer?                  _container;
+    private          JobServices?                   _services;
 
     internal Job(string id, Workflow workflow)
     {
@@ -206,6 +207,12 @@ public class Job
         return _container;
     }
 
+    public JobServices Services()
+    {
+        _services = new JobServices(this);
+        return _services;
+    }
+
     public JobSecrets Secrets()
     {
         _secrets = new JobSecrets(this);
@@ -319,6 +326,9 @@ public class Job
 
         // Container
         _container?.Build(jobNode, sequenceStyle);
+
+        // Services
+        _services?.Build(jobNode, sequenceStyle);
 
         // Outputs
         _outputs?.Build(jobNode);

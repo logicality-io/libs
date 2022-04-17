@@ -505,4 +505,65 @@ jobs:
 
         actual.ShouldBe(expected);
     }
+
+    [Fact]
+    public void Job_Services()
+    {
+        var actual = new Workflow("workflow")
+            .Job("my_job")
+            .Services()
+                .Service("node", "node:14.6")
+                    .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
+                    .Env()
+                        .Key("NODE_ENV", "development")
+                    .Service
+                    .Ports(80)
+                    .Volumes(@"my_docker_volume:/volume_mount")
+                    .Options("--cpus 1")
+                .Services
+                .Service("dotnet", "dotnet:6.0.1")
+                    .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
+                    .Env()
+                    .Key("ENVIRONMENT", "development")
+                    .Service
+                    .Ports(443)
+                    .Volumes(@"my_docker_volume:/volume_mount")
+                    .Options("--no-logo")
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  my_job:
+    services:
+      node:
+        image: node:14.6
+        credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.github_token }}
+        env:
+          NODE_ENV: development
+        ports:
+        - 80
+        volumes:
+        - my_docker_volume:/volume_mount
+        options: --cpus 1
+      dotnet:
+        image: dotnet:6.0.1
+        credentials:
+          username: ${{ github.actor }}
+          password: ${{ secrets.github_token }}
+        env:
+          ENVIRONMENT: development
+        ports:
+        - 443
+        volumes:
+        - my_docker_volume:/volume_mount
+        options: --no-logo
+";
+
+        actual.ShouldBe(expected);
+    }
 }
