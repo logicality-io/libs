@@ -45,10 +45,9 @@ void GenerateWorkflowsForLibs()
         var buildJob = workflow
             .Job("build")
             .RunsOn(GitHubHostedRunner.UbuntuLatest)
-            .Env(new Dictionary<string, string>
-            {
-                { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
-            });
+            .Env()
+                .Key("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}")
+            .Job;
 
         buildJob.StepActionsCheckout();
 

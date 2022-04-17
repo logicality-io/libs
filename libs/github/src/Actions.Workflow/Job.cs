@@ -14,17 +14,15 @@ public class Job
     private          string                         _environmentUrl              = string.Empty;
     private          string                         _concurrencyGroup            = string.Empty;
     private          bool                           _concurrencyCancelInProgress = false;
-    private          IDictionary<string, string>    _outputs                     = new Dictionary<string, string>();
-    private          IDictionary<string, string>    _env                         = new Dictionary<string, string>();
-    private          IDictionary<string, string>    _defaults                    = new Dictionary<string, string>();
-    private          string                         _defaultsRunShell            = string.Empty;
-    private          string                         _defaultsRunWorkingDir       = string.Empty;
-    private          string                         _if                          = string.Empty;
-    private          bool?                          _continueOnError             = null;
-    private readonly List<Step>                     _steps                       = new();
-    private          int                            _timeoutMinutes              = 0;
-    private          Strategy?                      _strategy                    = null;
-    private          string                         _uses                        = string.Empty;
+    private          JobOutputs?                    _outputs;
+    private          JobEnv?                        _env;
+    private          JobDefaults?                   _defaults;
+    private          string                         _if                    = string.Empty;
+    private          bool?                          _continueOnError       = null;
+    private readonly List<Step>                     _steps                 = new();
+    private          int                            _timeoutMinutes        = 0;
+    private          Strategy?                      _strategy              = null;
+    private          string                         _uses                  = string.Empty;
     private          JobWith?                       _with;
 
     internal Job(string id, Workflow workflow)
@@ -114,29 +112,40 @@ public class Job
         return this;
     }
 
-    public Job Outputs(IDictionary<string, string> outputs)
+    public JobOutputs Outputs()
     {
-        _outputs = outputs;
-        return this;
+        _outputs = new JobOutputs(this);
+        return _outputs;
     }
 
-    public Job Env(IDictionary<string, string> environment)
+    public JobOutputs Outputs(IDictionary<string, string> properties)
     {
-        _env = environment;
-        return this;
+        _outputs = new JobOutputs(this, properties);
+        return _outputs;
     }
 
-    public Job Defaults(IDictionary<string, string> defaults)
+    public JobEnv Env()
     {
-        _defaults = defaults;
-        return this;
+        _env = new JobEnv(this);
+        return _env;
     }
 
-    public Job DefaultsRun(string shell, string workingDirectory)
+    public JobEnv Env(IDictionary<string, string> properties)
     {
-        _defaultsRunShell      = shell;
-        _defaultsRunWorkingDir = workingDirectory;
-        return this;
+        _env = new JobEnv(this, properties);
+        return _env;
+    }
+
+    public JobDefaults Defaults()
+    {
+        _defaults = new JobDefaults(this);
+        return _defaults;
+    }
+
+    public JobDefaults Defaults(IDictionary<string, string> defaults)
+    {
+        _defaults = new JobDefaults(this, defaults);
+        return _defaults;
     }
 
     public Job If(string @if)
@@ -250,36 +259,10 @@ public class Job
         }
         
         // Defaults
-        if (_defaults.Any() || !string.IsNullOrWhiteSpace(_defaultsRunShell))
-        {
-            var defaultsMappingNode = new YamlMappingNode();
-            foreach (var @default in _defaults)
-            {
-                defaultsMappingNode.Add(@default.Key, new YamlScalarNode(@default.Value));
-            }
-            // Defauls Run
-            if (!string.IsNullOrWhiteSpace(_defaultsRunShell))
-            {
-                var defaultsRunMappingNode = new YamlMappingNode()
-                {
-                    { "shell", _defaultsRunShell },
-                    { "working-directory", _defaultsRunWorkingDir }
-                };
-                defaultsMappingNode.Add("run", defaultsRunMappingNode);
-            }
-            jobNode.Add("defaults", defaultsMappingNode);
-        }
-
+        _defaults?.Build(jobNode);
+        
         // Env
-        if (_env.Any())
-        {
-            var envMappingNode = new YamlMappingNode();
-            foreach (var env in _env)
-            {
-                envMappingNode.Add(env.Key, new YamlScalarNode(env.Value));
-            }
-            jobNode.Add("env", envMappingNode);
-        }
+        _env?.Build(jobNode);
        
         // Environment
         if (!string.IsNullOrWhiteSpace(_environmentName))
@@ -302,8 +285,7 @@ public class Job
 
             if (_with != null)
             {
-                var withNode = new YamlMappingNode();
-                _with.Build(jobNode, sequenceStyle);
+                _with.Build(jobNode);
             }
         }
 
@@ -316,15 +298,7 @@ public class Job
         }
 
         // Outputs
-        if (_outputs.Any())
-        {
-            var outputsMappingNode = new YamlMappingNode();
-            foreach (var output in _outputs)
-            {
-                outputsMappingNode.Add(output.Key, output.Value);
-            }
-            jobNode.Add("outputs", outputsMappingNode);
-        }
+        _outputs?.Build(jobNode);
 
         // Steps
         if (_steps.Any())

@@ -227,10 +227,8 @@ jobs:
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .Defaults(new Dictionary<string, string>
-            {
-                { "foo", "bar" }
-            })
+            .Defaults()
+            .Key("foo", "bar")
             .Workflow
             .GetYaml();
 
@@ -251,7 +249,8 @@ jobs:
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .DefaultsRun("bash", "./dir")
+            .Defaults()
+                .Run("bash", "./dir")
             .Workflow
             .GetYaml();
 
