@@ -127,7 +127,8 @@ jobs:
             .Job("build")
             .Step("step")
             .Uses("action/action")
-            .With("foo", "bar")
+            .With()
+                .Key("foo", "bar")
             .Workflow
             .GetYaml();
 

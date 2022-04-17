@@ -421,12 +421,14 @@ jobs:
         actual.ShouldBe(expected);
     }
 
-    /*[Fact]
+    [Fact]
     public void Job_With()
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .With("foo", "bar")
+            .Uses("octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89")
+            .With()
+                .Key("foo", "bar")
             .Workflow
             .GetYaml();
 
@@ -435,10 +437,11 @@ jobs:
 name: workflow
 jobs:
   build:
+    uses: octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89
     with:
       foo: bar
 ";
 
         actual.ShouldBe(expected);
-    }*/
+    }
 }

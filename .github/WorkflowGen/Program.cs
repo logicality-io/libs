@@ -103,17 +103,16 @@ void GenerateCodeAnalysisWorkflow()
             securityEvents: Permission.Write)
         .Strategy()
         .FailFast(false)
-        .Matrix(new Dictionary<string, string[]>
-        {
-            { "language", new[] { "csharp" } }
-        })
+        .Matrix()
+            .Key("language", "csharp")
         .Job;
 
     job.StepActionsCheckout();
 
     job.Step()
         .Name("Setup dotnet")
-        .With("dotnet-version", "6.0.x");
+        .With()
+            .Key("dotnet-version", "6.0.x");
 
     job.Step()
         .Run("dotnet --info");
@@ -121,7 +120,8 @@ void GenerateCodeAnalysisWorkflow()
     job.Step()
         .Name("Initialize CodeQL")
         .Uses("github/codeql-action/init@v1")
-        .With("languages", "${{ matrix.language }}");
+        .With()
+            .Key("languages", "${{ matrix.language }}");
 
     job.Step()
         .Run("./build.ps1 local build")

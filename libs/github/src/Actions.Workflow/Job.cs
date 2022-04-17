@@ -26,7 +26,7 @@ public class Job
     private          int                            _timeoutMinutes              = 0;
     private          Strategy?                      _strategy                    = null;
     private          string                         _uses                        = string.Empty;
-    private readonly List<(string, string)>         _with                        = new();
+    private          JobWith?                       _with;
 
     internal Job(string id, Workflow workflow)
     {
@@ -173,13 +173,21 @@ public class Job
     /// <summary>
     /// Excluded if Uses is not specified.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="value"></param>
     /// <returns></returns>
-    public Job With(string name, string value)
+    public JobWith With()
     {
-        _with.Add((name, value));
-        return this;
+        _with = new JobWith(this);
+        return _with;
+    }
+
+    /// <summary>
+    /// Excluded if Uses is not specified.
+    /// </summary>
+    /// <returns></returns>
+    public JobWith With(IDictionary<string, string> properties)
+    {
+        _with = new JobWith(this, properties);
+        return _with;
     }
 
     public Step Step(string? id = null)
@@ -293,14 +301,10 @@ public class Job
         {
             jobNode.Add("uses", _uses);
 
-            if (_with.Any())
+            if (_with != null)
             {
                 var withNode = new YamlMappingNode();
-                foreach (var with in _with)
-                {
-                    withNode.Add(with.Item1, with.Item2);
-                }
-                jobNode.Add("with", withNode);
+                _with.Build(jobNode, sequenceStyle);
             }
         }
 

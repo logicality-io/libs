@@ -10,7 +10,8 @@ public static class JobExtensions
         job.Step()
             .Name("Checkout")
             .Uses($"actions/checkout@{version}")
-            .With("fetch-depth", fetchDepth.ToString());
+            .With()
+                .Key("fetch-depth", fetchDepth.ToString());
         return job;
     }
 
@@ -31,8 +32,8 @@ public static class JobExtensions
         job.Step()
             .Name("Upload Artifacts")
             .Uses($"actions/upload-artifact@{version}")
-            .With("name", name)
-            .With("path", path);
+            .With()
+                .Key("path", path);
         return job;
     }
 

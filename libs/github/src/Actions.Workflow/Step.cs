@@ -5,15 +5,15 @@ namespace Logicality.GitHub.Actions.Workflow;
 
 public class Step
 {
-    private readonly string?                _id;
-    private          string                 _name           = string.Empty;
-    private          string                 _conditional    = string.Empty;
-    private          string                 _uses           = string.Empty;
-    private readonly List<(string, string)> _with           = new();
-    private          string                 _run            = string.Empty;
-    private          string                 _shell          = string.Empty;
-    private          int                    _timeoutMinutes = 0;
-    private          bool                   _continueOnError;
+    private readonly string?   _id;
+    private          string    _name        = string.Empty;
+    private          string    _conditional = string.Empty;
+    private          string    _uses        = string.Empty;
+    private          StepWith? _with;
+    private          string    _run            = string.Empty;
+    private          string    _shell          = string.Empty;
+    private          int       _timeoutMinutes = 0;
+    private          bool      _continueOnError;
 
     internal Step(string? id, Job job)
     {
@@ -45,13 +45,11 @@ public class Step
     /// <summary>
     /// Excluded if Uses is not specified.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="value"></param>
     /// <returns></returns>
-    public Step With(string name, string value)
-    { 
-        _with.Add((name, value));
-        return this;
+    public StepWith With()
+    {
+        _with = new StepWith(this);
+        return _with;
     }
 
     public Step Run(string run)
@@ -120,14 +118,6 @@ public class Step
             node.Add("uses", _uses);
         }
 
-        if (_with.Any())
-        {
-            var withNode = new YamlMappingNode();
-            foreach (var with in _with)
-            {
-                withNode.Add(with.Item1, with.Item2);
-            }
-            node.Add("with", withNode);
-        }
+        _with?.Build(node, sequenceStyle);
     }
 }

@@ -5,9 +5,9 @@ namespace Logicality.GitHub.Actions.Workflow;
 
 public class Strategy
 {
-    private IDictionary<string, string[]> _matrix = new Dictionary<string, string[]>();
-    private bool?                         _failFast;
-    private int                           _maxParallel;
+    private Matrix? _matrix;
+    private bool?   _failFast;
+    private int     _maxParallel;
 
     public Strategy(Job job)
     {
@@ -17,10 +17,16 @@ public class Strategy
     public Job      Job      { get; }
     public Workflow Workflow => Job.Workflow;
 
-    public Strategy Matrix(IDictionary<string, string[]> matrix)
+    public Matrix Matrix()
     {
-        _matrix = matrix;
-        return this;
+        _matrix = new Matrix(this);
+        return _matrix;
+    }
+
+    public Matrix Matrix(IDictionary<string, string[]> properties)
+    {
+        _matrix = new Matrix(this, properties);
+        return _matrix;
     }
 
     public Strategy FailFast(bool failFast)
@@ -35,23 +41,13 @@ public class Strategy
         return this;
     }
 
-    public void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
+    internal void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
     {
         var node = new YamlMappingNode();
-        if (_matrix.Any())
-        {
-            var matricsMappingNode = new YamlMappingNode();
-            foreach (var matrix in _matrix)
-            {
-                var values = new YamlSequenceNode { Style = sequenceStyle };
-                foreach (var value in matrix.Value)
-                {
-                    values.Add(value);
-                }
-                matricsMappingNode.Add(matrix.Key, values);
-            }
 
-            node.Add("matrix", matricsMappingNode);
+        if (_matrix != null)
+        {
+            _matrix.Build(node, sequenceStyle);
         }
 
         if (_failFast.HasValue)
