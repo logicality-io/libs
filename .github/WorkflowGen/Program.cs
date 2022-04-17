@@ -1,9 +1,9 @@
-﻿using Logicality.GitHubActionsWorkflowBuilder;
+﻿using Logicality.GitHub.Actions.Workflow;
 
-void WriteWorkflow(WorkflowBuilder workflow, string fileName)
+void WriteWorkflow(Workflow workflow, string fileName)
 {
     var path = "../workflows";
-    var yaml     = workflow.Generate();
+    var yaml     = workflow.GetYaml();
     var filePath = $"{path}/{fileName}.yml";
 
     File.WriteAllText(filePath, yaml);
@@ -18,7 +18,7 @@ void GenerateWorkflowsForLibs()
         "aspnet-core",
         "bullseye",
         "configuration",
-        "github-actions-workflow-builder",
+        "github",
         "hosting",
         "lambda",
         "pulumi",
@@ -26,48 +26,53 @@ void GenerateWorkflowsForLibs()
         "testing"
     };
 
-
     foreach (var lib in libs)
     {
-        var workflow = new WorkflowBuilder($"{lib}-ci");
+        var workflow = new Workflow($"{lib}-ci");
 
         var paths = new[] { $".github/workflows/{lib}-**", $"libs/{lib}**", "build/**" };
 
-        workflow.OnPullRequest()
+        workflow.On
+            .PullRequest()
             .Paths(paths);
 
-        workflow.OnPush()
+        workflow.On
+            .Push()
             .Branches("main")
             .Paths(paths)
-            .Tags($"'{lib}-**'");
+            .Tags($"{lib}-**");
 
-        var job = workflow.AddJob("build")
+        var buildJob = workflow
+            .Job("build")
             .RunsOn("ubuntu-latest")
-            .WithEnvironment(new Dictionary<string, string>
+            .Env(new Dictionary<string, string>
             {
                 { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
             });
 
-        job.Checkout();
+        buildJob.CheckoutStep();
 
-        job.LogIntoGitHubContainerRegistry();
+        buildJob.LogIntoGitHubContainerRegistryStep();
 
-        job.PrintEnvironment();
+        buildJob.PrintEnvironmentStep();
 
-        job.AddStep("Test")
+        buildJob.Step()
+            .Name("Test")
             .Run($"./build.ps1 {lib}-test")
             .ShellPowerShell();
 
-        job.AddStep("Pack")
+        buildJob.Step()
+            .Name("Pack")
             .Run($"./build.ps1 {lib}-pack")
             .ShellPowerShell();
 
-        job.AddStep("Push")
+        buildJob.Step()
+            .Name("Push")
             .If("github.event_name == 'push'")
             .Run("./build.ps1 push")
             .ShellPowerShell();
 
-        job.UploadArtifacts();
+        buildJob.UploadArtifacts();
 
         var fileName = $"{lib}-ci";
 
@@ -77,21 +82,25 @@ void GenerateWorkflowsForLibs()
 
 void GenerateCodeAnalysisWorkflow()
 {
-    var workflow = new WorkflowBuilder("CodeQL");
+    var workflow = new Workflow("CodeQL");
 
-    workflow.OnPush()
+    workflow.On
+        .Push()
         .Branches("main");
-    workflow.OnPullRequest()
+    workflow.On
+        .PullRequest()
         .Branches("main");
-    workflow.OnSchedule("'39 8 * * 1'");
+    workflow.On
+        .Schedule("'39 8 * * 1'");
 
-    var job = workflow.AddJob("analyze")
+    var job = workflow.Job("analyze")
         .RunsOn("ubuntu-latest")
         .Permissions(
             actions: Permission.Read,
             contents: Permission.Read,
             securityEvents: Permission.Write);
 
-    job.AddStep("");
+    job.Step("");
 }
 
+GenerateWorkflowsForLibs();

@@ -10,7 +10,7 @@ const string ArtifactsDir = "artifacts";
 const string Clean = "clean";
 const string Build = "build";
 const string Push = "push";
-const string Solution = "Platform.sln";
+const string Solution = "PlatformLibs.sln";
 
 Target(Clean, () => CleanDirectory(ArtifactsDir));
 
