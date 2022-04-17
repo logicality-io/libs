@@ -10,7 +10,8 @@ or better still, copying into your own projects.
 1. [BullsEye](/libs/bullseye): Helpers functions for use in [BullsEye](https://github.com/adamralph/bullseye)
    based build programs.
 1. [Configuration](/libs/configuration): Extensions to `Microsoft.Extensions.Configuration`.
-1. [Hosting](/libs/hosting): Extensions to `Microsoft.Extensions.Hosting`.
+1. [github](/libs/github): GitHub related utitlities including a fluent actions workflow builder.
+1. [Hosting](/libs/hosting): Some utility Extensions to `Microsoft.Extensions.Hosting`.
 1. [Lambda](/libs/lambda): Utilities, extensions and testing helpers for AWS lambda functions.
 1. [Pulumi](/libs/pulumi): Custom component resources, extensions and helpers
    for `Pulumi` based infrastructure programs.
