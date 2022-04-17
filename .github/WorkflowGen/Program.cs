@@ -2,7 +2,7 @@
 
 void WriteWorkflow(Workflow workflow, string fileName)
 {
-    var path = "../workflows";
+    var path     = "../workflows";
     var yaml     = workflow.GetYaml();
     var filePath = $"{path}/{fileName}.yml";
 
@@ -44,7 +44,7 @@ void GenerateWorkflowsForLibs()
 
         var buildJob = workflow
             .Job("build")
-            .RunsOn("ubuntu-latest")
+            .RunsOn(GitHubHostedRunner.UbuntuLatest)
             .Env(new Dictionary<string, string>
             {
                 { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
