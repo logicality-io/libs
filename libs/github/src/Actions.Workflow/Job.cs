@@ -25,6 +25,7 @@ public class Job
     private          string                         _uses            = string.Empty;
     private          JobWith?                       _with;
     private          JobSecrets?                    _secrets;
+    private          JobContainer?                  _container;
 
     internal Job(string id, Workflow workflow)
     {
@@ -199,6 +200,12 @@ public class Job
         return _with;
     }
 
+    public JobContainer Container(string image)
+    {
+        _container = new JobContainer(this, image);
+        return _container;
+    }
+
     public JobSecrets Secrets()
     {
         _secrets = new JobSecrets(this);
@@ -309,6 +316,9 @@ public class Job
         {
             jobNode.Add("timeout-minutes", _timeoutMinutes.ToString());
         }
+
+        // Container
+        _container?.Build(jobNode, sequenceStyle);
 
         // Outputs
         _outputs?.Build(jobNode);

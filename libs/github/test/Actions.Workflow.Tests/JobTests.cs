@@ -445,7 +445,7 @@ jobs:
     }
 
     [Fact]
-    public void Job_Secets()
+    public void Job_Secrets()
     {
         var actual = new Workflow("workflow")
             .Job("build")
@@ -463,6 +463,44 @@ jobs:
     uses: octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89
     secrets:
       access-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+";
+
+        actual.ShouldBe(expected);
+    }
+
+    [Fact]
+    public void Job_Container()
+    {
+        var actual = new Workflow("workflow")
+            .Job("my_job")
+            .Container("node:14.6")
+            .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
+            .Env()
+                .Key("NODE_ENV", "development")
+            .JobContainer
+            .Ports(80)
+            .Volumes(@"my_docker_volume:/volume_mount")
+            .Options("--cpus 1")
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  my_job:
+    container:
+      image: node:14.6
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
+      env:
+        NODE_ENV: development
+      ports:
+      - 80
+      volumes:
+      - my_docker_volume:/volume_mount
+      options: --cpus 1
 ";
 
         actual.ShouldBe(expected);
