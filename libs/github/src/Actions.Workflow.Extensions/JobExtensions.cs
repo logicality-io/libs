@@ -2,11 +2,14 @@
 
 public static class JobExtensions
 {
-    public static Job StepActionsCheckout(this Job job, int actionVersion = 3, int fetchDepth = 0)
+    public static Job StepActionsCheckout(
+        this Job job,
+        string   version    = "v3",
+        int      fetchDepth = 0)
     {
         job.Step()
             .Name("Checkout")
-            .Uses($"actions/checkout@v{actionVersion}")
+            .Uses($"actions/checkout@{version}")
             .With("fetch-depth", fetchDepth.ToString());
         return job;
     }
@@ -19,14 +22,15 @@ public static class JobExtensions
         return job;
     }
 
-    public static Job StepUploadArtifacts(
+    public static Job StepActionsUploadArtifact(
         this Job job,
-        string   name = "artifacts",
-        string   path = "artifacts")
+        string   name    = "artifacts",
+        string   path    = "artifacts",
+        string   version = "v2")
     {
         job.Step()
             .Name("Upload Artifacts")
-            .Uses("actions/upload-artifact@v2")
+            .Uses($"actions/upload-artifact@{version}")
             .With("name", name)
             .With("path", path);
         return job;

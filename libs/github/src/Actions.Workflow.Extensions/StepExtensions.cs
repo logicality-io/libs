@@ -1,6 +1,6 @@
 ﻿namespace Logicality.GitHub.Actions.Workflow;
 
-public static class StepBuilderExtensions
+public static class StepExtensions
 {
     public static Step ShellBash(this Step step)
     {

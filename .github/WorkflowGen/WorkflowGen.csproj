@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\github\src\Actions.Workflow.Extensions\Actions.Workflow.Extensions.csproj" />
     <ProjectReference Include="..\..\libs\github\src\Actions.Workflow\Actions.Workflow.csproj" />
   </ItemGroup>
 

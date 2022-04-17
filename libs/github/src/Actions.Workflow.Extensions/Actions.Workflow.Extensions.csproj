@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Logicality.GitHub.Actions.Workflow.Extensions</AssemblyName>
+    <RootNamespace>Logicality.GitHub.Actions.Workflow</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Actions.Workflow\Actions.Workflow.csproj" />
+  </ItemGroup>
+
+</Project>

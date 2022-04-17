@@ -72,7 +72,7 @@ void GenerateWorkflowsForLibs()
             .Run("./build.ps1 push")
             .ShellPowerShell();
 
-        buildJob.StepUploadArtifacts();
+        buildJob.StepActionsUploadArtifact();
 
         var fileName = $"{lib}-ci";
 
