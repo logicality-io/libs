@@ -33,6 +33,7 @@ public static class JobExtensions
             .Name("Upload Artifacts")
             .Uses($"actions/upload-artifact@{version}")
             .With()
+                .Key("name", name)
                 .Key("path", path);
         return job;
     }
