@@ -26,7 +26,7 @@ public static class JobExtensions
         this Job job,
         string   name    = "artifacts",
         string   path    = "artifacts",
-        string   version = "v2")
+        string   version = "v3")
     {
         job.Step()
             .Name("Upload Artifacts")

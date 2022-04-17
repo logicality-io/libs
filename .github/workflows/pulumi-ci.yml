@@ -42,7 +42,7 @@ jobs:
       run: ./build.ps1 push
       shell: pwsh
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: artifacts
         path: artifacts
