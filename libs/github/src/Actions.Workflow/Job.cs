@@ -17,13 +17,14 @@ public class Job
     private          JobOutputs?                    _outputs;
     private          JobEnv?                        _env;
     private          JobDefaults?                   _defaults;
-    private          string                         _if                    = string.Empty;
-    private          bool?                          _continueOnError       = null;
-    private readonly List<Step>                     _steps                 = new();
-    private          int                            _timeoutMinutes        = 0;
-    private          Strategy?                      _strategy              = null;
-    private          string                         _uses                  = string.Empty;
+    private          string                         _if              = string.Empty;
+    private          bool?                          _continueOnError = null;
+    private readonly List<Step>                     _steps           = new();
+    private          int                            _timeoutMinutes  = 0;
+    private          Strategy?                      _strategy        = null;
+    private          string                         _uses            = string.Empty;
     private          JobWith?                       _with;
+    private          JobSecrets?                    _secrets;
 
     internal Job(string id, Workflow workflow)
     {
@@ -198,6 +199,18 @@ public class Job
         return _with;
     }
 
+    public JobSecrets Secrets()
+    {
+        _secrets = new JobSecrets(this);
+        return _secrets;
+    }
+
+    public JobSecrets Secrets(IDictionary<string, string> properties)
+    {
+        _secrets = new JobSecrets(this, properties);
+        return _secrets;
+    }
+
     public Step Step(string? id = null)
     {
         var step = new Step(id, this);
@@ -299,6 +312,9 @@ public class Job
 
         // Outputs
         _outputs?.Build(jobNode);
+
+        //Secrets
+        _secrets?.Build(jobNode);
 
         // Steps
         if (_steps.Any())

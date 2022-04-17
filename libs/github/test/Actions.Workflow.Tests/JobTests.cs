@@ -443,4 +443,28 @@ jobs:
 
         actual.ShouldBe(expected);
     }
+
+    [Fact]
+    public void Job_Secets()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .Uses("octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89")
+            .Secrets()
+                .Key("access-token", "${{ secrets.PERSONAL_ACCESS_TOKEN }}") 
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    uses: octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89
+    secrets:
+      access-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+";
+
+        actual.ShouldBe(expected);
+    }
 }
