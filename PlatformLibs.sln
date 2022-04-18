@@ -208,6 +208,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowGen", ".github\WorkflowGen\WorkflowGen.csproj", "{14383ED3-4EA1-438A-8A74-ECE9DAAD39EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{560B3DCD-83DF-4AF5-B357-549FEDB2247B}"
+	ProjectSection(SolutionItems) = preProject
+		libs\github\readme.md = libs\github\readme.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{07914B1F-FB5C-4C8F-B36A-B1D8D7B2CC48}"
 	ProjectSection(SolutionItems) = preProject
@@ -223,7 +226,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow", "libs\gi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow.Tests", "libs\github\test\Actions.Workflow.Tests\Actions.Workflow.Tests.csproj", "{B22A5167-C651-4868-BF39-29668EFB7987}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Actions.Workflow.Extensions", "libs\github\src\Actions.Workflow.Extensions\Actions.Workflow.Extensions.csproj", "{356C1628-71F4-4BCA-94E8-34410AB7ABB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow.Extensions", "libs\github\src\Actions.Workflow.Extensions\Actions.Workflow.Extensions.csproj", "{356C1628-71F4-4BCA-94E8-34410AB7ABB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
