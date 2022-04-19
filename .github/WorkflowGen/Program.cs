@@ -43,7 +43,8 @@ void GenerateWorkflowsForLibs()
             .RunsOn(GitHubHostedRunners.UbuntuLatest)
             .Env(new Dictionary<string, string>
                 {
-                    { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"}
+                    { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"},
+                    { "LOGICALITY_NUGET_ORG", "${{secrets.LOGICALITY_NUGET_ORG}}"}
                 });
 
         buildJob.Step().ActionsCheckout();
@@ -109,6 +110,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step()
         .Name("Setup dotnet")
+        .Uses("actions/setup-dotnet@v2")
         .With()
             .Key("dotnet-version", "6.0.x");
 

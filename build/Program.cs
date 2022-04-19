@@ -66,7 +66,7 @@ Target(PushToNugetOrg, () =>
         return;
     }
     Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages..."); 
-    Run("dotnet", $"nuget push artifacts\\*.nupkg -s https://api.nuget.org/v3/index.json -k {apiKey} --skip-duplicate", noEcho: true);
+    Run("dotnet", $"nuget push \"{ArtifactsDir}\\*.nupkg\" -s https://api.nuget.org/v3/index.json -k {apiKey} --skip-duplicate", noEcho: true);
 });
 defaultTargets.Add(PushToNugetOrg);
 

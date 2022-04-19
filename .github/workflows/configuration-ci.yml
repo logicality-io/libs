@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      LOGICALITY_NUGET_ORG: ${{secrets.LOGICALITY_NUGET_ORG}}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
