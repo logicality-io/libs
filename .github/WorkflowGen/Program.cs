@@ -65,7 +65,7 @@ void GenerateWorkflowsForLibs()
         buildJob.Step()
             .Name("Push")
             .If("github.event_name == 'push'")
-            .Run("./build.ps1 push")
+            .Run("./build.ps1 push-github")
             .Shell(Shells.Pwsh);
 
         buildJob.Step().ActionsUploadArtifact();

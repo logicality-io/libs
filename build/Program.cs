@@ -57,6 +57,18 @@ Target(PushToGitHub, () =>
 });
 defaultTargets.Add(PushToGitHub);
 
+Target(PushToNugetOrg, () =>
+{
+    var apiKey = Environment.GetEnvironmentVariable("NUGETORG_API_KEY");
+    if (string.IsNullOrWhiteSpace(apiKey))
+    {
+        Console.WriteLine("NUGETORG_API_KEY not available. No packages will be pushed.");
+        return;
+    }
+    Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages..."); 
+    Run("dotnet", $"nuget push artifacts\\*.nupkg -s https://api.nuget.org/v3/index.json -k {apiKey} --skip-duplicate", noEcho: true);
+});
+defaultTargets.Add(PushToNugetOrg);
 
 Target("default", DependsOn(defaultTargets.ToArray()));
 
