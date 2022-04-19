@@ -70,6 +70,13 @@ void GenerateWorkflowsForLibs()
             .ContinueOnError(true)
             .Shell(Shells.Pwsh);
 
+        buildJob.Step()
+            .Name("Push to Nuget.org (on tag)")
+            .If($"startsWith(github.ref, 'refs/tags/{lib}')")
+            .Run("./build.ps1 push-nugetorg")
+            .ContinueOnError(true)
+            .Shell(Shells.Pwsh);
+
         buildJob.Step().ActionsUploadArtifact();
 
         var fileName = $"{lib}-ci";
