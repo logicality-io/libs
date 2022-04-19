@@ -45,11 +45,11 @@ void GenerateWorkflowsForLibs()
                 .Key("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}")
             .Job;
 
-        buildJob.StepActionsCheckout();
+        buildJob.Step().ActionsCheckout();
 
-        buildJob.StepLogIntoGitHubContainerRegistry();
+        buildJob.Step().LogIntoGitHubContainerRegistry();
 
-        buildJob.StepPrintEnvironment();
+        buildJob.Step().PrintEnvironment();
 
         buildJob.Step()
             .Name("Test")
@@ -67,7 +67,7 @@ void GenerateWorkflowsForLibs()
             .Run("./build.ps1 push")
             .ShellPowerShell();
 
-        buildJob.StepActionsUploadArtifact();
+        buildJob.Step().ActionsUploadArtifact();
 
         var fileName = $"{lib}-ci";
 
@@ -102,7 +102,7 @@ void GenerateCodeAnalysisWorkflow()
             .Key("language", "csharp")
         .Job;
 
-    job.StepActionsCheckout();
+    job.Step().ActionsCheckout();
 
     job.Step()
         .Name("Setup dotnet")

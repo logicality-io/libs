@@ -24,7 +24,8 @@ var buildJob = workflow
     .Job("build")
     .RunsOn(GitHubHostedRunner.UbuntuLatest);
 
-buildJob.StepActionsCheckout();
+buildJob.Step()
+    .ActionsCheckout(); // Via extensions package
 
 buildJob.Step()
     .Name("Build")

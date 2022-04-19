@@ -2,48 +2,65 @@
 
 public static class JobExtensions
 {
-    public static Job StepActionsCheckout(
-        this Job job,
+    public static Job ActionsCheckout(
+        this Step step,
         string   version    = "v3",
         int      fetchDepth = 0)
     {
-        job.Step()
+        step
             .Name("Checkout")
             .Uses($"actions/checkout@{version}")
             .With()
-                .Key("fetch-depth", fetchDepth.ToString());
-        return job;
+            .Key("fetch-depth", fetchDepth.ToString());
+        return step.Job;
     }
 
-    public static Job StepLogIntoGitHubContainerRegistry(this Job job)
+    /// <summary>
+    /// Logs into the GitHub container registry.
+    /// </summary>
+    /// <param name="step">The Step.</param>
+    /// <returns>The associated job</returns>
+    public static Job LogIntoGitHubContainerRegistry(this Step step)
     {
-        job.Step()
+        step
             .Name("Log into GitHub Container Registry")
             .Run("echo \"${{secrets.GITHUB_TOKEN}}\" | docker login ghcr.io -u ${{github.actor}} --password-stdin");
-        return job;
+        return step.Job;
     }
 
-    public static Job StepActionsUploadArtifact(
-        this Job job,
-        string   name    = "artifacts",
-        string   path    = "artifacts",
-        string   version = "v3")
+    /// <summary>
+    /// Upload artifacts using 'actions/upload-artifacts' action.
+    /// </summary>
+    /// <param name="step">The step.</param>
+    /// <param name="name">The name of the artifacts package.</param>
+    /// <param name="path">The to the artifacts directory.</param>
+    /// <param name="version"></param>
+    /// <returns>The associated job.</returns>
+    public static Job ActionsUploadArtifact(
+        this Step step,
+        string    name    = "artifacts",
+        string    path    = "artifacts",
+        string    version = "v3")
     {
-        job.Step()
-            .Name("Upload Artifacts")
+        step.Name("Upload Artifacts")
             .Uses($"actions/upload-artifact@{version}")
             .With()
                 .Key("name", name)
                 .Key("path", path);
-        return job;
+        return step.Job;
     }
 
-    public static Job StepPrintEnvironment(this Job job)
+    /// <summary>
+    /// Dissplay the values of environment variables using 'printenv'.
+    /// </summary>
+    /// <param name="step"></param>
+    /// <returns></returns>
+    public static Job PrintEnvironment(this Step step)
     {
-        job.Step()
+        step
             .Name("Print Env")
             .Run("printenv")
             .ShellBash();
-        return job;
+        return step.Job;
     }
 }

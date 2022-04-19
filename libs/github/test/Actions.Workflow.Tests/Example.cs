@@ -26,7 +26,7 @@ public class Example
             .Job("build")
             .RunsOn(GitHubHostedRunner.UbuntuLatest);
 
-        buildJob.StepActionsCheckout();
+        buildJob.Step().ActionsCheckout();
 
         buildJob.Step()
             .Name("Build")
