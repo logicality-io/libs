@@ -14,7 +14,7 @@ public class JobService
     private          string?        _username;
     private          string?        _password;
 
-    public JobService(JobServices jobServices, string id, string image)
+    internal JobService(JobServices jobServices, string id, string image)
     {
         _id = id;
         _image   = image;
@@ -27,30 +27,60 @@ public class JobService
 
     public Workflow Workflow => Services.Job.Workflow;
 
-    public JobServiceEnv Env()
+    /// <summary>
+    /// Sets a map of environment variables in the service container.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservicesservice_idenv
+    /// </summary>
+    /// <param name="map"></param>
+    /// <returns></returns>
+    public JobService Env(IDictionary<string, string> map)
     {
-        _env = new JobServiceEnv(this);
-        return _env;
+        _env = new(this, map);
+        return _env.Service;
     }
 
+    /// <summary>
+    /// Sets an array of ports to expose on the service container.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservicesservice_idports
+    /// </summary>
+    /// <param name="ports"></param>
+    /// <returns></returns>
     public JobService Ports(params int[] ports)
     {
         _ports = ports;
         return this;
     }
 
+    /// <summary>
+    /// Sets an array of volumes for the service container to use. 
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservicesservice_idvolumes
+    /// </summary>
+    /// <param name="volumes"></param>
+    /// <returns></returns>
     public JobService Volumes(params string[] volumes)
     {
         _volumes = volumes;
         return this;
     }
 
+    /// <summary>
+    /// Configure additional Docker container resource options.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idcontaineroptions
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
     public JobService Options(string options)
     {
         _options = options;
         return this;
     }
 
+    /// <summary>
+    /// Credentials for the container registry to pull the image,
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
     public JobService Credentials(string username, string password)
     {
         _username = username;
@@ -58,7 +88,7 @@ public class JobService
         return this;
     }
 
-    internal virtual void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
+    internal void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
     {
         var containerMappingNode = new YamlMappingNode
         {

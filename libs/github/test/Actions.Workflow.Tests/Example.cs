@@ -24,14 +24,14 @@ public class Example
 
         var buildJob = workflow
             .Job("build")
-            .RunsOn(GitHubHostedRunner.UbuntuLatest);
+            .RunsOn(GitHubHostedRunners.UbuntuLatest);
 
         buildJob.Step().ActionsCheckout();
 
         buildJob.Step()
             .Name("Build")
             .Run("./build.ps1")
-            .Shell(Shells.PowerShell);
+            .Shell(Shells.Pwsh);
 
         var yaml = workflow.GetYaml();
         var fileName = "my-workflow.yaml";

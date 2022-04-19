@@ -12,12 +12,6 @@ public class StepWith
         Step = step;
     }
 
-    public StepWith(Step step, IDictionary<string, string> properties)
-    {
-        Step        = step;
-        _properties = properties;
-    }
-
     /// <summary>
     /// Adds a Key and Values.
     /// </summary>

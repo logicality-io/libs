@@ -25,7 +25,7 @@ public class Workflow
     /// <summary>
     /// Create a new instance of a Workflow
     /// </summary>
-    /// <param name="name">The workflow name. https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#name</param>
+    /// <param name="name">The workflow name. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#name</param>
     public Workflow(string? name = null)
     {
         _name = name;
@@ -33,27 +33,27 @@ public class Workflow
     }
 
     /// <summary>
-    /// Setup triggers for this workflow. https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+    /// Setup triggers for this workflow. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
     /// </summary>
     public On On { get; }
 
     /// <summary>
-    /// 
+    /// Configure worklfow permissions. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
     /// </summary>
-    /// <param name="actions"></param>
-    /// <param name="checks"></param>
-    /// <param name="contents"></param>
-    /// <param name="deployments"></param>
-    /// <param name="discussions"></param>
-    /// <param name="idToken"></param>
-    /// <param name="issues"></param>
-    /// <param name="packages"></param>
-    /// <param name="pages"></param>
-    /// <param name="pullRequests"></param>
-    /// <param name="repositoryProjects"></param>
-    /// <param name="securityEvents"></param>
-    /// <param name="statuses"></param>
-    /// <returns></returns>
+    /// <param name="actions">Actions permission. Default is 'None'.</param>
+    /// <param name="checks">Checks permission. Default is 'None'.</param>
+    /// <param name="contents">Contents permission. Default is 'None'.</param>
+    /// <param name="deployments">Deployments permission. Default is 'None'.</param>
+    /// <param name="discussions">Discussion permission. Default is 'None'.</param>
+    /// <param name="idToken">Id Token permission. Default is 'None'.</param>
+    /// <param name="issues">Issues permission. Defualt is 'None'.</param>
+    /// <param name="packages">Packages permission. Default is 'None'.</param>
+    /// <param name="pages">Pages permission. Default is 'None'.</param>
+    /// <param name="pullRequests">Pull requests permission. Default is 'None'.</param>
+    /// <param name="repositoryProjects">Repository projects permission. Default is 'None'.</param>
+    /// <param name="securityEvents">Security events permission. Default is 'None'.</param>
+    /// <param name="statuses">Status permission. Default is 'None'.</param>
+    /// <returns>The workflow.</returns>
     public Workflow Permissions(
         Permission actions            = Permission.None,
         Permission checks             = Permission.None,
@@ -88,18 +88,32 @@ public class Workflow
         return this;
     }
 
+    /// <summary>
+    /// Set workflow permissions to `read-all`. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    /// </summary>
+    /// <returns>The workflow.</returns>
     public Workflow PermissionsReadAll()
     {
         _permissionConfig = PermissionConfig.ReadAll;
         return this;
     }
 
+    /// <summary>
+    /// Set workflow permissions to `write-all`. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    /// </summary>
+    /// <returns>The workflow.</returns>
     public Workflow PermissionsWriteAll()
     {
         _permissionConfig = PermissionConfig.WriteAll;
         return this;
     }
 
+    /// <summary>
+    /// Set workflow concurrency. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    /// </summary>
+    /// <param name="group"></param>
+    /// <param name="cancelInProgress"></param>
+    /// <returns>The workflow.</returns>
     public Workflow Concurrency(string @group, bool cancelInProgress = false)
     {
         _concurrencyGroup            = @group;
@@ -107,24 +121,43 @@ public class Workflow
         return this;
     }
 
-    public Workflow Env(IDictionary<string, string> environment)
+    /// <summary>
+    /// A map of environment variables that are available to the steps of all jobs in the workflow. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#env
+    /// </summary>
+    /// <param name="map"></param>
+    /// <returns>The workflow.</returns>
+    public Workflow Env(IDictionary<string, string> map)
     {
-        _env = environment;
+        _env = map;
         return this;
     }
 
+    /// <summary>
+    /// A set of default settings that will apply to all jobs in the workflow. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#defaults
+    /// </summary>
+    /// <returns>The workflow.</returns>
     public WorkflowDefaults Defaults()
     {
         _defaults = new WorkflowDefaults(this);
         return _defaults;
     }
 
-    public WorkflowDefaults Defaults(IDictionary<string, string> properties)
+    /// <summary>
+    /// A map of default settings that will apply to all jobs in the workflow. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#defaults
+    /// </summary>
+    /// <param name="map"></param>
+    /// <returns>The workflow.</returns>
+    public WorkflowDefaults Defaults(IDictionary<string, string> map)
     {
-        _defaults = new WorkflowDefaults(this, properties);
+        _defaults = new WorkflowDefaults(this, map);
         return _defaults;
     }
 
+    /// <summary>
+    /// Add new Job to workflow.
+    /// </summary>
+    /// <param name="id">The unique identifier for the job.</param>
+    /// <returns>The job.</returns>
     public Job Job(string id)
     {
         var job = new Job(id, this);
@@ -132,6 +165,11 @@ public class Workflow
         return job;
     }
 
+    /// <summary>
+    /// Get the YAML representation of this workflow.
+    /// </summary>
+    /// <param name="sequenceStyle">The squence style for collections.</param>
+    /// <returns>The YAML representation as a string.</returns>
     public string GetYaml(SequenceStyle sequenceStyle = SequenceStyle.Block) 
     {
         var rootNode     = new YamlMappingNode();
@@ -204,6 +242,11 @@ public class Workflow
         return yaml;
     }
 
+    /// <summary>
+    /// Writes the YAML representation to a file.
+    /// </summary>
+    /// <param name="filePath">The file path.</param>
+    /// <param name="sequenceStyle">The sequence style for YAML collections.</param>
     public void WriteYaml(string filePath, SequenceStyle sequenceStyle = SequenceStyle.Block)
     {
         var yaml = GetYaml(sequenceStyle);

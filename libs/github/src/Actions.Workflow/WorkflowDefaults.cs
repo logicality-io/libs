@@ -2,6 +2,9 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
+/// <summary>
+/// Represents a the defaults for a workflow.
+/// </summary>
 public class WorkflowDefaults : WorkflowKeyValueMap<WorkflowDefaults>
 {
     private string? _shell;
@@ -16,6 +19,12 @@ public class WorkflowDefaults : WorkflowKeyValueMap<WorkflowDefaults>
     {
     }
 
+    /// <summary>
+    /// You can use defaults.run to provide default shell and working-directory options for all run steps in a workflow.
+    /// </summary>
+    /// <param name="shell">The shell.</param>
+    /// <param name="workingDirectory">The working directory.</param>
+    /// <returns>The workflow defauls.</returns>
     public WorkflowDefaults Run(string shell, string workingDirectory)
     {
         _shell            = shell;

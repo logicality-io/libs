@@ -17,24 +17,36 @@ public class Strategy
     public Job      Job      { get; }
     public Workflow Workflow => Job.Workflow;
 
-    public Matrix Matrix()
+    /// <summary>
+    /// Define a matrix of different job configuration.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrix
+    /// </summary>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public Strategy Matrix(IDictionary<string, string[]> configuration)
     {
-        _matrix = new Matrix(this);
-        return _matrix;
+        _matrix = new(this, configuration);
+        return _matrix.Strategy;
     }
 
-    public Matrix Matrix(IDictionary<string, string[]> properties)
-    {
-        _matrix = new Matrix(this, properties);
-        return _matrix;
-    }
-
+    /// <summary>
+    /// Set the fail-fast.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+    /// </summary>
+    /// <param name="failFast"></param>
+    /// <returns></returns>
     public Strategy FailFast(bool failFast)
     {
         _failFast = failFast;
         return this;
     }
 
+    /// <summary>
+    /// Set the maximum number of parallel jobs to run.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymax-parallel 
+    /// </summary>
+    /// <param name="maxParallel"></param>
+    /// <returns></returns>
     public Strategy MaxParallel(int maxParallel)
     {
         _maxParallel = maxParallel;

@@ -3,6 +3,9 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
+/// <summary>
+/// Represents a workflow job.
+/// </summary>
 public class Job
 {
     private          string?                        _name;
@@ -34,27 +37,70 @@ public class Job
         Workflow = workflow;
     }
 
+    /// <summary>
+    /// The job identifier.
+    /// </summary>
     public string   Id       { get; }
+
+    /// <summary>
+    /// The parent workflow.
+    /// </summary>
     public Workflow Workflow { get; }
 
+    /// <summary>
+    /// Set the job name.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>The job.</returns>
     public Job Name(string name)
     {
         _name = name;
         return this;
     }
 
+    /// <summary>
+    /// Identify any jobs that must complete successfully before this job will run.
+    ///
+    /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
+    /// </summary>
+    /// <param name="needs">The job identifiers.</param>
+    /// <returns>The job.</returns>
     public Job Needs(params string[] needs)
     {
         _needs = needs;
         return this;
     }
 
+
+    /// <summary>
+    /// Define the type of machine to run the job on.
+    /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    ///  </summary>
+    /// <param name="runsOn">Github Hosted runner label. <see cref="GitHubHostedRunners"/>.</param>
+    /// <returns>The job.</returns>
     public Job RunsOn(string runsOn)
     {
         _runsOn = runsOn;
         return this;
     }
 
+    /// <summary>
+    /// Configure job permissions. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    /// </summary>
+    /// <param name="actions">Actions permission. Default is 'None'.</param>
+    /// <param name="checks">Checks permission. Default is 'None'.</param>
+    /// <param name="contents">Contents permission. Default is 'None'.</param>
+    /// <param name="deployments">Deployments permission. Default is 'None'.</param>
+    /// <param name="discussions">Discussion permission. Default is 'None'.</param>
+    /// <param name="idToken">Id Token permission. Default is 'None'.</param>
+    /// <param name="issues">Issues permission. Defualt is 'None'.</param>
+    /// <param name="packages">Packages permission. Default is 'None'.</param>
+    /// <param name="pages">Pages permission. Default is 'None'.</param>
+    /// <param name="pullRequests">Pull requests permission. Default is 'None'.</param>
+    /// <param name="repositoryProjects">Repository projects permission. Default is 'None'.</param>
+    /// <param name="securityEvents">Security events permission. Default is 'None'.</param>
+    /// <param name="statuses">Status permission. Default is 'None'.</param>
+    /// <returns>The job.</returns>
     public Job Permissions(
         Permission actions            = Permission.None,
         Permission checks             = Permission.None,
@@ -89,18 +135,34 @@ public class Job
         return this;
     }
 
+    /// <summary>
+    /// Set job permissions to `read-all`. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    /// </summary>
+    /// <returns>The workflow.</returns>
     public Job PermissionsReadAll()
     {
         _permissionConfig = PermissionConfig.ReadAll;
         return this;
     }
 
+    /// <summary>
+    /// Set job permissions to `write-all`.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+    /// </summary>
+    /// <returns>The job..</returns>
     public Job PermissionsWriteAll()
     {
         _permissionConfig = PermissionConfig.WriteAll;
         return this;
     }
 
+    /// <summary>
+    /// Define the environment that the job references. 
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idenvironment
+    /// </summary>
+    /// <param name="name">The environment name.</param>
+    /// <param name="url">The environment url.</param>
+    /// <returns>The job</returns>
     public Job Environment(string name, string url)
     {
         _environmentName = name;
@@ -108,6 +170,12 @@ public class Job
         return this;
     }
 
+    /// <summary>
+    /// Set workflow concurrency. See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+    /// </summary>
+    /// <param name="group"></param>
+    /// <param name="cancelInProgress"></param>
+    /// <returns>The workflow.</returns>
     public Job Concurrency(string @group, bool cancelInProgress = false)
     {
         _concurrencyGroup            = @group;
@@ -115,66 +183,105 @@ public class Job
         return this;
     }
 
-    public JobOutputs Outputs()
+    /// <summary>
+    /// Create a map of outputs for a jobs.
+    /// </summary>
+    /// <param name="map">The output map.</param>
+    /// <returns>The Job.</returns>
+    public Job Outputs(IDictionary<string, string> map)
     {
-        _outputs = new JobOutputs(this);
-        return _outputs;
+        _outputs = new(this, map);
+        return _outputs.Job;
     }
 
-    public JobOutputs Outputs(IDictionary<string, string> properties)
+    /// <summary>
+    /// A map of environment variables that are available to the job.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#env
+    /// </summary>
+    /// <param name="map"></param>
+    /// <returns>The job.</returns>
+    public Job Env(IDictionary<string, string> map)
     {
-        _outputs = new JobOutputs(this, properties);
-        return _outputs;
+        _env = new(this, map);
+        return _env.Job;
     }
 
-    public JobEnv Env()
-    {
-        _env = new JobEnv(this);
-        return _env;
-    }
-
-    public JobEnv Env(IDictionary<string, string> properties)
-    {
-        _env = new JobEnv(this, properties);
-        return _env;
-    }
-
+    /// <summary>
+    /// Create a map of default settings that will apply to all steps in the job.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_iddefaults
+    /// </summary>
+    /// <returns>A JobDefaults object.</returns>
     public JobDefaults Defaults()
     {
-        _defaults = new JobDefaults(this);
+        _defaults = new(this);
         return _defaults;
     }
 
-    public JobDefaults Defaults(IDictionary<string, string> defaults)
+    /// <summary>
+    /// Create a map of default settings that will apply to all steps in the job.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_iddefaults
+    /// </summary>
+    /// <param name="map"></param>
+    /// <returns>A JobDefaults object.</returns>
+    public JobDefaults Defaults(IDictionary<string, string> map)
     {
-        _defaults = new JobDefaults(this, defaults);
+        _defaults = new(this, map);
         return _defaults;
     }
 
-    public Job If(string @if)
+    /// <summary>
+    /// Set conditional to prevent a job from running unless a condition is met.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idif
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    public Job If(string condition)
     {
-        _if = @if;
+        _if = condition;
         return this;
     }
 
+    /// <summary>
+    /// The maximum number of minutes to run the job.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes
+    /// </summary>
+    /// <param name="minutes"></param>
+    /// <returns></returns>
     public Job TimeoutMinutes(int minutes)
     {
         _timeoutMinutes = minutes;
         return this;
     }
 
+    /// <summary>
+    /// Create a build matrix for the job.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategy
+    /// </summary>
+    /// <returns></returns>
     public Strategy Strategy()
     {
         _strategy = new Strategy(this);
         return _strategy;
     }
 
+    /// <summary>
+    /// Prevents a workflow run from failing when a job fails.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idcontinue-on-error
+    /// </summary>
+    /// <param name="continueOnError"></param>
+    /// <returns></returns>
     public Job ContinueOnError(bool continueOnError)
     {
         _continueOnError = continueOnError;
         return this;
     }
 
+    /// <summary>
+    /// The location and version of a reusable workflow file to run as a job.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_iduses
+    /// </summary>
+    /// <param name="uses"></param>
+    /// <returns></returns>
     public Job Uses(string uses)
     {
         _uses = uses;
@@ -182,49 +289,56 @@ public class Job
     }
 
     /// <summary>
-    /// Excluded if Uses is not specified.
+    /// Provide a map of inputs that are passed to the called workflow. Ignored if 'Uses' is not specified.
+    /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idwith
     /// </summary>
-    /// <returns></returns>
-    public JobWith With()
+    /// <returns>The Job</returns>
+    public Job With(IDictionary<string, string> properties)
     {
-        _with = new JobWith(this);
-        return _with;
+        _with = new(this, properties);
+        return _with.Job;
     }
 
     /// <summary>
-    /// Excluded if Uses is not specified.
+    /// Create a container to run any steps in a job that don't already specify a container.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idcontainer
     /// </summary>
-    /// <returns></returns>
-    public JobWith With(IDictionary<string, string> properties)
-    {
-        _with = new JobWith(this, properties);
-        return _with;
-    }
-
+    /// <param name="image"></param>
+    /// <returns>A JobContainer to configure the container.</returns>
     public JobContainer Container(string image)
     {
-        _container = new JobContainer(this, image);
+        _container = new(this, image);
         return _container;
     }
 
+    /// <summary>
+    /// Define service containers for a job in a workflow
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservices
+    /// </summary>
+    /// <returns>A JobServices object to configure the services.</returns>
     public JobServices Services()
     {
-        _services = new JobServices(this);
+        _services = new(this);
         return _services;
     }
 
-    public JobSecrets Secrets()
-    {
-        _secrets = new JobSecrets(this);
-        return _secrets;
-    }
-
+    /// <summary>
+    /// Specify secrets that are passed to the called workflow.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
+    /// </summary>
+    /// <param name="properties"></param>
+    /// <returns></returns>
     public JobSecrets Secrets(IDictionary<string, string> properties)
     {
         _secrets = new JobSecrets(this, properties);
         return _secrets;
     }
 
+    /// <summary>
+    /// Add a Step to the Job.
+    /// </summary>
+    /// <param name="id">The step identifier.</param>
+    /// <returns>Return a Step object to configure a step.</returns>
     public Step Step(string? id = null)
     {
         var step = new Step(id, this);

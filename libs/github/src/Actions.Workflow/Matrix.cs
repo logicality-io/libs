@@ -7,11 +7,6 @@ public class Matrix
 {
     private readonly IDictionary<string, string[]> _properties = new Dictionary<string, string[]>();
     
-    public Matrix(Strategy strategy)
-    {
-        Strategy = strategy;
-    }
-
     public Matrix(Strategy strategy, IDictionary<string, string[]> properties)
     {
         Strategy    = strategy;

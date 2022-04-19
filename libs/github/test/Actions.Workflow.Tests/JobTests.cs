@@ -227,8 +227,10 @@ jobs:
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .Defaults()
-            .Key("foo", "bar")
+            .Defaults(new Dictionary<string, string>
+                {
+                    { "foo", "bar"}
+                })
             .Workflow
             .GetYaml();
 
@@ -426,8 +428,10 @@ jobs:
         var actual = new Workflow("workflow")
             .Job("build")
             .Uses("octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89")
-            .With()
-                .Key("foo", "bar")
+            .With(new Dictionary<string, string>
+                {
+                    { "foo", "bar" }
+                })
             .Workflow
             .GetYaml();
 
@@ -450,8 +454,10 @@ jobs:
         var actual = new Workflow("workflow")
             .Job("build")
             .Uses("octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89")
-            .Secrets()
-                .Key("access-token", "${{ secrets.PERSONAL_ACCESS_TOKEN }}") 
+            .Secrets(new Dictionary<string, string>
+            {
+                { "access-token", "${{ secrets.PERSONAL_ACCESS_TOKEN }}" }
+            })
             .Workflow
             .GetYaml();
 
@@ -475,9 +481,10 @@ jobs:
             .Job("my_job")
             .Container("node:14.6")
             .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
-            .Env()
-                .Key("NODE_ENV", "development")
-            .JobContainer
+            .Env(new Dictionary<string, string>
+                {
+                    { "NODE_ENV", "development"}
+                })
             .Ports(80)
             .Volumes(@"my_docker_volume:/volume_mount")
             .Options("--cpus 1")
@@ -514,18 +521,20 @@ jobs:
             .Services()
                 .Service("node", "node:14.6")
                     .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
-                    .Env()
-                        .Key("NODE_ENV", "development")
-                    .Service
+                    .Env(new Dictionary<string, string>
+                    {
+                        {"NODE_ENV", "development"}
+                    })
                     .Ports(80)
                     .Volumes(@"my_docker_volume:/volume_mount")
                     .Options("--cpus 1")
                 .Services
                 .Service("dotnet", "dotnet:6.0.1")
                     .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
-                    .Env()
-                    .Key("ENVIRONMENT", "development")
-                    .Service
+                    .Env(new Dictionary<string, string>
+                    {
+                        {"ENVIRONMENT", "development"}
+                    })
                     .Ports(443)
                     .Volumes(@"my_docker_volume:/volume_mount")
                     .Options("--no-logo")

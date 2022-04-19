@@ -1,6 +1,6 @@
 ﻿namespace Logicality.GitHub.Actions.Workflow;
 
-public static class GitHubHostedRunner
+public static class GitHubHostedRunners
 {
     public static string MacOSLatest   = "macos-latest";
     public static string MacOS11       = "macos-11";

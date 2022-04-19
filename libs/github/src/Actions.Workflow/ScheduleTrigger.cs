@@ -4,11 +4,11 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class Schedule: Trigger
+public class ScheduleTrigger: Trigger
 {
     private readonly string[] _crons;
 
-    public Schedule(
+    public ScheduleTrigger(
         string   eventName,
         string[] crons,
         On       @on,

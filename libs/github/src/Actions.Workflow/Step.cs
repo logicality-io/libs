@@ -3,19 +3,6 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public static class Shells
-{
-    /// <summary>
-    /// "pwsh"
-    /// </summary>
-    public const string PowerShell = "pwsh";
-
-    /// <summary>
-    /// "bash
-    /// </summary>
-    public const string Bash = "bash";
-}
-
 public class Step
 {
     private readonly string?   _id;
@@ -37,18 +24,35 @@ public class Step
     public Job      Job      { get; }
     public Workflow Workflow => Job.Workflow;
 
+    /// <summary>
+    /// A name for your step to display on GitHub.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsname
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public Step Name(string name)
     {
         _name = name;
         return this;
     }
-
+    /// <summary>
+    /// Specify a conditional to prevent a step from running unless the condition is met.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsif
+    /// </summary>
+    /// <param name="conditional"></param>
+    /// <returns></returns>
     public Step If(string conditional)
     {
         _conditional = conditional;
         return this;
     }
 
+    /// <summary>
+    /// Select an action to run as part of a step in your job
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsuses
+    /// </summary>
+    /// <param name="uses"></param>
+    /// <returns></returns>
     public Step Uses(string uses)
     {
         _uses = uses;
@@ -56,33 +60,57 @@ public class Step
     }
 
     /// <summary>
-    /// Excluded if Uses is not specified.
+    /// A map of the input parameters defined by the action. Ignored if Uses is not specified.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
     /// </summary>
     /// <returns></returns>
     public StepWith With()
     {
-        _with = new StepWith(this);
+        _with = new(this);
         return _with;
     }
 
+    /// <summary>
+    /// Runs command-line programs using the operating system's shell.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+    /// </summary>
+    /// <param name="run"></param>
+    /// <returns></returns>
     public Step Run(string run)
     {
         _run = run;
         return this;
     }
 
+    /// <summary>
+    /// Iverride the default shell settings.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+    /// </summary>
+    /// <param name="shell"></param>
+    /// <returns></returns>
     public Step Shell(string shell)
     {
         _shell = shell;
         return this;
     }
 
-    public Step TimeoutMinutes(int timeoutMinutes)
+    /// <summary>
+    /// The maximum number of minutes to run the step.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepstimeout-minutes
+    /// </summary>
+    /// <param name="minutes"></param>
+    /// <returns></returns>
+    public Step TimeoutMinutes(int minutes)
     {
-        _timeoutMinutes = timeoutMinutes;
+        _timeoutMinutes = minutes;
         return this;
     }
-
+    /// <summary>
+    /// Prevents a job from failing when a step fails.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
+    /// </summary>
+    /// <param name="continueOnError"></param>
+    /// <returns></returns>
     public Step ContinueOnError(bool continueOnError)
     {
         _continueOnError = continueOnError;

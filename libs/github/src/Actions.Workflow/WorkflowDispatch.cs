@@ -5,6 +5,9 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
+/// <summary>
+/// Represents a workflow_dispatch trigger.
+/// </summary>
 public class WorkflowDispatch : Trigger
 {
     private WorkflowDispatchInput[]? _inputs;
@@ -13,6 +16,11 @@ public class WorkflowDispatch : Trigger
         : base("workflow_dispatch", on, workflow)
     { }
 
+    /// <summary>
+    /// Specify 
+    /// </summary>
+    /// <param name="inputs"></param>
+    /// <returns></returns>
     public WorkflowDispatch Inputs(params WorkflowDispatchInput[] inputs)
     {
         _inputs = inputs;

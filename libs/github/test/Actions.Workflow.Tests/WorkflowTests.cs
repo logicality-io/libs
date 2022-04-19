@@ -135,8 +135,8 @@ on:
         var actual = new Workflow("workflow")
             .On
             .Event("release")
-            .Types("published", "created", "edited")
-            .Workflow
+                .Types("published", "created", "edited")
+                .Workflow
             .GetYaml();
 
         var expected = Workflow.Header + @"
@@ -159,13 +159,10 @@ on:
         var actual = new Workflow("workflow")
             .On
             .WorkflowCall()
-            .Input("username",
-                "A username passed from the caller workflow",
-                "john-doe",
-                false,
-                WorkflowCallType.String)
-            .Output("workflow_output1", "The first job output", "${{ jobs.my_job.outputs.job_output1 }}")
-            .Secret("access-token", "A token passed from the caller workflow", false)
+            .AddInput("username", "A username passed from the caller workflow", "john-doe", false, WorkflowCallType.String)
+            .AddInput("path", "A path passed from the caller workflow", "./", true, WorkflowCallType.String)
+            .AddOutput("workflow_output1", "The first job output", "${{ jobs.my_job.outputs.job_output1 }}")
+            .AddSecret("access-token", "A token passed from the caller workflow", false)
             .Workflow
             .GetYaml();
 
@@ -179,6 +176,11 @@ on:
         description: 'A username passed from the caller workflow'
         default: 'john-doe'
         required: false
+        type: string
+      path:
+        description: 'A path passed from the caller workflow'
+        default: './'
+        required: true
         type: string
     outputs:
       workflow_output1:

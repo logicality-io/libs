@@ -3,11 +3,11 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class Event : Trigger
+public class EventTrigger : Trigger
 {
     private string[] _types = Array.Empty<string>();
 
-    internal Event(
+    internal EventTrigger(
         string   eventName,
         On       @on,
         Workflow workflow)
@@ -15,7 +15,7 @@ public class Event : Trigger
     {
     }
 
-    public Event Types(params string[] types)
+    public EventTrigger Types(params string[] types)
     {
         _types = types;
         return this;

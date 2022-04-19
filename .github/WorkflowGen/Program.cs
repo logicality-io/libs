@@ -40,10 +40,11 @@ void GenerateWorkflowsForLibs()
 
         var buildJob = workflow
             .Job("build")
-            .RunsOn(GitHubHostedRunner.UbuntuLatest)
-            .Env()
-                .Key("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}")
-            .Job;
+            .RunsOn(GitHubHostedRunners.UbuntuLatest)
+            .Env(new Dictionary<string, string>
+                {
+                    { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"}
+                });
 
         buildJob.Step().ActionsCheckout();
 
@@ -54,18 +55,18 @@ void GenerateWorkflowsForLibs()
         buildJob.Step()
             .Name("Test")
             .Run($"./build.ps1 {lib}-test")
-            .Shell(Shells.PowerShell);
+            .Shell(Shells.Pwsh);
 
         buildJob.Step()
             .Name("Pack")
             .Run($"./build.ps1 {lib}-pack")
-            .Shell(Shells.PowerShell);
+            .Shell(Shells.Pwsh);
 
         buildJob.Step()
             .Name("Push")
             .If("github.event_name == 'push'")
             .Run("./build.ps1 push")
-            .Shell(Shells.PowerShell);
+            .Shell(Shells.Pwsh);
 
         buildJob.Step().ActionsUploadArtifact();
 
@@ -98,8 +99,10 @@ void GenerateCodeAnalysisWorkflow()
             securityEvents: Permission.Write)
         .Strategy()
         .FailFast(false)
-        .Matrix()
-            .Key("language", "csharp")
+        .Matrix(new Dictionary<string, string[]>
+        {
+            { "language", new[] { "csharp" } }
+        })
         .Job;
 
     job.Step().ActionsCheckout();
@@ -120,7 +123,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step()
         .Run("./build.ps1 local build")
-        .Shell(Shells.PowerShell);
+        .Shell(Shells.Pwsh);
 
     job.Step()
         .Name("Perform CodeQL Analysis")

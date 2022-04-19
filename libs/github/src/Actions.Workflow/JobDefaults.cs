@@ -16,6 +16,13 @@ public class JobDefaults : JobKeyValueMap<JobDefaults>
     {
     }
 
+    /// <summary>
+    /// Set default shell and working-directory to all run steps in the job.
+    /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_iddefaultsrun
+    /// </summary>
+    /// <param name="shell"></param>
+    /// <param name="workingDirectory"></param>
+    /// <returns></returns>
     public JobDefaults Run(string shell, string workingDirectory)
     {
         _shell         = shell;

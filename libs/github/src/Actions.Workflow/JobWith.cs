@@ -2,10 +2,6 @@
 
 public class JobWith : JobKeyValueMap<JobWith>
 {
-    public JobWith(Job job): base(job, "with")
-    {
-    }
-
     public JobWith(Job job, IDictionary<string, string> properties)
         : base(job, "with", properties)
     {
