@@ -1,6 +1,6 @@
 ﻿namespace Logicality.GitHub.Actions.Workflow;
 
-public static class JobExtensions
+public static class StepExtensions
 {
     public static Job ActionsCheckout(
         this Step step,
@@ -51,7 +51,7 @@ public static class JobExtensions
     }
 
     /// <summary>
-    /// Dissplay the values of environment variables using 'printenv'.
+    /// Display the values of environment variables using 'printenv'.
     /// </summary>
     /// <param name="step"></param>
     /// <returns></returns>
