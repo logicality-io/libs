@@ -53,7 +53,7 @@ Target(PushToGitHub, () =>
         return;
     }
     Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages...");
-    Run("dotnet", $"nuget push ..\\artifacts\\*.nupkg -s https://nuget.pkg.github.com/logicality-io/index.json -k {apiKey} --skip-duplicate", noEcho: true);
+    Run("dotnet", $"nuget push \"{ArtifactsDir}\\*.nupkg\" -s https://nuget.pkg.github.com/logicality-io/index.json -k {apiKey} --skip-duplicate", noEcho: true);
 });
 defaultTargets.Add(PushToGitHub);
 
