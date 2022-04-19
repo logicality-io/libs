@@ -39,7 +39,7 @@ jobs:
       shell: pwsh
     - name: Push
       if: github.event_name == 'push'
-      run: ./build.ps1 push
+      run: ./build.ps1 push-github
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
