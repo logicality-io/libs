@@ -6,11 +6,12 @@ using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static Logicality.Bullseye.BullseyeUtils;
 
-const string ArtifactsDir = "artifacts";
-const string Clean = "clean";
-const string Build = "build";
-const string Push = "push";
-const string Solution = "PlatformLibs.sln";
+const string ArtifactsDir   = "artifacts";
+const string Clean          = "clean";
+const string Build          = "build";
+const string PushToGitHub   = "push-github";
+const string PushToNugetOrg = "push-nugetorg";
+const string Solution       = "PlatformLibs.sln";
 
 Target(Clean, () => CleanDirectory(ArtifactsDir));
 
@@ -43,11 +44,8 @@ foreach (var lib in libs)
     defaultTargets.Add(packTarget);
 }
 
-Target(Push, () =>
+Target(PushToGitHub, () =>
 {
-    var packagesToPush = Directory.GetFiles(ArtifactsDir, "*.nupkg", SearchOption.TopDirectoryOnly);
-    Console.WriteLine($"Found packages to publish: {string.Join("; ", packagesToPush)}");
-
     var apiKey = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
     if (string.IsNullOrWhiteSpace(apiKey))
     {
@@ -55,13 +53,11 @@ Target(Push, () =>
         return;
     }
     Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages...");
-    foreach (var packageToPush in packagesToPush)
-    {
-        Run("dotnet", $"nuget push {packageToPush} -s https://nuget.pkg.github.com/logicality-io/index.json -k {apiKey} --skip-duplicate", noEcho: true);
-    }
+    Run("dotnet", $"nuget push artifacts\\*.nupkg -s https://nuget.pkg.github.com/logicality-io/index.json -k {apiKey} --skip-duplicate", noEcho: true);
 });
+defaultTargets.Add(PushToGitHub);
 
-defaultTargets.Add(Push);
+
 Target("default", DependsOn(defaultTargets.ToArray()));
 
 await RunTargetsAndExitAsync(args);
