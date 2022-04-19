@@ -37,6 +37,23 @@ public class Workflow
     /// </summary>
     public On On { get; }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="actions"></param>
+    /// <param name="checks"></param>
+    /// <param name="contents"></param>
+    /// <param name="deployments"></param>
+    /// <param name="discussions"></param>
+    /// <param name="idToken"></param>
+    /// <param name="issues"></param>
+    /// <param name="packages"></param>
+    /// <param name="pages"></param>
+    /// <param name="pullRequests"></param>
+    /// <param name="repositoryProjects"></param>
+    /// <param name="securityEvents"></param>
+    /// <param name="statuses"></param>
+    /// <returns></returns>
     public Workflow Permissions(
         Permission actions            = Permission.None,
         Permission checks             = Permission.None,
@@ -117,10 +134,11 @@ public class Workflow
 
     public string GetYaml(SequenceStyle sequenceStyle = SequenceStyle.Block) 
     {
-        var rootNode = new YamlMappingNode(
-            new YamlScalarNode("name"),
-            new YamlScalarNode(_name)
-        );
+        var rootNode     = new YamlMappingNode();
+        if (!string.IsNullOrEmpty(_name))
+        {
+            rootNode.Add("name", new YamlScalarNode(_name));
+        };
         var yamlDocument = new YamlDocument(rootNode);
 
         // Triggers

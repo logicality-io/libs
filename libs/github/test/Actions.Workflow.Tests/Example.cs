@@ -31,7 +31,7 @@ public class Example
         buildJob.Step()
             .Name("Build")
             .Run("./build.ps1")
-            .ShellPowerShell();
+            .Shell(Shells.PowerShell);
 
         var yaml = workflow.GetYaml();
         var fileName = "my-workflow.yaml";

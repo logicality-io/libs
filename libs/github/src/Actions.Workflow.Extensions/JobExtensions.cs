@@ -60,7 +60,7 @@ public static class JobExtensions
         step
             .Name("Print Env")
             .Run("printenv")
-            .ShellBash();
+            .Shell(Shells.Bash);
         return step.Job;
     }
 }

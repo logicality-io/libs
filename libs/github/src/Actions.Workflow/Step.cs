@@ -3,6 +3,19 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
+public static class Shells
+{
+    /// <summary>
+    /// "pwsh"
+    /// </summary>
+    public const string PowerShell = "pwsh";
+
+    /// <summary>
+    /// "bash
+    /// </summary>
+    public const string Bash = "bash";
+}
+
 public class Step
 {
     private readonly string?   _id;

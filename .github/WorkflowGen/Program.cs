@@ -54,18 +54,18 @@ void GenerateWorkflowsForLibs()
         buildJob.Step()
             .Name("Test")
             .Run($"./build.ps1 {lib}-test")
-            .ShellPowerShell();
+            .Shell(Shells.PowerShell);
 
         buildJob.Step()
             .Name("Pack")
             .Run($"./build.ps1 {lib}-pack")
-            .ShellPowerShell();
+            .Shell(Shells.PowerShell);
 
         buildJob.Step()
             .Name("Push")
             .If("github.event_name == 'push'")
             .Run("./build.ps1 push")
-            .ShellPowerShell();
+            .Shell(Shells.PowerShell);
 
         buildJob.Step().ActionsUploadArtifact();
 
@@ -120,7 +120,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step()
         .Run("./build.ps1 local build")
-        .ShellPowerShell();
+        .Shell(Shells.PowerShell);
 
     job.Step()
         .Name("Perform CodeQL Analysis")
