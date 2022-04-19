@@ -4,7 +4,7 @@
   <Import Project="../../src.props" />
 
   <PropertyGroup>
-    <MinVerTagPrefix>github-actions-workflow-</MinVerTagPrefix>
+    <MinVerTagPrefix>github-</MinVerTagPrefix>
     <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
