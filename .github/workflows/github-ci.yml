@@ -38,7 +38,7 @@ jobs:
     - name: Pack
       run: ./build.ps1 github-pack
       shell: pwsh
-    - name: Push
+    - name: Push to GitHub
       if: github.event_name == 'push'
       run: ./build.ps1 push-github
       shell: pwsh
