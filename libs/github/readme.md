@@ -1,14 +1,18 @@
 # GitHub Actions Workflow Generator
 
+![Nuget](https://img.shields.io/nuget/v/Logicality.GitHub.Actions.Workflow?label=Logicality.GitHub.Actions.Workflow&style=flat-square) </br>
+![Nuget](https://img.shields.io/nuget/v/Logicality.GitHub.Actions.Workflow.Extensions?label=Logicality.GitHub.Actions.Workflow.Extensions&style=flat-square)
+
 ## Introduction
 
-A library to help generate GitHub Actions Workflows yaml in a (reasonably)
-strong typed manner. Written to support a better authoring experience, increased
+A library to help generate GitHub Actions Workflows yaml in a
+fluent manner. Written to support a better authoring experience, increase
 reusability and mitigate against the fragility of copy'n'pasting stuff around.
-If one is maintaining a few workflows this is probably over-kill. If one is
-maintaining many workflows across many repositories then this may be useful.
+If one is maintaining just a few simple workflows this is probably over-kill.
+If one is maintaining many workflows across many repositories where one wants 
+to be able to to reuse standardised jobs and steps then this may be useful.
 
-## Example
+## Simple Example
 
 The following code:
 
@@ -56,6 +60,8 @@ jobs:
       shell: pwsh
 ```
 
+A more complex example can seen in this repository's [WorkflowGen](../../.github/WorkflowGen/Program.cs).
+
 ## Using
 
 1. Create a new console project `WorkflowGen` (or what ever you want call it). I
@@ -92,9 +98,9 @@ jobs:
 
 5. Re-generate the workflow when ever you make changes by calling `dotnet run`
 
-See [WorkflowGen](../../.github/WorkflowGen/Program.cs) for some inspiration.
 The API _should_ be discoverable if one is familiar with [GitHub Workflow
-Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions). This project is not a substitute for understanding and learning the syntax.
+Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions).
+This project is not a substitute for understanding and learning the syntax.
 
 ## Contributing
 

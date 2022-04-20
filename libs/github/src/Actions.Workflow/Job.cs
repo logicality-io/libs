@@ -188,7 +188,7 @@ public class Job
     /// </summary>
     /// <param name="map">The output map.</param>
     /// <returns>The Job.</returns>
-    public Job Outputs(params (string key, string value)[] map)
+    public Job Outputs(params (string Key, string Value)[] map)
     {
         _outputs = new(this, map.ToDictionary());
         return _outputs.Job;
@@ -200,7 +200,7 @@ public class Job
     /// </summary>
     /// <param name="map"></param>
     /// <returns>The job.</returns>
-    public Job Env(params (string key, string value)[] map)
+    public Job Env(params (string Key, string Value)[] map)
     {
         _env = new(this, map.ToDictionary());
         return _env.Job;
@@ -223,7 +223,7 @@ public class Job
     /// </summary>
     /// <param name="map"></param>
     /// <returns>A JobDefaults object.</returns>
-    public JobDefaults Defaults(params (string key, string value)[] map)
+    public JobDefaults Defaults(params (string Key, string Value)[] map)
     {
         _defaults = new(this, map.ToDictionary());
         return _defaults;
@@ -293,7 +293,7 @@ public class Job
     /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idwith
     /// </summary>
     /// <returns>The Job</returns>
-    public Job With(params (string key, string value)[] map)
+    public Job With(params (string Key, string Value)[] map)
     {
         _with = new(this, map.ToDictionary());
         return _with.Job;
@@ -328,7 +328,7 @@ public class Job
     /// </summary>
     /// <param name="map"></param>
     /// <returns></returns>
-    public JobSecrets Secrets(params (string key, string value)[] map)
+    public JobSecrets Secrets(params (string Key, string Value)[] map)
     {
         _secrets = new(this, map.ToDictionary());
         return _secrets;

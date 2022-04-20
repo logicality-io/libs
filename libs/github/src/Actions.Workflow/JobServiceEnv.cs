@@ -4,8 +4,8 @@ public class JobServiceEnv : JobKeyValueMap<JobServiceEnv>
 {
     public JobService Service { get; }
 
-    public JobServiceEnv(JobService jobService, IDictionary<string, string> properties)
-        : base(jobService.Job, "env", properties)
+    public JobServiceEnv(JobService jobService, IDictionary<string, string> map)
+        : base(jobService.Job, "env", map)
     {
         Service = jobService;
     }

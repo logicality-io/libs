@@ -2,8 +2,8 @@
 
 public class JobEnv: JobKeyValueMap<JobEnv>
 {
-    public JobEnv(Job job, IDictionary<string, string> properties)
-        : base(job, "env", properties)
+    public JobEnv(Job job, IDictionary<string, string> map)
+        : base(job, "env", map)
     {
     }
 }

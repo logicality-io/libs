@@ -11,8 +11,8 @@ public class JobDefaults : JobKeyValueMap<JobDefaults>
     {
     }
 
-    public JobDefaults(Job job, IDictionary<string, string> properties)
-        : base(job, "defaults", properties)
+    public JobDefaults(Job job, IDictionary<string, string> map)
+        : base(job, "defaults", map)
     {
     }
 
@@ -32,10 +32,10 @@ public class JobDefaults : JobKeyValueMap<JobDefaults>
 
     internal override void Build(YamlMappingNode yamlMappingNode)
     {
-        if (Properties.Any() || !string.IsNullOrWhiteSpace(_shell))
+        if (Map.Any() || !string.IsNullOrWhiteSpace(_shell))
         {
             var defaultsMappingNode = new YamlMappingNode();
-            foreach (var property in Properties)
+            foreach (var property in Map)
             {
                 defaultsMappingNode.Add(property.Key, new YamlScalarNode(property.Value));
             }

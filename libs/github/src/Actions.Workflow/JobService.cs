@@ -33,7 +33,7 @@ public class JobService
     /// </summary>
     /// <param name="map"></param>
     /// <returns></returns>
-    public JobService Env(params (string key, string value)[] map)
+    public JobService Env(params (string Key, string Value)[] map)
     {
         _env = new(this, map.ToDictionary());
         return _env.Service;

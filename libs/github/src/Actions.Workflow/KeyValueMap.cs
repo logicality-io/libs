@@ -11,13 +11,13 @@ public abstract class KeyValueMap<T>  where T : KeyValueMap<T>
         _nodeName = nodeName;
     }
 
-    protected KeyValueMap(string nodeName, IDictionary<string, string> properties)
+    protected KeyValueMap(string nodeName, IDictionary<string, string> map)
     {
         _nodeName   = nodeName;
-        Properties = properties;
+        Map = map;
     }
 
-    protected IDictionary<string, string> Properties { get; } = new Dictionary<string, string>();
+    protected IDictionary<string, string> Map { get; } = new Dictionary<string, string>();
 
     /// <summary>
     /// Adds a Key and Value.
@@ -27,16 +27,16 @@ public abstract class KeyValueMap<T>  where T : KeyValueMap<T>
     /// <returns></returns>
     public T Key(string key, string value)
     {
-        Properties.Add(key, value);
+        Map.Add(key, value);
         return (T)this;
     }
 
     internal virtual void Build(YamlMappingNode yamlMappingNode)
     {
-        if (Properties.Any())
+        if (Map.Any())
         {
             var mappingNode = new YamlMappingNode();
-            foreach (var property in Properties)
+            foreach (var property in Map)
             {
                 mappingNode.Add(property.Key, property.Value);
             }

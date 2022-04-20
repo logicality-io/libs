@@ -8,8 +8,8 @@ public abstract class JobKeyValueMap<T> : KeyValueMap<T> where T : JobKeyValueMa
         Job = job;
     }
 
-    protected JobKeyValueMap(Job job, string nodeName, IDictionary<string, string> properties)
-        : base(nodeName, properties)
+    protected JobKeyValueMap(Job job, string nodeName, IDictionary<string, string> map)
+        : base(nodeName, map)
     {
         Job = job;
     }

@@ -4,8 +4,8 @@ public class JobContainerEnv : JobKeyValueMap<JobContainerEnv>
 {
     public JobContainer JobContainer { get; }
 
-    public JobContainerEnv(JobContainer jobContainer, IDictionary<string, string> properties)
-        : base(jobContainer.Job, "env", properties)
+    public JobContainerEnv(JobContainer jobContainer, IDictionary<string, string> map)
+        : base(jobContainer.Job, "env", map)
     {
         JobContainer = jobContainer;
     }
