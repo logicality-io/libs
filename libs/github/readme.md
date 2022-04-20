@@ -1,5 +1,8 @@
 # GitHub Actions Workflow Generator
 
+![Nuget](https://img.shields.io/nuget/v/Logicality.GitHub.Actions.Workflow?label=Logicality.GitHub.Actions.Workflow&style=flat-square) </br>
+![Nuget](https://img.shields.io/nuget/v/Logicality.GitHub.Actions.Workflow.Extensions?label=Logicality.GitHub.Actions.Workflow.Extensions&style=flat-square)
+
 ## Introduction
 
 A library to help generate GitHub Actions Workflows yaml in a (reasonably)
