@@ -25,9 +25,9 @@ public class JobContainer
     /// </summary>
     /// <param name="map"></param>
     /// <returns></returns>
-    public JobContainer Env(IDictionary<string, string> map)
+    public JobContainer Env(params (string key, string values)[] map)
     {
-        _env = new(this, map);
+        _env = new(this, map.ToDictionary());
         return _env.JobContainer;
     }
 

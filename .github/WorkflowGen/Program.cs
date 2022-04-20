@@ -41,11 +41,9 @@ void GenerateWorkflowsForLibs()
         var buildJob = workflow
             .Job("build")
             .RunsOn(GitHubHostedRunners.UbuntuLatest)
-            .Env(new Dictionary<string, string>
-                {
-                    { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"},
-                    { "LOGICALITY_NUGET_ORG", "${{secrets.LOGICALITY_NUGET_ORG}}"}
-                });
+            .Env(
+                ("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"), 
+                ("LOGICALITY_NUGET_ORG", "${{secrets.LOGICALITY_NUGET_ORG}}"));
 
         buildJob.Step().ActionsCheckout();
 
@@ -108,10 +106,7 @@ void GenerateCodeAnalysisWorkflow()
             securityEvents: Permission.Write)
         .Strategy()
         .FailFast(false)
-        .Matrix(new Dictionary<string, string[]>
-        {
-            { "language", new[] { "csharp" } }
-        })
+        .Matrix(("language", new[] { "csharp" }))
         .Job;
 
     job.Step().ActionsCheckout();
@@ -119,8 +114,7 @@ void GenerateCodeAnalysisWorkflow()
     job.Step()
         .Name("Setup dotnet")
         .Uses("actions/setup-dotnet@v2")
-        .With()
-            .Key("dotnet-version", "6.0.x");
+        .With(("dotnet-version", "6.0.x"));
 
     job.Step()
         .Run("dotnet --info");
@@ -128,8 +122,7 @@ void GenerateCodeAnalysisWorkflow()
     job.Step()
         .Name("Initialize CodeQL")
         .Uses("github/codeql-action/init@v1")
-        .With()
-            .Key("languages", "${{ matrix.language }}");
+        .With(("languages", "${{ matrix.language }}"));
 
     job.Step()
         .Run("./build.ps1 local build")

@@ -21,11 +21,11 @@ public class Strategy
     /// Define a matrix of different job configuration.
     /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategymatrix
     /// </summary>
-    /// <param name="configuration"></param>
+    /// <param name="map"></param>
     /// <returns></returns>
-    public Strategy Matrix(IDictionary<string, string[]> configuration)
+    public Strategy Matrix(params (string key, string[] values)[] map)
     {
-        _matrix = new(this, configuration);
+        _matrix = new(this, map.ToDictionary());
         return _matrix.Strategy;
     }
 

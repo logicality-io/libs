@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using System.Collections.Generic;
+using Shouldly;
 using Xunit;
 
 namespace Logicality.GitHub.Actions.Workflow;
@@ -127,8 +128,7 @@ jobs:
             .Job("build")
             .Step("step")
             .Uses("action/action")
-            .With()
-                .Key("foo", "bar")
+            .With(("foo", "bar"))
             .Workflow
             .GetYaml();
 

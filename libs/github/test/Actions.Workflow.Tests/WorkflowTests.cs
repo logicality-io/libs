@@ -336,10 +336,7 @@ concurrency:
     public void Workflow_Env()
     {
         var actual = new Workflow("workflow")
-            .Env(new Dictionary<string, string>
-            {
-                { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
-            })
+            .Env(("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"))
             .GetYaml();
 
         var expected = Workflow.Header + @"

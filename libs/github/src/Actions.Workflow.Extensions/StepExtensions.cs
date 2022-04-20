@@ -2,6 +2,13 @@
 
 public static class StepExtensions
 {
+    /// <summary>
+    /// Checks out the repository
+    /// </summary>
+    /// <param name="step"></param>
+    /// <param name="version">Action version. Default is "v3".</param>
+    /// <param name="fetchDepth">The checkout fetch depth.</param>
+    /// <returns></returns>
     public static Job ActionsCheckout(
         this Step step,
         string   version    = "v3",
@@ -10,8 +17,7 @@ public static class StepExtensions
         step
             .Name("Checkout")
             .Uses($"actions/checkout@{version}")
-            .With()
-            .Key("fetch-depth", fetchDepth.ToString());
+            .With(("fetch-depth", fetchDepth.ToString()));
         return step.Job;
     }
 
@@ -44,9 +50,9 @@ public static class StepExtensions
     {
         step.Name("Upload Artifacts")
             .Uses($"actions/upload-artifact@{version}")
-            .With()
-                .Key("name", name)
-                .Key("path", path);
+            .With(
+                ("name", name),
+                ("path", path));
         return step.Job;
     }
 

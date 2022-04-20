@@ -64,10 +64,11 @@ public class Step
     /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepswith
     /// </summary>
     /// <returns></returns>
-    public StepWith With()
+    public Step With(params (string Key, string Value)[] map)
     {
-        _with = new(this);
-        return _with;
+        var dict = map.ToDictionary();
+        _with = new(this, dict);
+        return _with.Step;
     }
 
     /// <summary>

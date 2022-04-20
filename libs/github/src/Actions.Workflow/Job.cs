@@ -188,9 +188,9 @@ public class Job
     /// </summary>
     /// <param name="map">The output map.</param>
     /// <returns>The Job.</returns>
-    public Job Outputs(IDictionary<string, string> map)
+    public Job Outputs(params (string key, string value)[] map)
     {
-        _outputs = new(this, map);
+        _outputs = new(this, map.ToDictionary());
         return _outputs.Job;
     }
 
@@ -200,9 +200,9 @@ public class Job
     /// </summary>
     /// <param name="map"></param>
     /// <returns>The job.</returns>
-    public Job Env(IDictionary<string, string> map)
+    public Job Env(params (string key, string value)[] map)
     {
-        _env = new(this, map);
+        _env = new(this, map.ToDictionary());
         return _env.Job;
     }
 
@@ -223,9 +223,9 @@ public class Job
     /// </summary>
     /// <param name="map"></param>
     /// <returns>A JobDefaults object.</returns>
-    public JobDefaults Defaults(IDictionary<string, string> map)
+    public JobDefaults Defaults(params (string key, string value)[] map)
     {
-        _defaults = new(this, map);
+        _defaults = new(this, map.ToDictionary());
         return _defaults;
     }
 
@@ -293,9 +293,9 @@ public class Job
     /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idwith
     /// </summary>
     /// <returns>The Job</returns>
-    public Job With(IDictionary<string, string> properties)
+    public Job With(params (string key, string value)[] map)
     {
-        _with = new(this, properties);
+        _with = new(this, map.ToDictionary());
         return _with.Job;
     }
 
@@ -323,14 +323,14 @@ public class Job
     }
 
     /// <summary>
-    /// Specify secrets that are passed to the called workflow.
+    /// Specify a map of secrets that are passed to the called workflow.
     /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecrets
     /// </summary>
-    /// <param name="properties"></param>
+    /// <param name="map"></param>
     /// <returns></returns>
-    public JobSecrets Secrets(IDictionary<string, string> properties)
+    public JobSecrets Secrets(params (string key, string value)[] map)
     {
-        _secrets = new JobSecrets(this, properties);
+        _secrets = new(this, map.ToDictionary());
         return _secrets;
     }
 

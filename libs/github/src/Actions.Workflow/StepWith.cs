@@ -5,23 +5,12 @@ namespace Logicality.GitHub.Actions.Workflow;
 
 public class StepWith
 {
-    private readonly IDictionary<string, string> _properties = new Dictionary<string, string>();
+    private readonly IDictionary<string, string> _map;
     
-    public StepWith(Step step)
+    public StepWith(Step step, IDictionary<string, string> map)
     {
         Step = step;
-    }
-
-    /// <summary>
-    /// Adds a Key and Values.
-    /// </summary>
-    /// <param name="key">The key</param>
-    /// <param name="value">The value</param>
-    /// <returns></returns>
-    public StepWith Key(string key, string value)
-    {
-        _properties.Add(key, value);
-        return this;
+        _map = map;
     }
 
     /// <summary>
@@ -41,12 +30,12 @@ public class StepWith
 
     internal void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
     {
-        if (_properties.Any())
+        if (_map.Any())
         {
             var mappingNode = new YamlMappingNode();
-            foreach (var property in _properties)
+            foreach (var property in _map)
             {
-                mappingNode.Add(property.Key, property.Value);
+                mappingNode.Add(property.Key, new YamlScalarNode(property.Value));
             }
 
             yamlMappingNode.Add("with", mappingNode);

@@ -177,11 +177,9 @@ jobs:
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .Outputs(new Dictionary<string, string>
-            {
-                { "output1", "${{ steps.step1.outputs.test }}" },
-                { "output2", "${{ steps.step2.outputs.test }}" }
-            })
+            .Outputs(
+                ("output1", "${{ steps.step1.outputs.test }}"),
+                ("output2", "${{ steps.step2.outputs.test }}"))
             .Workflow
             .GetYaml();
 
@@ -203,10 +201,7 @@ jobs:
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .Env(new Dictionary<string, string>
-            {
-                { "GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}" }
-            })
+            .Env(("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"))
             .Workflow
             .GetYaml();
 
@@ -227,10 +222,7 @@ jobs:
     {
         var actual = new Workflow("workflow")
             .Job("build")
-            .Defaults(new Dictionary<string, string>
-                {
-                    { "foo", "bar"}
-                })
+            .Defaults(("foo", "bar"))
             .Workflow
             .GetYaml();
 
@@ -316,11 +308,8 @@ jobs:
         var actual = new Workflow("workflow")
             .Job("build")
             .Strategy()
-            .Matrix(new Dictionary<string, string[]>
-            {
-                {"os", new [] { "ubuntu-18.04", "ubuntu-20.04"} },
-                {"node", new [] { "10", "12", "14"} },
-            })
+            .Matrix(("os", new [] { "ubuntu-18.04", "ubuntu-20.04"} ),
+                ("node", new [] { "10", "12", "14"} ))
             .Workflow
             .GetYaml(SequenceStyle.Flow);
 
@@ -428,10 +417,7 @@ jobs:
         var actual = new Workflow("workflow")
             .Job("build")
             .Uses("octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89")
-            .With(new Dictionary<string, string>
-                {
-                    { "foo", "bar" }
-                })
+            .With(("foo", "bar"))
             .Workflow
             .GetYaml();
 
@@ -454,10 +440,7 @@ jobs:
         var actual = new Workflow("workflow")
             .Job("build")
             .Uses("octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89")
-            .Secrets(new Dictionary<string, string>
-            {
-                { "access-token", "${{ secrets.PERSONAL_ACCESS_TOKEN }}" }
-            })
+            .Secrets(("access-token", "${{ secrets.PERSONAL_ACCESS_TOKEN }}"))
             .Workflow
             .GetYaml();
 
@@ -481,10 +464,7 @@ jobs:
             .Job("my_job")
             .Container("node:14.6")
             .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
-            .Env(new Dictionary<string, string>
-                {
-                    { "NODE_ENV", "development"}
-                })
+            .Env(("NODE_ENV", "development"))
             .Ports(80)
             .Volumes(@"my_docker_volume:/volume_mount")
             .Options("--cpus 1")
@@ -521,20 +501,14 @@ jobs:
             .Services()
                 .Service("node", "node:14.6")
                     .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
-                    .Env(new Dictionary<string, string>
-                    {
-                        {"NODE_ENV", "development"}
-                    })
+                    .Env(("NODE_ENV", "development"))
                     .Ports(80)
                     .Volumes(@"my_docker_volume:/volume_mount")
                     .Options("--cpus 1")
                 .Services
                 .Service("dotnet", "dotnet:6.0.1")
                     .Credentials("${{ github.actor }}", "${{ secrets.github_token }}")
-                    .Env(new Dictionary<string, string>
-                    {
-                        {"ENVIRONMENT", "development"}
-                    })
+                    .Env(("ENVIRONMENT", "development"))
                     .Ports(443)
                     .Volumes(@"my_docker_volume:/volume_mount")
                     .Options("--no-logo")

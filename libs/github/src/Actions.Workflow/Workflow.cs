@@ -126,9 +126,9 @@ public class Workflow
     /// </summary>
     /// <param name="map"></param>
     /// <returns>The workflow.</returns>
-    public Workflow Env(IDictionary<string, string> map)
+    public Workflow Env(params (string key, string value)[] map)
     {
-        _env = map;
+        _env = map.ToDictionary();
         return this;
     }
 
@@ -138,7 +138,7 @@ public class Workflow
     /// <returns>The workflow.</returns>
     public WorkflowDefaults Defaults()
     {
-        _defaults = new WorkflowDefaults(this);
+        _defaults = new(this);
         return _defaults;
     }
 
@@ -147,9 +147,9 @@ public class Workflow
     /// </summary>
     /// <param name="map"></param>
     /// <returns>The workflow.</returns>
-    public WorkflowDefaults Defaults(IDictionary<string, string> map)
+    public WorkflowDefaults Defaults(params (string key, string value)[] map)
     {
-        _defaults = new WorkflowDefaults(this, map);
+        _defaults = new(this, map.ToDictionary());
         return _defaults;
     }
 

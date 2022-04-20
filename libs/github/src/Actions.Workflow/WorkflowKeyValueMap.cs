@@ -8,8 +8,8 @@ public abstract class WorkflowKeyValueMap<T> : KeyValueMap<T> where T : Workflow
         Workflow = workflow;
     }
 
-    protected WorkflowKeyValueMap(Workflow workflow, string nodeName, IDictionary<string, string> properties)
-        : base(nodeName, properties)
+    protected WorkflowKeyValueMap(Workflow workflow, string nodeName, IDictionary<string, string> map)
+        : base(nodeName, map)
     {
         Workflow = workflow;
     }

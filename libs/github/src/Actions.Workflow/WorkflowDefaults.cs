@@ -14,8 +14,8 @@ public class WorkflowDefaults : WorkflowKeyValueMap<WorkflowDefaults>
     {
     }
 
-    public WorkflowDefaults(Workflow workflow, IDictionary<string, string> properties)
-        : base(workflow, "defaults", properties)
+    public WorkflowDefaults(Workflow workflow, IDictionary<string, string> map)
+        : base(workflow, "defaults", map)
     {
     }
 
@@ -34,10 +34,10 @@ public class WorkflowDefaults : WorkflowKeyValueMap<WorkflowDefaults>
 
     internal override void Build(YamlMappingNode yamlMappingNode)
     {
-        if (Properties.Any() || !string.IsNullOrWhiteSpace(_shell))
+        if (Map.Any() || !string.IsNullOrWhiteSpace(_shell))
         {
             var defaultsMappingNode = new YamlMappingNode();
-            foreach (var property in Properties)
+            foreach (var property in Map)
             {
                 defaultsMappingNode.Add(property.Key, new YamlScalarNode(property.Value));
             }
