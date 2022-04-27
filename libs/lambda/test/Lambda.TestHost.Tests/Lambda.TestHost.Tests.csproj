@@ -12,7 +12,7 @@
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
     <PackageReference Include="AWSSDK.Lambda" Version="3.7.12.6" />
-    <PackageReference Include="AWSSDK.SQS" Version="3.7.2.45" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.2.47" />
     <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.0.150" />
     <PackageReference Include="coverlet.collector" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
