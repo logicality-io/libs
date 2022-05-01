@@ -34,10 +34,10 @@ jobs:
         dotnet-version: 6.0.x
     - run: dotnet --info
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
     - run: ./build.ps1 local build
       shell: pwsh
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2

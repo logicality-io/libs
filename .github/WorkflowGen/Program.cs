@@ -121,7 +121,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step()
         .Name("Initialize CodeQL")
-        .Uses("github/codeql-action/init@v1")
+        .Uses("github/codeql-action/init@v2")
         .With(("languages", "${{ matrix.language }}"));
 
     job.Step()
@@ -130,7 +130,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step()
         .Name("Perform CodeQL Analysis")
-        .Uses("github/codeql-action/analyze@v1");
+        .Uses("github/codeql-action/analyze@v2");
 
     WriteWorkflow(workflow, "codeql-analysis");
 }
