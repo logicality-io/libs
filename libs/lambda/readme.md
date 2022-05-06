@@ -158,7 +158,7 @@ debugging application logic issues.".
 ### Using with LocalStack
 
 - See [Stepfunctions Local](https://docs.aws.amazon.com/step-functions/latest/dg/sfn-local.html) docs.
-- See an [`integration test`](test/Lambda.TestHost.Tests/StepFunctionsIntegrationTests.cs) for an example
+- See an [`integration test`](https://github.com/logicality-io/platform-libs/blob/main/libs/lambda/test/Lambda.TestHost.Tests/StepFunctions/StepFunctionsIntegrationTests.cs) for an example
   that uses LocalStack container with `LAMBDA_FORWARD_URL` configured to call back to Lambda Test Host.
 
 [lambda-test-tool]: https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool
