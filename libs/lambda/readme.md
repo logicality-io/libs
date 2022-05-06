@@ -151,7 +151,7 @@ debugging application logic issues.".
 
 ### Using with Step Functions Local
 
-- See [Step Functions(https://docs.aws.amazon.com/step-functions/latest/dg/sfn-local.html) docs. 
+- See [Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/sfn-local.html) docs. 
 - See an [`integration test`](test/Lambda.TestHost.Tests/StepFunctionsIntegrationTests.cs) for an example
   that uses Step Functions container with `LAMBDA_ENDPOINT` configured to call back to Lambda Test Host.
 
