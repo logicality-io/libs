@@ -4,11 +4,11 @@ using Amazon.Lambda.Core;
 namespace Logicality.Lambda;
 
 /// <summary>
-/// Represents a synchronous lambda handler.
+/// Represents an lambda handler for that is synchronously invoked (returns a response object).
 /// </summary>
 /// <typeparam name="TRequest"></typeparam>
 /// <typeparam name="TResponse"></typeparam>
-public interface ISynchronousHandler<TRequest, TResponse>
+public interface ISynchronousInvokeHandler<TRequest, TResponse>
 {
     Task<TResponse> Handle(TRequest input, ILambdaContext context);
 }

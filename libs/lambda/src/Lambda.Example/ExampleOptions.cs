@@ -5,7 +5,7 @@ using Amazon.Lambda.Serialization.SystemTextJson;
 
 namespace Logicality.Lambda.Example;
 
-public class FunctionOptions
+public class ExampleOptions
 {
-    public string? Foo { get; set; }
+    public int Timeout { get; set; } = 30;
 }

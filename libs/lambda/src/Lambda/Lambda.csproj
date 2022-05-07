@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
-    <Desccription>Base class for lambda functions that supports DI, Logging and Configuration</Desccription>
+    <Desccription>Micro-framework for AWS lambda functions that supports Dependecny Injection, Logging and Configuration</Desccription>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(FrameworkVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(FrameworkVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(FrameworkVersion)" />
-    <PackageReference Include="Microsoft.FeatureManagement" Version="2.5.1" />
 
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>

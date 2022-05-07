@@ -11,10 +11,14 @@ public class SynchronousFunctionBaseTests
     [Fact]
     public async Task Can_activate_lambda()
     {
-        var testFunction = new ExampleSynchronousFunction(_ => {});
+        var testFunction = new ExampleSynchronousInvokeFunction();
 
-        var result = await testFunction.Handle("foo", new TestLambdaContext());
+        var request = new Request
+        {
+            Url = "http://example.com"
+        };
+        var response = await testFunction.Handle(request, new TestLambdaContext());
 
-        result.ShouldNotBeNullOrEmpty();
+        response.Body.ShouldNotBeNullOrEmpty();
     }
 }
