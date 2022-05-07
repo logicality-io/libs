@@ -1,60 +1,59 @@
 ﻿using System;
 
-namespace Logicality.EventSourcing.Domain
+namespace Logicality.EventSourcing.Domain;
+
+public abstract class EventSourcedEntity
 {
-    public abstract class EventSourcedEntity
+    private readonly EventPlayer   _player   = new EventPlayer();
+    private readonly EventRecorder _recorder = new EventRecorder();
+
+    public void RestoreFromEvents(object[] events)
     {
-        private readonly EventPlayer _player = new EventPlayer();
-        private readonly EventRecorder _recorder = new EventRecorder();
-
-        public void RestoreFromEvents(object[] events)
+        if (events == null)
         {
-            if (events == null)
-            {
-                throw new ArgumentNullException(nameof(events));
-            }
-
-            if (_recorder.HasRecordedEvents)
-            {
-                throw new InvalidOperationException("Restoring from events can not be done on an instance with recorded events.");
-            }
-
-            foreach (var @event in events)
-            {
-                _player.Play(@event);
-            }
+            throw new ArgumentNullException(nameof(events));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public object[] TakeEvents()
+        if (_recorder.HasRecordedEvents)
         {
-            var recorded = _recorder.RecordedEvents;
-            _recorder.Reset();
-            return recorded;
+            throw new InvalidOperationException("Restoring from events can not be done on an instance with recorded events.");
         }
 
-        protected void On<TEvent>(Action<TEvent> handler)
+        foreach (var @event in events)
         {
-            if (handler == null)
-            {
-                throw new ArgumentNullException(nameof(handler));
-            }
-            
-            _player.Register(handler);
-        }
-
-        protected void Apply(object @event)
-        {
-            if (@event == null)
-            {
-                throw new ArgumentNullException(nameof(@event));
-            }
-            
             _player.Play(@event);
-            _recorder.Record(@event);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public object[] TakeEvents()
+    {
+        var recorded = _recorder.RecordedEvents;
+        _recorder.Reset();
+        return recorded;
+    }
+
+    protected void On<TEvent>(Action<TEvent> handler)
+    {
+        if (handler == null)
+        {
+            throw new ArgumentNullException(nameof(handler));
+        }
+            
+        _player.Register(handler);
+    }
+
+    protected void Apply(object @event)
+    {
+        if (@event == null)
+        {
+            throw new ArgumentNullException(nameof(@event));
+        }
+            
+        _player.Play(@event);
+        _recorder.Record(@event);
     }
 }

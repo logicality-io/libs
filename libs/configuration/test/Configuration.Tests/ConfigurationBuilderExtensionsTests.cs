@@ -2,27 +2,26 @@
 using Shouldly;
 using Xunit;
 
-namespace Logicality.Extensions.Configuration
+namespace Logicality.Extensions.Configuration;
+
+public class ConfigurationBuilderExtensionsTests
 {
-    public class ConfigurationBuilderExtensionsTests
+    [Fact]
+    public void CanAddObjectToConfiguration()
     {
-        [Fact]
-        public void CanAddObjectToConfiguration()
-        {
-            var config = new ConfigurationBuilder()
-                .AddObject(new Foo
-                {
-                    Bar = "baz"
-                })
-                .Build();
-            var value = config.GetValue<string>("Bar");
+        var config = new ConfigurationBuilder()
+            .AddObject(new Foo
+            {
+                Bar = "baz"
+            })
+            .Build();
+        var value = config.GetValue<string>("Bar");
 
-            value.ShouldBe("baz");
-        }
+        value.ShouldBe("baz");
+    }
 
-        private class Foo
-        {
-            public string Bar { get; set; }
-        }
+    private class Foo
+    {
+        public string Bar { get; set; }
     }
 }

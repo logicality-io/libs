@@ -3,14 +3,13 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.Lambda.SQSEvents;
 
-namespace Logicality.Lambda.TestHost.LocalStack
+namespace Logicality.Lambda.TestHost.LocalStack;
+
+public class SQSLambdaFunction
 {
-    public class SQSLambdaFunction
+    [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
+    public Task FunctionHandler(SQSEvent request, ILambdaContext lambdaContext)
     {
-        [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
-        public Task FunctionHandler(SQSEvent request, ILambdaContext lambdaContext)
-        {
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

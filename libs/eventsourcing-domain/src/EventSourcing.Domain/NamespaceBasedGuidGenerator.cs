@@ -1,58 +1,57 @@
 using System;
 using System.Security.Cryptography;
 
-namespace Logicality.EventSourcing.Domain
+namespace Logicality.EventSourcing.Domain;
+
+public class NamespaceBasedGuidGenerator
 {
-    public class NamespaceBasedGuidGenerator
+    private static readonly Tuple<int, int>[] ByteOrderPairsToSwap = {
+        Tuple.Create(0, 3),
+        Tuple.Create(1, 2),
+        Tuple.Create(4, 5),
+        Tuple.Create(6, 7),
+    };
+
+    private readonly byte[] _namespace;
+
+    public NamespaceBasedGuidGenerator(Guid @namespace)
     {
-        private static readonly Tuple<int, int>[] ByteOrderPairsToSwap = {
-            Tuple.Create(0, 3),
-            Tuple.Create(1, 2),
-            Tuple.Create(4, 5),
-            Tuple.Create(6, 7),
-        };
+        _namespace = @namespace.ToByteArray();
+        SwapPairs(_namespace, ByteOrderPairsToSwap);
+    }
 
-        private readonly byte[] _namespace;
-
-        public NamespaceBasedGuidGenerator(Guid @namespace)
+    public Guid Create(byte[] input)
+    {
+        byte[] hash;
+        using (var algorithm = SHA1.Create())
         {
-            _namespace = @namespace.ToByteArray();
-            SwapPairs(_namespace, ByteOrderPairsToSwap);
+            algorithm.TransformBlock(_namespace, 0, _namespace.Length, null, 0);
+            algorithm.TransformFinalBlock(input, 0, input.Length);
+            hash = algorithm.Hash;
         }
 
-        public Guid Create(byte[] input)
+        var buffer = new byte[16];
+        Array.Copy(hash, 0, buffer, 0, 16);
+
+        buffer[6] = (byte)((buffer[6] & 0x0F) | (5 << 4));
+        buffer[8] = (byte)((buffer[8] & 0x3F) | 0x80);
+
+        SwapPairs(buffer, ByteOrderPairsToSwap);
+        return new Guid(buffer);
+    }
+
+    private static void SwapPairs(byte[] buffer, Tuple<int, int>[] pairs)
+    {
+        if (pairs == null)
         {
-            byte[] hash;
-            using (var algorithm = SHA1.Create())
-            {
-                algorithm.TransformBlock(_namespace, 0, _namespace.Length, null, 0);
-                algorithm.TransformFinalBlock(input, 0, input.Length);
-                hash = algorithm.Hash;
-            }
-
-            var buffer = new byte[16];
-            Array.Copy(hash, 0, buffer, 0, 16);
-
-            buffer[6] = (byte)((buffer[6] & 0x0F) | (5 << 4));
-            buffer[8] = (byte)((buffer[8] & 0x3F) | 0x80);
-
-            SwapPairs(buffer, ByteOrderPairsToSwap);
-            return new Guid(buffer);
+            throw new ArgumentNullException(nameof(pairs));
         }
 
-        private static void SwapPairs(byte[] buffer, Tuple<int, int>[] pairs)
+        foreach (var (left, right) in pairs)
         {
-            if (pairs == null)
-            {
-                throw new ArgumentNullException(nameof(pairs));
-            }
-
-            foreach (var (left, right) in pairs)
-            {
-                var _ = buffer[left];
-                buffer[left] = buffer[right];
-                buffer[right] = _;
-            }
+            var _ = buffer[left];
+            buffer[left]  = buffer[right];
+            buffer[right] = _;
         }
     }
 }

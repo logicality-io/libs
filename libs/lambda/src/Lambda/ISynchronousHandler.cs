@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 
-namespace Logicality.Lambda
+namespace Logicality.Lambda;
+
+/// <summary>
+/// Represents a synchronous lambda handler.
+/// </summary>
+/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TResponse"></typeparam>
+public interface ISynchronousHandler<TRequest, TResponse>
 {
-    /// <summary>
-    /// Represents a synchronous lambda handler.
-    /// </summary>
-    /// <typeparam name="TRequest"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
-    public interface ISynchronousHandler<TRequest, TResponse>
-    {
-        Task<TResponse> Handle(TRequest input, ILambdaContext context);
-    }
+    Task<TResponse> Handle(TRequest input, ILambdaContext context);
 }

@@ -4,75 +4,74 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Logicality.Lambda.Example
+namespace Logicality.Lambda.Example;
+
+public class ExampleSynchronousFunction: SynchronousFunctionBase<FunctionOptions, string, string, SynchronousHandler>
 {
-    public class ExampleSynchronousFunction: SynchronousFunctionBase<FunctionOptions, string, string, SynchronousHandler>
+    // This constructor will be called by Lambda runtime.
+    public ExampleSynchronousFunction() 
+        : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
+    { }
+
+    // This constuctor is to support tests.
+    public ExampleSynchronousFunction(Action<IConfigurationBuilder> configureConfiguration)
+        : base(configuration =>
+        {
+            ConfigureConfiguration(configuration);
+            configureConfiguration(configuration);
+        }, ConfigureLogging, ConfigureServices)
+    {}
+
+    private static void ConfigureConfiguration(IConfigurationBuilder configuration)
     {
-        // This constructor will be called by Lambda runtime.
-        public ExampleSynchronousFunction() 
-            : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
-        { }
-
-        // This constuctor is to support tests.
-        public ExampleSynchronousFunction(Action<IConfigurationBuilder> configureConfiguration)
-            : base(configuration =>
-            {
-                ConfigureConfiguration(configuration);
-                configureConfiguration(configuration);
-            }, ConfigureLogging, ConfigureServices)
-        {}
-
-        private static void ConfigureConfiguration(IConfigurationBuilder configuration)
+        configuration.AddInMemoryCollection(new Dictionary<string, string>
         {
-            configuration.AddInMemoryCollection(new Dictionary<string, string>
-            {
-                {"foo", "bar"}
-            });
-        }
-
-        private static void ConfigureLogging(ILoggingBuilder logging)
-        {
-            logging.SetMinimumLevel(LogLevel.Debug);
-        }
-
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddHttpClient();
-        }
+            {"foo", "bar"}
+        });
     }
 
-    public class ExampleAsynchronousFunction : AsynchronousFunctionBase<string, FunctionOptions, AsynchronousHandler>
+    private static void ConfigureLogging(ILoggingBuilder logging)
     {
-        // This constructor will be called by Lambda runtime.
-        public ExampleAsynchronousFunction()
-            : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
-        { }
+        logging.SetMinimumLevel(LogLevel.Debug);
+    }
 
-        // This constuctor is to support tests.
-        public ExampleAsynchronousFunction(Action<IConfigurationBuilder> configureConfiguration)
-            : base(configuration =>
-            {
-                ConfigureConfiguration(configuration);
-                configureConfiguration(configuration);
-            }, ConfigureLogging, ConfigureServices)
-        { }
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddHttpClient();
+    }
+}
 
-        private static void ConfigureConfiguration(IConfigurationBuilder configuration)
+public class ExampleAsynchronousFunction : AsynchronousFunctionBase<string, FunctionOptions, AsynchronousHandler>
+{
+    // This constructor will be called by Lambda runtime.
+    public ExampleAsynchronousFunction()
+        : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
+    { }
+
+    // This constuctor is to support tests.
+    public ExampleAsynchronousFunction(Action<IConfigurationBuilder> configureConfiguration)
+        : base(configuration =>
         {
-            configuration.AddInMemoryCollection(new Dictionary<string, string>
-            {
-                {"foo", "bar"}
-            });
-        }
+            ConfigureConfiguration(configuration);
+            configureConfiguration(configuration);
+        }, ConfigureLogging, ConfigureServices)
+    { }
 
-        private static void ConfigureLogging(ILoggingBuilder logging)
+    private static void ConfigureConfiguration(IConfigurationBuilder configuration)
+    {
+        configuration.AddInMemoryCollection(new Dictionary<string, string>
         {
-            logging.SetMinimumLevel(LogLevel.Debug);
-        }
+            {"foo", "bar"}
+        });
+    }
 
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddHttpClient();
-        }
+    private static void ConfigureLogging(ILoggingBuilder logging)
+    {
+        logging.SetMinimumLevel(LogLevel.Debug);
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddHttpClient();
     }
 }

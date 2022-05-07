@@ -2,33 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Logicality.EventSourcing.Domain
+namespace Logicality.EventSourcing.Domain;
+
+public static class ResolveMessageType
 {
-    public static class ResolveMessageType
+    private static void WithSupersededTypes(this IDictionary<string, Type> cache)
     {
-        private static void WithSupersededTypes(this IDictionary<string, Type> cache)
-        {
-        }
+    }
         
-        public static MessageTypeResolver WhenEqualToTypeName(IEnumerable<Type> types)
+    public static MessageTypeResolver WhenEqualToTypeName(IEnumerable<Type> types)
+    {
+        if (types == null)
         {
-            if (types == null)
+            throw new ArgumentNullException(nameof(types));
+        }
+
+        var cache = types.ToDictionary(type => type.Name);
+        cache.WithSupersededTypes();
+
+        return name =>
+        {
+            if (!cache.TryGetValue(name, out var type))
             {
-                throw new ArgumentNullException(nameof(types));
+                throw new InvalidOperationException($"The type for message named {name} could not be found.");
             }
 
-            var cache = types.ToDictionary(type => type.Name);
-            cache.WithSupersededTypes();
-
-            return name =>
-            {
-                if (!cache.TryGetValue(name, out var type))
-                {
-                    throw new InvalidOperationException($"The type for message named {name} could not be found.");
-                }
-
-                return type;
-            };
-        }
+            return type;
+        };
     }
 }

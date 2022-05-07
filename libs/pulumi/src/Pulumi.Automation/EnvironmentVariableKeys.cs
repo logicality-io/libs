@@ -1,8 +1,7 @@
-﻿namespace Logicality.Pulumi.Automation
+﻿namespace Logicality.Pulumi.Automation;
+
+public static class EnvironmentVariableKeys 
 {
-    public static class EnvironmentVariableKeys 
-    {
-        public const string ConfigPassphrase = "PULUMI_CONFIG_PASSPHRASE";
-        public const string ConfigBackendUrl = "PULUMI_BACKEND_URL";
-    }
+    public const string ConfigPassphrase = "PULUMI_CONFIG_PASSPHRASE";
+    public const string ConfigBackendUrl = "PULUMI_BACKEND_URL";
 }

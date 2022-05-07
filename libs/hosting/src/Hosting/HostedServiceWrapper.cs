@@ -7,82 +7,81 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Logicality.Extensions.Hosting
+namespace Logicality.Extensions.Hosting;
+
+public class HostedServiceWrapper : IHostedService
 {
-    public class HostedServiceWrapper : IHostedService
+    private readonly IHostedService          _inner;
+    private readonly ILogger<IHostedService> _logger;
+
+    internal HostedServiceWrapper(IHostedService inner, ILogger<HostedServiceWrapper> logger)
     {
-        private readonly IHostedService _inner;
-        private readonly ILogger<IHostedService> _logger;
+        _inner  = inner;
+        _logger = logger;
+        Name    = inner.GetType().Name.Replace("HostedService", "");
+    }
 
-        internal HostedServiceWrapper(IHostedService inner, ILogger<HostedServiceWrapper> logger)
+    public string Name { get; internal set; }
+
+    public HostedServiceWrapper? Parent { get; internal set; }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        var scope = _logger.BeginScope(GetScopeState());
+
+        _logger.LogInformation("Starting...");
+        var stopwatch = Stopwatch.StartNew();
+        try
         {
-            _inner = inner;
-            _logger = logger;
-            Name = inner.GetType().Name.Replace("HostedService", "");
+            await _inner.StartAsync(cancellationToken);
+            var elapsed = Math.Round(stopwatch.Elapsed.TotalMilliseconds, 0).ToString(CultureInfo.InvariantCulture);
+            _logger.LogInformation($"Took {elapsed}ms to start.");
         }
-
-        public string Name { get; internal set; }
-
-        public HostedServiceWrapper? Parent { get; internal set; }
-
-        public async Task StartAsync(CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            var scope = _logger.BeginScope(GetScopeState());
-
-            _logger.LogInformation("Starting...");
-            var stopwatch = Stopwatch.StartNew();
-            try
-            {
-                await _inner.StartAsync(cancellationToken);
-                var elapsed = Math.Round(stopwatch.Elapsed.TotalMilliseconds, 0).ToString(CultureInfo.InvariantCulture);
-                _logger.LogInformation($"Took {elapsed}ms to start.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, ex.Message);
-                throw;
-            }
-            finally
-            {
-                scope.Dispose();
-            }
+            _logger.LogCritical(ex, ex.Message);
+            throw;
         }
-
-        public async Task StopAsync(CancellationToken cancellationToken)
+        finally
         {
-            var scope = _logger.BeginScope(GetScopeState());
-
-            _logger.LogInformation("Stopping...");
-            var stopwatch = Stopwatch.StartNew();
-            try
-            {
-                await _inner.StopAsync(cancellationToken);
-                _logger.LogInformation($"took {stopwatch.Elapsed.TotalMilliseconds}ms to stop");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, ex.Message);
-                throw;
-            }
-            finally
-            {
-                scope.Dispose();
-            }
+            scope.Dispose();
         }
+    }
 
-        private KeyValuePair<string, object>[] GetScopeState()
-            => new[] { new KeyValuePair<string, object>("HostedService", GetScopeValue()) };
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        var scope = _logger.BeginScope(GetScopeState());
 
-        private string GetScopeValue()
+        _logger.LogInformation("Stopping...");
+        var stopwatch = Stopwatch.StartNew();
+        try
         {
-            var scope = Name;
-            var parent = Parent;
-            while (parent != null)
-            {
-                scope = $"{parent.Name}/{scope}";
-                parent = parent.Parent;
-            }
-            return scope;
+            await _inner.StopAsync(cancellationToken);
+            _logger.LogInformation($"took {stopwatch.Elapsed.TotalMilliseconds}ms to stop");
         }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, ex.Message);
+            throw;
+        }
+        finally
+        {
+            scope.Dispose();
+        }
+    }
+
+    private KeyValuePair<string, object>[] GetScopeState()
+        => new[] { new KeyValuePair<string, object>("HostedService", GetScopeValue()) };
+
+    private string GetScopeValue()
+    {
+        var scope  = Name;
+        var parent = Parent;
+        while (parent != null)
+        {
+            scope  = $"{parent.Name}/{scope}";
+            parent = parent.Parent;
+        }
+        return scope;
     }
 }

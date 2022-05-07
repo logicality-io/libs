@@ -1,29 +1,28 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Logicality.Extensions.Configuration
+namespace Logicality.Extensions.Configuration;
+
+public class RuntimeConfigurationProvider : ConfigurationProvider
 {
-    public class RuntimeConfigurationProvider : ConfigurationProvider
+    private readonly object _lockObject = new();
+
+    public override void Set(string key, string value)
     {
-        private readonly object _lockObject = new();
-
-        public override void Set(string key, string value)
+        lock (_lockObject)
         {
-            lock (_lockObject)
-            {
-                base.Set(key, value);
-                OnReload();
-            }
+            base.Set(key, value);
+            OnReload();
         }
+    }
 
-        public void Remove(string key)
+    public void Remove(string key)
+    {
+        lock (_lockObject)
         {
-            lock (_lockObject)
+            if (this.Data.ContainsKey(key))
             {
-                if (this.Data.ContainsKey(key))
-                {
-                    this.Data.Remove(key);
-                    OnReload();
-                }
+                this.Data.Remove(key);
+                OnReload();
             }
         }
     }

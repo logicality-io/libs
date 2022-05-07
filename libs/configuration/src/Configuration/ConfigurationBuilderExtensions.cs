@@ -4,39 +4,38 @@ using System.Text.Json;
 using Logicality.Extensions.Configuration;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.Configuration
+namespace Microsoft.Extensions.Configuration;
+
+/// <summary>
+/// Extensions over <see cref="IConfigurationBuilder"/>
+/// </summary>
+public static class ConfigurationBuilderExtensions
 {
     /// <summary>
-    /// Extensions over <see cref="IConfigurationBuilder"/>
+    ///     Adds an object to the configuration that will first be serialized to json.
     /// </summary>
-    public static class ConfigurationBuilderExtensions
+    /// <param name="config">The configuration builder.</param>
+    /// <param name="value">The object to be serialized and added to configuration.</param>
+    /// <returns></returns>
+    public static IConfigurationBuilder AddObject<T>(this IConfigurationBuilder config, T value) where T:class
     {
-        /// <summary>
-        ///     Adds an object to the configuration that will first be serialized to json.
-        /// </summary>
-        /// <param name="config">The configuration builder.</param>
-        /// <param name="value">The object to be serialized and added to configuration.</param>
-        /// <returns></returns>
-        public static IConfigurationBuilder AddObject<T>(this IConfigurationBuilder config, T value) where T:class
+        var jsonVersion = JsonSerializer.Serialize(value);
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonVersion))
         {
-            var jsonVersion = JsonSerializer.Serialize(value);
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonVersion))
-            {
-                Position = 0
-            };
-            return config.AddJsonStream(stream);
-        }
-
-        /// <summary>
-        ///     Add a runtime configuration provider that allows setting/overriding configuration
-        ///     at runtime
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="runtimeConfiguration"></param>
-        /// <returns></returns>
-        public static IConfigurationBuilder AddRuntimeConfiguration(
-            this IConfigurationBuilder builder,
-            RuntimeConfiguration runtimeConfiguration) =>
-            builder.Add(new RuntimeConfigurationSource(runtimeConfiguration));
+            Position = 0
+        };
+        return config.AddJsonStream(stream);
     }
+
+    /// <summary>
+    ///     Add a runtime configuration provider that allows setting/overriding configuration
+    ///     at runtime
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="runtimeConfiguration"></param>
+    /// <returns></returns>
+    public static IConfigurationBuilder AddRuntimeConfiguration(
+        this IConfigurationBuilder builder,
+        RuntimeConfiguration       runtimeConfiguration) =>
+        builder.Add(new RuntimeConfigurationSource(runtimeConfiguration));
 }

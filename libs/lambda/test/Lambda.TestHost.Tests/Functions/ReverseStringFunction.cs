@@ -2,14 +2,13 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 
-namespace Logicality.Lambda.TestHost.Functions
+namespace Logicality.Lambda.TestHost.Functions;
+
+public class ReverseStringFunction
 {
-    public class ReverseStringFunction
+    [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
+    public string Reverse(string input, ILambdaContext context)
     {
-        [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
-        public string Reverse(string input, ILambdaContext context)
-        {
-            return new string(input.Reverse().ToArray());
-        }
+        return new string(input.Reverse().ToArray());
     }
 }

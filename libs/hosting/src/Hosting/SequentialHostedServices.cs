@@ -5,43 +5,42 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-namespace Logicality.Extensions.Hosting
+namespace Logicality.Extensions.Hosting;
+
+/// <summary>
+/// An <see cref="IHostedService"/> that contains child hosted services, starting them sequential
+/// in the order that they are supplied. This is important for services that may need to
+/// explicitly start before services.
+/// </summary>
+public class SequentialHostedServices : IHostedService
 {
-    /// <summary>
-    /// An <see cref="IHostedService"/> that contains child hosted services, starting them sequential
-    /// in the order that they are supplied. This is important for services that may need to
-    /// explicitly start before services.
-    /// </summary>
-    public class SequentialHostedServices : IHostedService
+    private readonly IReadOnlyCollection<HostedServiceWrapper> _hostedServices;
+
+    public SequentialHostedServices(params HostedServiceWrapper[] hostedServices)
     {
-        private readonly IReadOnlyCollection<HostedServiceWrapper> _hostedServices;
+        _hostedServices = hostedServices ?? throw new ArgumentNullException(nameof(hostedServices));
+    }
 
-        public SequentialHostedServices(params HostedServiceWrapper[] hostedServices)
+    internal void SetParent(HostedServiceWrapper parent)
+    {
+        foreach (var hostedService in _hostedServices)
         {
-            _hostedServices = hostedServices ?? throw new ArgumentNullException(nameof(hostedServices));
+            hostedService.Parent = parent;
         }
+    }
 
-        internal void SetParent(HostedServiceWrapper parent)
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        foreach (var hostedService in _hostedServices)
         {
-            foreach (var hostedService in _hostedServices)
-            {
-                hostedService.Parent = parent;
-            }
+            await hostedService.StartAsync(cancellationToken);
         }
+    }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            foreach (var hostedService in _hostedServices)
-            {
-                await hostedService.StartAsync(cancellationToken);
-            }
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            var tasks = _hostedServices
-                .Select(hostedService => hostedService.StopAsync(cancellationToken));
-            return Task.WhenAll(tasks);
-        }
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        var tasks = _hostedServices
+            .Select(hostedService => hostedService.StopAsync(cancellationToken));
+        return Task.WhenAll(tasks);
     }
 }

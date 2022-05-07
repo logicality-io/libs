@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace Logicality.EventSourcing.Domain.Testing
+namespace Logicality.EventSourcing.Domain.Testing;
+
+public class ScenarioThrewException
 {
-    public class ScenarioThrewException
+    public ScenarioThrewException(Scenario scenario, Exception exception)
     {
-        public ScenarioThrewException(Scenario scenario, Exception exception)
-        {
-            Scenario = scenario;
-            Exception = exception;
-        }
-
-        public Scenario Scenario { get; }
-
-        public Exception Exception { get; }
+        Scenario  = scenario;
+        Exception = exception;
     }
+
+    public Scenario Scenario { get; }
+
+    public Exception Exception { get; }
 }

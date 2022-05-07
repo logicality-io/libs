@@ -6,25 +6,24 @@ using Microsoft.AspNetCore.Hosting;
 using Shouldly;
 using Xunit;
 
-namespace Logicality.AspNetCore.Hosting
+namespace Logicality.AspNetCore.Hosting;
+
+public class WebHostExtensionsTests
 {
-    public class WebHostExtensionsTests
+    [Fact]
+    public async Task Can_get_server_port()
     {
-        [Fact]
-        public async Task Can_get_server_port()
-        {
-            using var webHost = WebHost
-                .CreateDefaultBuilder(Array.Empty<string>())
-                .Configure(app => {})
-                .UseKestrel()
-                .UseUrls("http://127.0.0.1:0")
-                .Build();
+        using var webHost = WebHost
+            .CreateDefaultBuilder(Array.Empty<string>())
+            .Configure(app => {})
+            .UseKestrel()
+            .UseUrls("http://127.0.0.1:0")
+            .Build();
 
-            await webHost.StartAsync();
+        await webHost.StartAsync();
 
-            var serverPort = webHost.GetServerUris().First().Port;
+        var serverPort = webHost.GetServerUris().First().Port;
 
-            serverPort.ShouldNotBe(0);
-        }
+        serverPort.ShouldNotBe(0);
     }
 }

@@ -3,282 +3,281 @@ using Pulumi;
 using Pulumi.Aws;
 using Pulumi.Aws.Ec2;
 
-namespace Logicality.Pulumi.Aws.Ec2
+namespace Logicality.Pulumi.Aws.Ec2;
+
+/// <summary>
+/// Create a standard VPC across 2 availability zoned with
+/// - 2 private subnets
+/// - 2 public subnets
+/// - Nat gateways with an elastic IPs attached to public subnets
+/// - Internet gateway
+/// - Appropriate route table
+///
+/// CIDR blocs are in the /16 range. A cidr block segment can be supplied
+/// so multiple VPCs can have non-overlaping cidr blocks.
+///
+/// This is a (not-full) port of VPC from Pulumi.Awsx 
+/// </summary>
+public class StandardVpc : ComponentResource
 {
-    /// <summary>
-    /// Create a standard VPC across 2 availability zoned with
-    /// - 2 private subnets
-    /// - 2 public subnets
-    /// - Nat gateways with an elastic IPs attached to public subnets
-    /// - Internet gateway
-    /// - Appropriate route table
-    ///
-    /// CIDR blocs are in the /16 range. A cidr block segment can be supplied
-    /// so multiple VPCs can have non-overlaping cidr blocks.
-    ///
-    /// This is a (not-full) port of VPC from Pulumi.Awsx 
-    /// </summary>
-    public class StandardVpc : ComponentResource
+    private readonly StandardVpcArgs           _args;
+    private readonly ComponentResourceOptions? _options;
+
+    public StandardVpc(string name, StandardVpcArgs args, ComponentResourceOptions? options = null)
+        : base("logicality:puluimi:aws:StandardVpc", name, options)
     {
-        private readonly StandardVpcArgs _args;
-        private readonly ComponentResourceOptions? _options;
+        _args    = args;
+        _options = options;
 
-        public StandardVpc(string name, StandardVpcArgs args, ComponentResourceOptions? options = null)
-            : base("logicality:puluimi:aws:StandardVpc", name, options)
-        {
-            _args = args;
-            _options = options;
+        var dataTask = Define();
 
-            var dataTask = Define();
+        var data = Output<VpcData>.Create(dataTask);
 
-            var data = Output<VpcData>.Create(dataTask);
+        Vpc            = data.Apply(d => d.Vpc);
+        PrivateSubnet0 = data.Apply(d => d.PrivateSubnet0);
+        PrivateSubnet1 = data.Apply(d => d.PrivateSubnet1);
+        PublicSubnet0  = data.Apply(d => d.PublicSubnet0);
+        PublicSubnet1  = data.Apply(d => d.PublicSubnet1);
 
-            Vpc = data.Apply(d => d.Vpc);
-            PrivateSubnet0 = data.Apply(d => d.PrivateSubnet0);
-            PrivateSubnet1 = data.Apply(d => d.PrivateSubnet1);
-            PublicSubnet0 = data.Apply(d => d.PublicSubnet0);
-            PublicSubnet1 = data.Apply(d => d.PublicSubnet1);
+        RegisterOutputs();
+    }
 
-            RegisterOutputs();
-        }
-
-        private async Task<VpcData> Define()
-        {
-            var availabilityZonesResult = await GetAvailabilityZones.InvokeAsync(
-                null, 
-                new InvokeOptions
-                {
-                    Provider = _options?.Provider
-                });
-
-            var azA = availabilityZonesResult.Names[0];
-            var azB = availabilityZonesResult.Names[1];
-
-            var vpcResourceName = $"{GetResourceName()}";
-            var vpc = new Vpc(
-                vpcResourceName,
-                new VpcArgs
-                {
-                    CidrBlock = $"10.{_args.CidrBlockSegment}.0.0/16",
-                    Tags = new InputMap<string>
-                    {
-                        { "Name", vpcResourceName },
-                        { "pulumi:ResourceName", vpcResourceName }
-                    }
-                },
-                new CustomResourceOptions
-                {
-                    Provider = _options?.Provider,
-                    Parent = this
-                });
-
-            var private0 = AddSubnet(vpcResourceName, vpc, "private", azA, 0, _args.CidrBlockSegment, 0);
-            var private1 = AddSubnet(vpcResourceName, vpc, "private", azB, 1, _args.CidrBlockSegment, 64);
-            var public0 = AddSubnet(vpcResourceName, vpc, "public", azA, 0, _args.CidrBlockSegment, 128);
-            var public1 = AddSubnet(vpcResourceName, vpc, "public", azB, 1, _args.CidrBlockSegment, 192);
-
-            var ig = new InternetGateway(
-                $"{vpc.GetResourceName()}-ig",
-                new InternetGatewayArgs
-                {
-                    VpcId = vpc.Id
-                },
-                new CustomResourceOptions
-                {
-                    Parent = vpc
-                });
-
-            new Route($"{public0.RouteTable.GetResourceName()}-ig", new RouteArgs
+    private async Task<VpcData> Define()
+    {
+        var availabilityZonesResult = await GetAvailabilityZones.InvokeAsync(
+            null, 
+            new InvokeOptions
             {
-                RouteTableId = public0.RouteTable.Id,
-                DestinationCidrBlock = "0.0.0.0/0",
-                GatewayId = ig.Id
-            }, new CustomResourceOptions
-            {
-                Parent = public0.RouteTable
+                Provider = _options?.Provider
             });
 
-            new Route($"{public1.RouteTable.GetResourceName()}-ig", new RouteArgs
+        var azA = availabilityZonesResult.Names[0];
+        var azB = availabilityZonesResult.Names[1];
+
+        var vpcResourceName = $"{GetResourceName()}";
+        var vpc = new Vpc(
+            vpcResourceName,
+            new VpcArgs
             {
-                RouteTableId = public1.RouteTable.Id,
-                DestinationCidrBlock = "0.0.0.0/0",
-                GatewayId = ig.Id
-            }, new CustomResourceOptions
+                CidrBlock = $"10.{_args.CidrBlockSegment}.0.0/16",
+                Tags = new InputMap<string>
+                {
+                    { "Name", vpcResourceName },
+                    { "pulumi:ResourceName", vpcResourceName }
+                }
+            },
+            new CustomResourceOptions
             {
-                Parent = public1.RouteTable
+                Provider = _options?.Provider,
+                Parent   = this
             });
 
+        var private0 = AddSubnet(vpcResourceName, vpc, "private", azA, 0, _args.CidrBlockSegment, 0);
+        var private1 = AddSubnet(vpcResourceName, vpc, "private", azB, 1, _args.CidrBlockSegment, 64);
+        var public0  = AddSubnet(vpcResourceName, vpc, "public", azA, 0, _args.CidrBlockSegment, 128);
+        var public1  = AddSubnet(vpcResourceName, vpc, "public", azB, 1, _args.CidrBlockSegment, 192);
 
-            var eip0 = new Eip(
-                $"{public0.Subnet.GetResourceName()}-eip",
-                new EipArgs
-                {
-                    Vpc = true,
-                    Tags = new InputMap<string>
-                    {
-                        { "Name" ,  $"{public0.Subnet.GetResourceName()}-eip" }
-                    }
-                },
-                new CustomResourceOptions
-                {
-                    Parent = public0.Subnet
-                });
-
-            var natGateway0 = new NatGateway(
-                $"{public0.Subnet.GetResourceName()}-ng",
-                new NatGatewayArgs
-                {
-                    SubnetId = public0.Subnet.Id,
-                    AllocationId = eip0.Id,
-                    Tags = new InputMap<string>
-                    {
-                        { "Name", $"{public0.Subnet.GetResourceName()}-ng" }
-                    }
-                },
-                new CustomResourceOptions
-                {
-                    Parent = public0.Subnet
-                });
-
-            new Route($"{private0.Subnet.GetResourceName()}-nat-0", new RouteArgs
+        var ig = new InternetGateway(
+            $"{vpc.GetResourceName()}-ig",
+            new InternetGatewayArgs
             {
-                RouteTableId = private0.RouteTable.Id,
-                DestinationCidrBlock = "0.0.0.0/0",
-                NatGatewayId = natGateway0.Id
-            }, new CustomResourceOptions
+                VpcId = vpc.Id
+            },
+            new CustomResourceOptions
             {
-                Parent = private0.Subnet
+                Parent = vpc
             });
 
-
-            var eip1 = new Eip(
-                $"{public1.Subnet.GetResourceName()}-eip",
-                new EipArgs
-                {
-                    Vpc = true,
-                    Tags = new InputMap<string>
-                    {
-                        { "Name" ,  $"{public1.Subnet.GetResourceName()}-eip" }
-                    }
-                },
-                new CustomResourceOptions
-                {
-                    Parent = public1.Subnet
-                });
-
-            var natGateway1 = new NatGateway(
-                $"{public1.Subnet.GetResourceName()}-ng",
-                new NatGatewayArgs
-                {
-                    SubnetId = public1.Subnet.Id,
-                    AllocationId = eip1.Id,
-                    Tags = new InputMap<string>
-                    {
-                        { "Name", $"{public1.Subnet.GetResourceName()}-ng" }
-                    }
-                },
-                new CustomResourceOptions
-                {
-                    Parent = public1.Subnet
-                });
-
-            new Route($"{private1.Subnet.GetResourceName()}-nat-1", new RouteArgs
-            {
-                RouteTableId = private1.RouteTable.Id,
-                DestinationCidrBlock = "0.0.0.0/0",
-                NatGatewayId = natGateway1.Id
-            }, new CustomResourceOptions
-            {
-                Parent = private1.Subnet
-            });
-
-            return new VpcData(vpc, private0.Subnet, private1.Subnet, public0.Subnet, public1.Subnet);
-        }
-
-        public Output<Vpc> Vpc { get; }
-
-        public Output<Subnet> PrivateSubnet0 { get; }
-
-        public Output<Subnet> PrivateSubnet1 { get; }
-
-        public Output<Subnet> PublicSubnet0 { get; }
-
-        public Output<Subnet> PublicSubnet1 { get; }
-
-        private (Subnet Subnet, RouteTable RouteTable) AddSubnet(
-            string vpcResourceName,
-            Vpc vpc,
-            string type,
-            string availabilityZone,
-            int subnetNumber,
-            int cidrBlockSegment,
-            int cidrPartition)
+        new Route($"{public0.RouteTable.GetResourceName()}-ig", new RouteArgs
         {
-            var name = $"{vpcResourceName}-{type}-{subnetNumber}";
-            var subnet = new Subnet(
-                name,
-                new SubnetArgs
-                {
-                    CidrBlock = $"10.{cidrBlockSegment}.{cidrPartition}.0/18",
-                    AvailabilityZone = availabilityZone,
-                    VpcId = vpc.Id,
-                    Tags = new InputMap<string>
-                    {
-                        { "Name", $"{name}" },
-                        { "pulumi:ResourceName", name }
-                    }
-                },
-                new CustomResourceOptions
-                {
-                    Parent = vpc
-                });
-
-            var routeTable = new RouteTable(
-                name,
-                new RouteTableArgs
-                {
-                    VpcId = vpc.Id,
-                },
-                new CustomResourceOptions
-                {
-                    Parent = subnet
-                });
-
-            new RouteTableAssociation(
-                name,
-                new RouteTableAssociationArgs
-                {
-                    RouteTableId = routeTable.Id,
-                    SubnetId = subnet.Id
-                },
-                new CustomResourceOptions
-                {
-                    Parent = subnet
-                });
-
-            return (subnet, routeTable);
-        }
-
-        private class VpcData
+            RouteTableId         = public0.RouteTable.Id,
+            DestinationCidrBlock = "0.0.0.0/0",
+            GatewayId            = ig.Id
+        }, new CustomResourceOptions
         {
-            public VpcData(
-                Vpc vpc,
-                Subnet privateSubnet0,
-                Subnet privateSubnet1,
-                Subnet publicSubnet0,
-                Subnet publicSubnet1)
+            Parent = public0.RouteTable
+        });
+
+        new Route($"{public1.RouteTable.GetResourceName()}-ig", new RouteArgs
+        {
+            RouteTableId         = public1.RouteTable.Id,
+            DestinationCidrBlock = "0.0.0.0/0",
+            GatewayId            = ig.Id
+        }, new CustomResourceOptions
+        {
+            Parent = public1.RouteTable
+        });
+
+
+        var eip0 = new Eip(
+            $"{public0.Subnet.GetResourceName()}-eip",
+            new EipArgs
             {
-            }
+                Vpc = true,
+                Tags = new InputMap<string>
+                {
+                    { "Name" ,  $"{public0.Subnet.GetResourceName()}-eip" }
+                }
+            },
+            new CustomResourceOptions
+            {
+                Parent = public0.Subnet
+            });
 
-            public Vpc Vpc { get; }
+        var natGateway0 = new NatGateway(
+            $"{public0.Subnet.GetResourceName()}-ng",
+            new NatGatewayArgs
+            {
+                SubnetId     = public0.Subnet.Id,
+                AllocationId = eip0.Id,
+                Tags = new InputMap<string>
+                {
+                    { "Name", $"{public0.Subnet.GetResourceName()}-ng" }
+                }
+            },
+            new CustomResourceOptions
+            {
+                Parent = public0.Subnet
+            });
 
-            public Subnet PrivateSubnet0 { get; }
+        new Route($"{private0.Subnet.GetResourceName()}-nat-0", new RouteArgs
+        {
+            RouteTableId         = private0.RouteTable.Id,
+            DestinationCidrBlock = "0.0.0.0/0",
+            NatGatewayId         = natGateway0.Id
+        }, new CustomResourceOptions
+        {
+            Parent = private0.Subnet
+        });
 
-            public Subnet PrivateSubnet1 { get; }
 
-            public Subnet PublicSubnet0 { get; }
+        var eip1 = new Eip(
+            $"{public1.Subnet.GetResourceName()}-eip",
+            new EipArgs
+            {
+                Vpc = true,
+                Tags = new InputMap<string>
+                {
+                    { "Name" ,  $"{public1.Subnet.GetResourceName()}-eip" }
+                }
+            },
+            new CustomResourceOptions
+            {
+                Parent = public1.Subnet
+            });
 
-            public Subnet PublicSubnet1 { get; }
+        var natGateway1 = new NatGateway(
+            $"{public1.Subnet.GetResourceName()}-ng",
+            new NatGatewayArgs
+            {
+                SubnetId     = public1.Subnet.Id,
+                AllocationId = eip1.Id,
+                Tags = new InputMap<string>
+                {
+                    { "Name", $"{public1.Subnet.GetResourceName()}-ng" }
+                }
+            },
+            new CustomResourceOptions
+            {
+                Parent = public1.Subnet
+            });
+
+        new Route($"{private1.Subnet.GetResourceName()}-nat-1", new RouteArgs
+        {
+            RouteTableId         = private1.RouteTable.Id,
+            DestinationCidrBlock = "0.0.0.0/0",
+            NatGatewayId         = natGateway1.Id
+        }, new CustomResourceOptions
+        {
+            Parent = private1.Subnet
+        });
+
+        return new VpcData(vpc, private0.Subnet, private1.Subnet, public0.Subnet, public1.Subnet);
+    }
+
+    public Output<Vpc> Vpc { get; }
+
+    public Output<Subnet> PrivateSubnet0 { get; }
+
+    public Output<Subnet> PrivateSubnet1 { get; }
+
+    public Output<Subnet> PublicSubnet0 { get; }
+
+    public Output<Subnet> PublicSubnet1 { get; }
+
+    private (Subnet Subnet, RouteTable RouteTable) AddSubnet(
+        string vpcResourceName,
+        Vpc    vpc,
+        string type,
+        string availabilityZone,
+        int    subnetNumber,
+        int    cidrBlockSegment,
+        int    cidrPartition)
+    {
+        var name = $"{vpcResourceName}-{type}-{subnetNumber}";
+        var subnet = new Subnet(
+            name,
+            new SubnetArgs
+            {
+                CidrBlock        = $"10.{cidrBlockSegment}.{cidrPartition}.0/18",
+                AvailabilityZone = availabilityZone,
+                VpcId            = vpc.Id,
+                Tags = new InputMap<string>
+                {
+                    { "Name", $"{name}" },
+                    { "pulumi:ResourceName", name }
+                }
+            },
+            new CustomResourceOptions
+            {
+                Parent = vpc
+            });
+
+        var routeTable = new RouteTable(
+            name,
+            new RouteTableArgs
+            {
+                VpcId = vpc.Id,
+            },
+            new CustomResourceOptions
+            {
+                Parent = subnet
+            });
+
+        new RouteTableAssociation(
+            name,
+            new RouteTableAssociationArgs
+            {
+                RouteTableId = routeTable.Id,
+                SubnetId     = subnet.Id
+            },
+            new CustomResourceOptions
+            {
+                Parent = subnet
+            });
+
+        return (subnet, routeTable);
+    }
+
+    private class VpcData
+    {
+        public VpcData(
+            Vpc    vpc,
+            Subnet privateSubnet0,
+            Subnet privateSubnet1,
+            Subnet publicSubnet0,
+            Subnet publicSubnet1)
+        {
         }
+
+        public Vpc Vpc { get; }
+
+        public Subnet PrivateSubnet0 { get; }
+
+        public Subnet PrivateSubnet1 { get; }
+
+        public Subnet PublicSubnet0 { get; }
+
+        public Subnet PublicSubnet1 { get; }
     }
 }

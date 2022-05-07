@@ -8,87 +8,85 @@ using Shouldly;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Logicality.Lambda.TestHost.LocalStack
+namespace Logicality.Lambda.TestHost.LocalStack;
+
+public class LocalStackIntegrationsTests
 {
-    public class LocalStackIntegrationsTests
+    private readonly ITestOutputHelper _outputHelper;
+
+    public LocalStackIntegrationsTests(ITestOutputHelper outputHelper)
     {
-        private readonly ITestOutputHelper _outputHelper;
+        _outputHelper = outputHelper;
+    }
 
-        public LocalStackIntegrationsTests(ITestOutputHelper outputHelper)
+    [Fact]
+    public async Task With_lambda_service_and_LAMBDA_FORWARD_URL_then_should_invoke() 
+    {
+        await using var fixture = await LocalStackFixture.Create(_outputHelper);
+
+        // 1. Arrange: Create dummy lambda function in localstack
+        var functionInfo = fixture.LambdaTestHost.Settings.Functions.First().Value;
+        var createFunctionRequest = new CreateFunctionRequest
         {
-            _outputHelper = outputHelper;
-        }
+            Handler      = "dummy-handler",                      // ignored
+            FunctionName = functionInfo.Name,                    // must match
+            Role         = "arn:aws:iam::123456789012:role/foo", // must be specified
+            Code = new FunctionCode
+            {
+                ZipFile = new MemoryStream() // must be specified but is ignored
+            }
+        };
+        await fixture.LambdaClient.CreateFunctionAsync(createFunctionRequest);
 
-        [Fact]
-        public async Task With_lambda_service_and_LAMBDA_FORWARD_URL_then_should_invoke() 
+        // 2. Act: Call lambda Invoke API
+        var invokeRequest = new InvokeRequest
         {
-            await using var fixture = await LocalStackFixture.Create(_outputHelper);
+            FunctionName = functionInfo.Name,
+            Payload      = "{\"Data\":\"Bar\"}",
+        };
+        var invokeResponse = await fixture.LambdaClient.InvokeAsync(invokeRequest);
 
-            // 1. Arrange: Create dummy lambda function in localstack
-            var functionInfo = fixture.LambdaTestHost.Settings.Functions.First().Value;
-            var createFunctionRequest = new CreateFunctionRequest
-            {
-                Handler = "dummy-handler", // ignored
-                FunctionName = functionInfo.Name, // must match
-                Role = "arn:aws:iam::123456789012:role/foo", // must be specified
-                Code = new FunctionCode
-                {
-                    ZipFile = new MemoryStream() // must be specified but is ignored
-                }
-            };
-            await fixture.LambdaClient.CreateFunctionAsync(createFunctionRequest);
+        // 3. Assert: Check payload was forwarded
+        invokeResponse.HttpStatusCode.ShouldBe(HttpStatusCode.OK);
+        invokeResponse.FunctionError.ShouldBeNullOrEmpty();
+        var responsePayload = Encoding.UTF8.GetString(invokeResponse.Payload.ToArray());
+        responsePayload.ShouldStartWith("{\"Reverse\":\"raB\"}");
+    }
 
-            // 2. Act: Call lambda Invoke API
-            var invokeRequest = new InvokeRequest
-            {
-                FunctionName = functionInfo.Name,
-                Payload = "{\"Data\":\"Bar\"}",
-            };
-            var invokeResponse = await fixture.LambdaClient.InvokeAsync(invokeRequest);
+    [Fact]
+    public async Task Should_invoke_with_sqs_event_source_mapping()
+    {
+        await using var fixture = await LocalStackFixture.Create(_outputHelper);
 
-            // 3. Assert: Check payload was forwarded
-            invokeResponse.HttpStatusCode.ShouldBe(HttpStatusCode.OK);
-            invokeResponse.FunctionError.ShouldBeNullOrEmpty();
-            var responsePayload = Encoding.UTF8.GetString(invokeResponse.Payload.ToArray());
-            responsePayload.ShouldStartWith("{\"Reverse\":\"raB\"}");
-        }
-
-        [Fact]
-        public async Task Should_invoke_with_sqs_event_source_mapping()
+        // 1.1 Arrange: Create dummy lambda function in localstack
+        var functionInfo = fixture.LambdaTestHost.Settings.Functions.Last().Value;
+        var createFunctionRequest = new CreateFunctionRequest
         {
-            await using var fixture = await LocalStackFixture.Create(_outputHelper);
-
-            // 1.1 Arrange: Create dummy lambda function in localstack
-            var functionInfo = fixture.LambdaTestHost.Settings.Functions.Last().Value;
-            var createFunctionRequest = new CreateFunctionRequest
+            Handler      = "dummy-handler",                      // ignored
+            FunctionName = functionInfo.Name,                    // must match
+            Role         = "arn:aws:iam::123456789012:role/foo", // must be specified
+            Code = new FunctionCode
             {
-                Handler = "dummy-handler", // ignored
-                FunctionName = functionInfo.Name, // must match
-                Role = "arn:aws:iam::123456789012:role/foo", // must be specified
-                Code = new FunctionCode
-                {
-                    ZipFile = new MemoryStream() // must be specified but is ignored
-                }
-            };
-            await fixture.LambdaClient.CreateFunctionAsync(createFunctionRequest);
+                ZipFile = new MemoryStream() // must be specified but is ignored
+            }
+        };
+        await fixture.LambdaClient.CreateFunctionAsync(createFunctionRequest);
 
-            // 1.2 Arrange: Create queue and event source mapping
-            var queueName = "test-queue";
-            var createQueueResponse = await fixture.SQSClient.CreateQueueAsync(queueName);
-            var createEventSourceMappingRequest = new CreateEventSourceMappingRequest
-            {
-                FunctionName = functionInfo.Name,
-                EventSourceArn = $"arn:aws:sqs:eu-west-1:123456789012:{queueName}",
-                BatchSize = 1,
-                Enabled = true,
-            };
-            var createEventSourceMappingResponse = await fixture.LambdaClient.CreateEventSourceMappingAsync(createEventSourceMappingRequest);
+        // 1.2 Arrange: Create queue and event source mapping
+        var queueName           = "test-queue";
+        var createQueueResponse = await fixture.SQSClient.CreateQueueAsync(queueName);
+        var createEventSourceMappingRequest = new CreateEventSourceMappingRequest
+        {
+            FunctionName   = functionInfo.Name,
+            EventSourceArn = $"arn:aws:sqs:eu-west-1:123456789012:{queueName}",
+            BatchSize      = 1,
+            Enabled        = true,
+        };
+        var createEventSourceMappingResponse = await fixture.LambdaClient.CreateEventSourceMappingAsync(createEventSourceMappingRequest);
 
-            // 2. Act: send message to queue
-            await fixture.SQSClient.SendMessageAsync(createQueueResponse.QueueUrl, "hello");
+        // 2. Act: send message to queue
+        await fixture.SQSClient.SendMessageAsync(createQueueResponse.QueueUrl, "hello");
 
-            await Task.Delay(10000);
-        }
+        await Task.Delay(10000);
     }
 }
- 

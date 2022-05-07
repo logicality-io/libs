@@ -2,14 +2,13 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 
-namespace Logicality.Lambda.TestHost.Functions
+namespace Logicality.Lambda.TestHost.Functions;
+
+public class SleepFunction
 {
-    public class SleepFunction
+    [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
+    public async Task Handle(int sleep, ILambdaContext context)
     {
-        [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
-        public async Task Handle(int sleep, ILambdaContext context)
-        {
-            await Task.Delay(sleep);
-        }
+        await Task.Delay(sleep);
     }
 }

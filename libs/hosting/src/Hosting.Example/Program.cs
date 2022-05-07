@@ -5,48 +5,47 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
-namespace Logicality.Extensions.Hosting.Example
+namespace Logicality.Extensions.Hosting.Example;
+
+internal class Program
 {
-    internal class Program
+    private static async Task Main(string[] args)
     {
-        private static async Task Main(string[] args)
-        {
-            await CreateHostBuilder(args)
-                .Build()
-                .RunAsync();
-        }
+        await CreateHostBuilder(args)
+            .Build()
+            .RunAsync();
+    }
 
-        private static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            var loggerConfiguration = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-                .Enrich.FromLogContext()
-                .WriteTo.Logger(l =>
-                {
-                    l.WriteHostedServiceMessagesToConsole();
-                });
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        var loggerConfiguration = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+            .Enrich.FromLogContext()
+            .WriteTo.Logger(l =>
+            {
+                l.WriteHostedServiceMessagesToConsole();
+            });
 
-            var logger = loggerConfiguration.CreateLogger();
+        var logger = loggerConfiguration.CreateLogger();
 
-            var context = new HostedServiceContext();
+        var context = new HostedServiceContext();
 
-            return new HostBuilder()
-                .UseConsoleLifetime()
-                .ConfigureServices(services =>
-                {
-                    services.AddSingleton(context);
-                    services.AddTransient<SeqHostedService>();
+        return new HostBuilder()
+            .UseConsoleLifetime()
+            .ConfigureServices(services =>
+            {
+                services.AddSingleton(context);
+                services.AddTransient<SeqHostedService>();
 
-                    services.AddSequentialHostedServices("root", r => r
-                        .Host<SeqHostedService>()
-                        .Host<MySqlHostedService>()
-                        .HostParallel("web-apps", 
-                            p => p
-                                .Host<MainWebAppHostedService>()
-                                .Host<AdminWebAppHostedService>()));
-                })
-                .UseSerilog(logger);
-        }
+                services.AddSequentialHostedServices("root", r => r
+                    .Host<SeqHostedService>()
+                    .Host<MySqlHostedService>()
+                    .HostParallel("web-apps", 
+                        p => p
+                            .Host<MainWebAppHostedService>()
+                            .Host<AdminWebAppHostedService>()));
+            })
+            .UseSerilog(logger);
     }
 }

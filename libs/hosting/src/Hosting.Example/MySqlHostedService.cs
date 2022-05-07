@@ -6,67 +6,66 @@ using Ductus.FluentDocker.Services;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
-namespace Logicality.Extensions.Hosting.Example
+namespace Logicality.Extensions.Hosting.Example;
+
+public class MySqlHostedService : DockerHostedService
 {
-    public class MySqlHostedService : DockerHostedService
+    private readonly HostedServiceContext _context;
+    private const    string               SAPassword = "E@syP@ssw0rd";
+    private const    int                  HostPort   = 3306;
+
+    public MySqlHostedService(HostedServiceContext context, ILogger<DockerHostedService> logger, bool leaveRunning = false)
+        : base(logger, leaveRunning)
     {
-        private readonly HostedServiceContext _context;
-        private const string SAPassword = "E@syP@ssw0rd";
-        private const int HostPort = 3306;
+        _context = context;
+    }
 
-        public MySqlHostedService(HostedServiceContext context, ILogger<DockerHostedService> logger, bool leaveRunning = false)
-            : base(logger, leaveRunning)
+    public MySqlConnectionStringBuilder CreateConnectionStringBuilder(string? database = null) =>
+        new MySqlConnectionStringBuilder
         {
-            _context = context;
-        }
+            Server   = "localhost",
+            Port     = HostPort,
+            UserID   = "root",
+            Password = SAPassword,
+            Database = database
+        };
 
-        public MySqlConnectionStringBuilder CreateConnectionStringBuilder(string? database = null) =>
-            new MySqlConnectionStringBuilder
+    protected override string ContainerName => "extensions-mysql";
+
+    protected override IContainerService CreateContainerService()
+        => new Builder()
+            .UseContainer()
+            .WithName(ContainerName)
+            .UseImage("mysql/mysql-server:5.6")
+            .WithEnvironment($"MYSQL_ROOT_PASSWORD={SAPassword}", "MYSQL_ROOT_HOST=%")
+            .ReuseIfExists()
+            .ExposePort(HostPort, 3306)
+            .Wait("mysql-server", (service, retryCount) =>
             {
-                Server = "localhost",
-                Port = HostPort,
-                UserID = "root",
-                Password = SAPassword,
-                Database = database
-            };
+                if (retryCount > 60)
+                {
+                    throw new Exception("");
+                }
 
-        protected override string ContainerName => "extensions-mysql";
+                using (var connection = new MySqlConnection(CreateConnectionStringBuilder().ConnectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+                        return 0;
+                    }
+                    catch (Exception)
+                    {
+                        return 1000; //How long to wait before retrying
+                    }
+                }
+            })
+            .Build();
 
-        protected override IContainerService CreateContainerService()
-         => new Builder()
-             .UseContainer()
-             .WithName(ContainerName)
-             .UseImage("mysql/mysql-server:5.6")
-             .WithEnvironment($"MYSQL_ROOT_PASSWORD={SAPassword}", "MYSQL_ROOT_HOST=%")
-             .ReuseIfExists()
-             .ExposePort(HostPort, 3306)
-             .Wait("mysql-server", (service, retryCount) =>
-             {
-                 if (retryCount > 60)
-                 {
-                     throw new Exception("");
-                 }
+    public override async Task StartAsync(CancellationToken cancellationToken)
+    {
+        await base.StartAsync(cancellationToken);
 
-                 using (var connection = new MySqlConnection(CreateConnectionStringBuilder().ConnectionString))
-                 {
-                     try
-                     {
-                         connection.Open();
-                         return 0;
-                     }
-                     catch (Exception)
-                     {
-                         return 1000; //How long to wait before retrying
-                     }
-                 }
-             })
-             .Build();
-
-        public override async Task StartAsync(CancellationToken cancellationToken)
-        {
-            await base.StartAsync(cancellationToken);
-
-            _context.MySql = this;
-        }
+        _context.MySql = this;
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
 using Pulumi;
 
-namespace Logicality.Pulumi.Aws.Ec2
+namespace Logicality.Pulumi.Aws.Ec2;
+
+public class StandardVpcArgs
 {
-    public class StandardVpcArgs
-    {
-        [Input("cidrBlockSegment")]
-        public int CidrBlockSegment { get; set; }
-    }
+    [Input("cidrBlockSegment")]
+    public int CidrBlockSegment { get; set; }
 }

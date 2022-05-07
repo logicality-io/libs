@@ -1,6 +1,5 @@
 using System;
 
-namespace Logicality.EventSourcing.Domain
-{
-    public delegate Type MessageTypeResolver(string name);
-}
+namespace Logicality.EventSourcing.Domain;
+
+public delegate Type MessageTypeResolver(string name);
