@@ -35,7 +35,7 @@ There are two types of lambda invocation mechanisms:
 With this framework, you can define handlers for the above invocation types and
 functions that setup the configuration, logging and dependency injection.
 
-The general aproach is
+The general approach is
 
 1. Define Input and Response types.
 2. Define an Options type to bind to configuration.
