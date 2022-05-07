@@ -12,13 +12,13 @@ namespace Logicality.Lambda;
 /// </summary>
 /// <typeparam name="TOptions">The configuration object that configuration will be bound to.</typeparam>
 /// <typeparam name="THandler">The handler that will be activated to handle the request.</typeparam>
-/// <typeparam name="TRequest">The request type.</typeparam>
+/// <typeparam name="TInput">The input type.</typeparam>
 /// <typeparam name="TResponse">The response type.</typeparam>
-public abstract class SynchronousInvokeFunction<TRequest, TResponse, TOptions, THandler> : FunctionBase<TOptions, THandler>
+public abstract class SynchronousInvokeFunction<TInput, TResponse, TOptions, THandler>: FunctionBase<TOptions, THandler>
     where TOptions : class, new()
-    where THandler: class, ISynchronousInvokeHandler<TRequest, TResponse>
+    where THandler: class, ISynchronousInvokeHandler<TInput, TResponse>
 {
-    public Task<TResponse> Handle(TRequest input, ILambdaContext context)
+    public Task<TResponse> Handle(TInput input, ILambdaContext context)
     {
         var serviceProvider = GetServiceProvider();
         var handler         = serviceProvider.GetRequiredService<THandler>();

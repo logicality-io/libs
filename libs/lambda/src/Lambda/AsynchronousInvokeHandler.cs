@@ -5,13 +5,13 @@ using Microsoft.Extensions.Options;
 namespace Logicality.Lambda;
 
 /// <summary>
-/// A implementation of <see cref="IAsynchronousInvokeHandler{TRequest}"/> that has
+/// A implementation of <see cref="IAsynchronousInvokeHandler{TInput}"/> that has
 /// an <see cref="IOptionsSnapshot{TOptions}"/> injected.
 /// </summary>
-/// <typeparam name="TRequest">The type the handler will handle.</typeparam>
+/// <typeparam name="TInput">The type the handler will handle.</typeparam>
 /// <typeparam name="TOptions">The type of the options that will be injected via constructor.</typeparam>
-public abstract class AsynchronousInvokeHandler<TRequest, TOptions> :
-    IAsynchronousInvokeHandler<TRequest>
+public abstract class AsynchronousInvokeHandler<TInput, TOptions> :
+    IAsynchronousInvokeHandler<TInput>
     where TOptions : class, new()
 {
     protected AsynchronousInvokeHandler(IOptionsSnapshot<TOptions> optionsSnapshot) 
@@ -28,5 +28,5 @@ public abstract class AsynchronousInvokeHandler<TRequest, TOptions> :
     /// <param name="input"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public abstract Task Handle(TRequest input, ILambdaContext context);
+    public abstract Task Handle(TInput input, ILambdaContext context);
 }

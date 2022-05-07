@@ -6,8 +6,8 @@ namespace Logicality.Lambda;
 /// <summary>
 /// Represents an lambda handler for that is asynchronously invoked (returns void).
 /// </summary>
-/// <typeparam name="TRequest">A the request inout type being handled</typeparam>
-public interface IAsynchronousInvokeHandler<TRequest>
+/// <typeparam name="TInput">The request input type being handled.</typeparam>
+public interface IAsynchronousInvokeHandler<TInput>
 {
     /// <summary>
     /// Handles the function request
@@ -15,5 +15,5 @@ public interface IAsynchronousInvokeHandler<TRequest>
     /// <param name="input"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    Task Handle(TRequest input, ILambdaContext context);
+    Task Handle(TInput input, ILambdaContext context);
 }

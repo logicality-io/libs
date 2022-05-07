@@ -6,9 +6,9 @@ namespace Logicality.Lambda;
 /// <summary>
 /// Represents an lambda handler for that is synchronously invoked (returns a response object).
 /// </summary>
-/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TInput"></typeparam>
 /// <typeparam name="TResponse"></typeparam>
-public interface ISynchronousInvokeHandler<TRequest, TResponse>
+public interface ISynchronousInvokeHandler<TInput, TResponse>
 {
-    Task<TResponse> Handle(TRequest input, ILambdaContext context);
+    Task<TResponse> Handle(TInput input, ILambdaContext context);
 }

@@ -11,12 +11,12 @@ namespace Logicality.Lambda
     /// By default configuration is loaded from environment variables, appsettings.json and appsettings.{environment}.json
     /// </summary>
     /// <typeparam name="THandler">The handler that will be activated to handle the request.</typeparam>
-    /// <typeparam name="TRequest">The request type.</typeparam>
+    /// <typeparam name="TInput">The request type.</typeparam>
     /// <typeparam name="TOptions">The options type.</typeparam>
-    public abstract class AsynchronousInvokeFunction<TRequest, TOptions, THandler> : FunctionBase<TOptions, THandler>
-        where THandler : class, IAsynchronousInvokeHandler<TRequest> where TOptions : class, new()
+    public abstract class AsynchronousInvokeFunction<TInput, TOptions, THandler> : FunctionBase<TOptions, THandler>
+        where THandler : class, IAsynchronousInvokeHandler<TInput> where TOptions : class, new()
     {
-        public Task Handle(TRequest input, ILambdaContext context)
+        public Task Handle(TInput input, ILambdaContext context)
         {
             var serviceProvider = GetServiceProvider();
             var handler = serviceProvider.GetRequiredService<THandler>();

@@ -5,11 +5,11 @@ using Microsoft.Extensions.Options;
 namespace Logicality.Lambda
 {
     /// <summary>
-    /// A implementation of <see cref="IAsynchronousInvokeHandler{TRequest}"/> that has
+    /// A implementation of <see cref="IAsynchronousInvokeHandler{TInput}"/> that has
     /// an <see cref="IOptionsSnapshot{TOptions}"/> injected.
     /// </summary>
-    public abstract class SynchronousInvokeHandler<TRequest, TResponse, TOptions>
-        : ISynchronousInvokeHandler<TRequest, TResponse> where TOptions : class, new()
+    public abstract class SynchronousInvokeHandler<TInput, TResponse, TOptions>
+        : ISynchronousInvokeHandler<TInput, TResponse> where TOptions : class, new()
     {
         protected SynchronousInvokeHandler(IOptionsSnapshot<TOptions> optionsSnapshot)
         {
@@ -18,6 +18,6 @@ namespace Logicality.Lambda
 
         protected TOptions Options { get; }
 
-        public abstract Task<TResponse> Handle(TRequest input, ILambdaContext context);
+        public abstract Task<TResponse> Handle(TInput input, ILambdaContext context);
     }
 }
