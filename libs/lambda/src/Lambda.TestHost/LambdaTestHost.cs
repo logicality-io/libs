@@ -150,7 +150,7 @@ public class LambdaTestHost: IAsyncDisposable
         }
 
         /// Adapted from Amazon.Lambda.TestTools
-        private static object[] BuildParameters(LambdaFunctionInfo functionInfo, ILambdaContext context, string? payload)
+        private static object[] BuildParameters(ILambdaFunctionInfo functionInfo, ILambdaContext context, string? payload)
         {
             var parameters      = functionInfo.HandlerMethod.GetParameters();
             var parameterValues = new object[parameters.Length];
@@ -196,7 +196,7 @@ public class LambdaTestHost: IAsyncDisposable
         }
 
         /// Adapted from Amazon.Lambda.TestTools
-        private static async Task<string?> ProcessReturnAsync(LambdaFunctionInfo functionInfo, object? lambdaReturnObject)
+        private static async Task<string?> ProcessReturnAsync(ILambdaFunctionInfo functionInfo, object? lambdaReturnObject)
         {
             Stream? lambdaReturnStream = null;
 

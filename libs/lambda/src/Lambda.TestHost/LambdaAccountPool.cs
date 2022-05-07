@@ -9,12 +9,11 @@ internal class LambdaAccountPool
     private readonly uint _accountConcurrencyLimit;
     private          int  _counter;
 
-    private readonly Dictionary<string, LambdaInstancePool> _instancePools
-        = new Dictionary<string, LambdaInstancePool>(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, LambdaInstancePool> _instancePools = new(StringComparer.OrdinalIgnoreCase);
 
     public LambdaAccountPool(
-        uint                                            accountConcurrencyLimit,
-        IReadOnlyDictionary<string, LambdaFunctionInfo> lambdaFunctionInfos)
+        uint                                             accountConcurrencyLimit,
+        IReadOnlyDictionary<string, ILambdaFunctionInfo> lambdaFunctionInfos)
     {
         _accountConcurrencyLimit = accountConcurrencyLimit;
 

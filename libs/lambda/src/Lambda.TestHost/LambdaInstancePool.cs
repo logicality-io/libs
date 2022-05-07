@@ -6,14 +6,14 @@ namespace Logicality.Lambda.TestHost;
 
 internal class LambdaInstancePool
 {
-    private readonly LambdaFunctionInfo _lambdaFunctionInfo;
+    private readonly ILambdaFunctionInfo _lambdaFunctionInfo;
     private readonly ConcurrentQueue<LambdaInstance> _availableInstances
         = new ConcurrentQueue<LambdaInstance>();
     private readonly Dictionary<Guid, LambdaInstance> _usedInstances
         = new Dictionary<Guid, LambdaInstance>();
     private int _counter;
 
-    public LambdaInstancePool(LambdaFunctionInfo lambdaFunctionInfo)
+    public LambdaInstancePool(ILambdaFunctionInfo lambdaFunctionInfo)
     {
         _lambdaFunctionInfo = lambdaFunctionInfo;
     }
@@ -28,7 +28,7 @@ internal class LambdaInstancePool
                 return result;
             }
 
-            if (_lambdaFunctionInfo.ReservedConcurrency.HasValue &&  _counter >= _lambdaFunctionInfo.ReservedConcurrency.Value)
+            if (_counter >= _lambdaFunctionInfo.ReservedConcurrency)
             {
                 return null;
             }

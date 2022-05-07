@@ -10,7 +10,7 @@ public class LambdaAccountPoolTests
     [Fact]
     public void Can_get_lambda_instance()
     {
-        var lambdaFunctionInfos = new Dictionary<string, LambdaFunctionInfo>();
+        var lambdaFunctionInfos = new Dictionary<string, ILambdaFunctionInfo>();
         var lambdaFunctionInfo = new LambdaFunctionInfo(
             "test",
             typeof(ReverseStringFunction),
@@ -26,7 +26,7 @@ public class LambdaAccountPoolTests
     [Fact]
     public void When_limiting_instance_concurrency_exceeded_then_should_not_get_an_instance()
     {
-        var lambdaFunctionInfos = new Dictionary<string, LambdaFunctionInfo>();
+        var lambdaFunctionInfos = new Dictionary<string, ILambdaFunctionInfo>();
         var lambdaFunctionInfo = new LambdaFunctionInfo(
             "test",
             typeof(ReverseStringFunction),
@@ -45,7 +45,7 @@ public class LambdaAccountPoolTests
     [Fact]
     public void When_limiting_account_concurrency_exceeded_then_should_not_get_an_instance()
     {
-        var lambdaFunctionInfos = new Dictionary<string, LambdaFunctionInfo>();
+        var lambdaFunctionInfos = new Dictionary<string, ILambdaFunctionInfo>();
         var lambdaFunctionInfo = new LambdaFunctionInfo(
             "test",
             typeof(ReverseStringFunction),
@@ -63,7 +63,7 @@ public class LambdaAccountPoolTests
     [Fact]
     public void Can_return_an_instance()
     {
-        var lambdaFunctionInfos = new Dictionary<string, LambdaFunctionInfo>();
+        var lambdaFunctionInfos = new Dictionary<string, ILambdaFunctionInfo>();
         var lambdaFunctionInfo = new LambdaFunctionInfo(
             "test",
             typeof(ReverseStringFunction),
@@ -82,7 +82,7 @@ public class LambdaAccountPoolTests
     [Fact]
     public void If_function_does_not_exist_then_should_return_null()
     {
-        var lambdaFunctionInfos = new Dictionary<string, LambdaFunctionInfo>();
+        var lambdaFunctionInfos = new Dictionary<string, ILambdaFunctionInfo>();
         var lambdaAccountPool   = new LambdaAccountPool(1, lambdaFunctionInfos);
 
         var lambdaInstance = lambdaAccountPool.Get("test");

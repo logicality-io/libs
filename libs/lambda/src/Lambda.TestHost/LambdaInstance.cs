@@ -4,16 +4,16 @@ namespace Logicality.Lambda.TestHost;
 
 internal class LambdaInstance
 {
-    public LambdaInstance(LambdaFunctionInfo lambdaFunction)
+    public LambdaInstance(ILambdaFunctionInfo lambdaFunction)
     {
         LambdaFunction   = lambdaFunction;
-        FunctionInstance = Activator.CreateInstance(lambdaFunction.Type)!;
+        FunctionInstance = lambdaFunction.FunctionActivator.Activate();
         InstanceId       = Guid.NewGuid();
     }
 
     public Guid InstanceId { get; }
 
-    public LambdaFunctionInfo LambdaFunction { get; }
+    public ILambdaFunctionInfo LambdaFunction { get; }
 
     public object FunctionInstance { get; }
 }

@@ -4,7 +4,20 @@ using Amazon.Lambda.Core;
 
 namespace Logicality.Lambda.TestHost;
 
-public class LambdaFunctionInfo
+public interface ILambdaFunctionInfo
+{
+    MethodInfo HandlerMethod { get; }
+
+    int ReservedConcurrency { get; }
+
+    ILambdaFunctionActivator FunctionActivator { get; }
+
+    ILambdaSerializer Serializer { get; }
+
+    string Name { get; }
+}
+
+public class LambdaFunctionInfo : ILambdaFunctionInfo
 {
     /// <summary>
     ///     Information about a lambda function that can be invoked.
@@ -21,16 +34,25 @@ public class LambdaFunctionInfo
     /// <param name="reservedConcurrency">
     ///     The reserved concurrency.
     /// </param>
+    /// <param name="functionActivator">
+    ///     The object activator. If null the <see cref="DefaultLambdaFunctionActivator"/> will be used.
+    ///     If you want customise your function activation, e.g. inject some config/settings into non
+    /// </param>
     public LambdaFunctionInfo(
-        string name,
-        Type   functionType,
-        string handlerMethod,
-        int?   reservedConcurrency = null)
+        string        name,
+        Type          functionType,
+        string        handlerMethod,
+        int?          reservedConcurrency = null,
+        Func<object>? functionActivator   = null)
     {
-        Name = name;
-        Type = functionType;
+        Name                = name;
+        Type                = functionType;
+        HandlerMethod       = functionType.GetMethod(handlerMethod, BindingFlags.Public | BindingFlags.Instance)!;
+        ReservedConcurrency = reservedConcurrency ?? int.MaxValue;
+        FunctionActivator = functionActivator == null
+            ? new DefaultLambdaFunctionActivator(functionType)
+            : new DelegateLambdaFunctionActivator(functionActivator);
 
-        HandlerMethod = functionType.GetMethod(handlerMethod, BindingFlags.Public | BindingFlags.Instance)!;
 
         // Search to see if a Lambda serializer is registered.
         var attribute = HandlerMethod.GetCustomAttribute(typeof(LambdaSerializerAttribute)) as LambdaSerializerAttribute ??
@@ -41,7 +63,6 @@ public class LambdaFunctionInfo
             Serializer = (Activator.CreateInstance(attribute.SerializerType) as ILambdaSerializer)!;
         }
 
-        ReservedConcurrency = reservedConcurrency;
 
         HandlerString = $"{functionType.Assembly.GetName().Name}::{functionType.FullName}::{handlerMethod}";
     }
@@ -54,7 +75,9 @@ public class LambdaFunctionInfo
 
     public ILambdaSerializer? Serializer { get; }
 
-    public int? ReservedConcurrency { get; } = null;
+    public int ReservedConcurrency { get; }
 
     public string HandlerString { get; }
+
+    public ILambdaFunctionActivator FunctionActivator { get; }
 }
