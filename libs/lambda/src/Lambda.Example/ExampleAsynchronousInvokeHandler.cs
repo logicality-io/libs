@@ -16,7 +16,7 @@ public class ExampleAsynchronousInvokeHandler : AsynchronousInvokeHandler<Reques
         _clientFactory = clientFactory;
     }
 
-    public async Task Handle(Request request, ILambdaContext context)
+    public override async Task Handle(Request request, ILambdaContext context)
     {
         var httpClient = _clientFactory.CreateClient();
         httpClient.Timeout = TimeSpan.FromSeconds(Options.Timeout);

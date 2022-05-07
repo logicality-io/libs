@@ -12,7 +12,7 @@ namespace Logicality.Lambda
         {
             var testFunction = new ExampleAsynchronousInvokeFunction();
 
-            await testFunction.Handle("foo", new TestLambdaContext());
+            await testFunction.Handle(new Request{ Url = "http://example.com"}, new TestLambdaContext());
         }
     }
 }
