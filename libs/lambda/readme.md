@@ -35,17 +35,15 @@ There are two types of lambda invocation mechanisms:
 With this framework, you can define handlers for the above invocation types and
 functions that setup the configuration, logging and dependency injection.
 
-For `Synchronous
+The general aproach is
 
-- Define a handler that implements either `ISynchronousInvokeHandler` or
-  `IAsynchronousInvokeHandler` that corresponds to your desired invocation type.
-  This is resolved using DI. The handler method itself is asynchronous from a
-  .NET perspective in both cases returning a `Task<T>` or a `Task`
-  correspondingly.
-- Define a function derived from either `SynchronousInvokeFunctionBase` or
-  `AsynchronousInvokeFunctionBase` corresponding to your handler. These classes
-  are responsible for setting up the configuration, logging and service
-  provider.
+1. Define Input and Response types.
+2. Define an Options type to bind to configuration.
+3. Define a handler that will be resolved from DI.
+4. Define a function to configure logging, configuration and services.
+
+Note the handler method itself is asynchronous .NET perspective in both cases
+returning a `Task<T>` or a `Task`.
 
 ### 1.1 Synchronously Invoked Functions
 
@@ -58,11 +56,11 @@ public class ExampleOptions
 }
 ```
 
-Define your request and response types. One can also use primitives, such as
+Define your input and response types. One can also use primitives, such as
 `string` and `int`, on the handler so this is optional:
 
 ```csharp
-public class Request
+public class Input
 {
     public string Url { get; set; }
 }
@@ -78,17 +76,17 @@ request, response and options types. Alternatively one can implement the
 interface `ISynchronousInvokeHandler`.
 
 ```csharp
-public class ExampleSynchronousInvokeHandler: SynchronousInvokeHandler<Request, Response, ExampleOptions>
+public class ExampleSynchronousInvokeHandler: SynchronousInvokeHandler<Input, Response, ExampleOptions>
 {
     public ExampleSynchronousInvokeHandler(IOptionsSnapshot<ExampleOptions> optionsSnapshot) 
         : base(optionsSnapshot)
     { }
 
-    public override async Task<Response> Handle(Request request, ILambdaContext context)
+    public override async Task<Response> Handle(Input input, ILambdaContext context)
     {
         var httpClient = new HttpClient();
         httpClient.Timeout = TimeSpan.FromSeconds(Options.Timeout);
-        var response = await httpClient.GetAsync(request.Url);
+        var response = await httpClient.GetAsync(input.Url);
         var body     = await response.Content.ReadAsStringAsync();
         return new Response
         {
@@ -105,7 +103,7 @@ handler is automatically registered in the service collection. You can customise
 
 ```csharp
 public class ExampleSynchronousInvokeFunction
-  : SynchronousInvokeFunction<Request, Response, ExampleOptions, ExampleSynchronousInvokeHandler>
+  : SynchronousInvokeFunction<Input, Response, ExampleOptions, ExampleSynchronousInvokeHandler>
 {
     protected override void ConfigureConfiguration(IConfigurationBuilder configuration)
     {
@@ -141,7 +139,7 @@ Asynchronously invoked functions are essentially the same as Synchronously
 Invoked Functions above but without a response type.
 
 ```csharp
-public class ExampleAsynchronousInvokeHandler : AsynchronousInvokeHandler<Request, ExampleOptions>
+public class ExampleAsynchronousInvokeHandler : AsynchronousInvokeHandler<Input, ExampleOptions>
 {
     private readonly IHttpClientFactory _clientFactory;
 
@@ -153,16 +151,16 @@ public class ExampleAsynchronousInvokeHandler : AsynchronousInvokeHandler<Reques
         _clientFactory = clientFactory;
     }
 
-    public async Task Handle(Request request, ILambdaContext context)
+    public async Task Handle(Input input, ILambdaContext context)
     {
         var httpClient = _clientFactory.CreateClient();
         httpClient.Timeout = TimeSpan.FromSeconds(Options.Timeout);
-        await httpClient.GetAsync(request.Url);
+        await httpClient.GetAsync(input.Url);
     }
 }
 
 public class ExampleAsynchronousInvokeFunction 
-    : AsynchronousInvokeFunction<Request, ExampleOptions, ExampleAsynchronousInvokeHandler>
+    : AsynchronousInvokeFunction<Input, ExampleOptions, ExampleAsynchronousInvokeHandler>
 {
     protected override void ConfigureServices(IServiceCollection services)
     {
