@@ -5,24 +5,22 @@ using Microsoft.Extensions.Options;
 namespace Logicality.Lambda;
 
 /// <summary>
-/// A implementation of <see cref="IAsynchronousHandler{TRequest}"/> that has
+/// A implementation of <see cref="IAsynchronousInvokeHandler{TRequest}"/> that has
 /// an <see cref="IOptionsSnapshot{TOptions}"/> injected.
 /// </summary>
 /// <typeparam name="TRequest">The type the handler will handle.</typeparam>
 /// <typeparam name="TOptions">The type of the options that will be injected via constructor.</typeparam>
-public abstract class AsynchronousHandlerBase<TRequest, TOptions> :
-    IAsynchronousHandler<TRequest>
+public abstract class AsynchronousInvokeHandler<TRequest, TOptions> :
+    IAsynchronousInvokeHandler<TRequest>
     where TOptions : class, new()
 {
-    protected AsynchronousHandlerBase(IOptionsSnapshot<TOptions> optionsSnapshot)
-    {
-        OptionsValue = optionsSnapshot.Value;
-    }
+    protected AsynchronousInvokeHandler(IOptionsSnapshot<TOptions> optionsSnapshot) 
+        => Options = optionsSnapshot.Value;
 
     /// <summary> 
-    /// The options vlaue. 
+    /// The options value. 
     /// </summary>
-    protected TOptions OptionsValue { get; }
+    protected TOptions Options { get; }
 
     /// <summary>
     /// The handler.

@@ -1,68 +1,180 @@
 # Lambda Libraries
 
-NuGet Feed: https://f.feedz.io/logicality/public/nuget/index.json
+![Nuget](https://img.shields.io/nuget/v/Logicality.Lambda?label=Logicality.Lambda&style=flat-square) 
+![Nuget](https://img.shields.io/nuget/v/Logicality.Lambda.ClientExtensions?label=Logicality.Lambda.ClientExtensions&style=flat-square).
+![Nuget](https://img.shields.io/nuget/v/Logicality.Lambda.TestHost?label=Logicality.Lambda.TestHost&style=flat-square)
+
+<!-- TOC depthFrom:2 updateOnSave:true -->
+
+- [1. Logicality.Lambda](#1-logicalitylambda)
+    - [1.1 Synchronously Invoked Functions](#11-synchronously-invoked-functions)
+    - [1.2 Asynchronously Invoked Functions](#12-asynchronously-invoked-functions)
+- [2. Logicality.Lambda.ClientExtensions](#2-logicalitylambdaclientextensions)
+- [3. Logicality.Lambda.TestHost](#3-logicalitylambdatesthost)
+    - [Using](#using)
+    - [Comparison with AWS .NET Mock Lambda Test Tool](#comparison-with-aws-net-mock-lambda-test-tool)
+    - [Using with Step Functions Local](#using-with-step-functions-local)
+    - [Using with LocalStack](#using-with-localstack)
+- [Licence and Contributing](#licence-and-contributing)
+
+<!-- /TOC -->
 
 ## 1. Logicality.Lambda
 
-Helper types for constructing lambda functions.
+A mini framework for defining lambda functions leveraging .NET configuration,
+logging and dependency injection.
 
-[![feedz.io](https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Flogicality%2Fpublic%2Fshield%2FLogicality.Lambda%2Fstable)](https://f.feedz.io/logicality/public/packages/Logicality.Lambda/stable/download)
+There are two types of lambda invocation mechanisms:
 
-### FunctionBase
+- [Synchronous](https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html):
+  the lambda runtime waits for completion and returns a response to the
+  invoker.
+- [Asynchronous](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html):
+  lambda runtime puts the request on a queue and returns a success indication to the caller.
 
-An opinionated abstract class that encapsulates configuration, logging and
-dependency injection boiler plate code.
+With this framework, you can define handlers for the above invocation types and
+functions that setup the configuration, logging and dependency injection.
 
-- Configures the configuration builder with following providers:
-  - Json file: `appsettings.json`, `appsettings.{environment}.json`.
-  - Environment variables.
-- Bind configuration to your specified configuration object.
-- Configures logging with `Amazon.Lambda.Logging.AspNetCore` (which technically
-  has nothing to do with ASP.NET core, but is just an extension to
-  `Microsoft.Logging.Extensions`).
-- Configures the service provider
-  - Adds the configuration object with lifetime singleton.
-  - Adds the handler type with lifetime transient.
+For `Synchronous
 
-Actions can be passed through the constructor to further configure the function
-as needed.
+- Define a handler that implements either `ISynchronousInvokeHandler` or
+  `IAsynchronousInvokeHandler` that corresponds to your desired invocation type.
+  This is resolved using DI. The handler method itself is asynchronous from a
+  .NET perspective in both cases returning a `Task<T>` or a `Task`
+  correspondingly.
+- Define a function derived from either `SynchronousInvokeFunctionBase` or
+  `AsynchronousInvokeFunctionBase` corresponding to your handler. These classes
+  are responsible for setting up the configuration, logging and service
+  provider.
 
-Example usage (See `Lambda.Example` project for complete ):
+### 1.1 Synchronously Invoked Functions
+
+Create an options type that holds configuration values you want use in your handler:
 
 ```csharp
-    public class ExampleFunction: FunctionBase<FunctionConfig, Handler>
+public class ExampleOptions
+{
+    public int Timeout { get; set; } = 30;
+}
+```
+
+Define your request and response types. One can also use primitives, such as
+`string` and `int`, on the handler so this is optional:
+
+```csharp
+public class Request
+{
+    public string Url { get; set; }
+}
+
+public class Response
+{
+    public string Body {get; set;}
+}
+```
+
+Define a handler inheriting from `SynchronousInvokeHandler` supplying the
+request, response and options types. Alternatively one can implement the
+interface `ISynchronousInvokeHandler`.
+
+```csharp
+public class ExampleSynchronousInvokeHandler: SynchronousInvokeHandler<Request, Response, ExampleOptions>
+{
+    public ExampleSynchronousInvokeHandler(IOptionsSnapshot<ExampleOptions> optionsSnapshot) 
+        : base(optionsSnapshot)
+    { }
+
+    public override async Task<Response> Handle(Request request, ILambdaContext context)
     {
-        public ExampleFunction() 
-            : base(ConfigureConfiguration, ConfigureLogging, ConfigureServices)
-        { }
-
-        private static void ConfigureConfiguration(IConfigurationBuilder configuration)
+        var httpClient = new HttpClient();
+        httpClient.Timeout = TimeSpan.FromSeconds(Options.Timeout);
+        var response = await httpClient.GetAsync(request.Url);
+        var body     = await response.Content.ReadAsStringAsync();
+        return new Response
         {
-            // Additional Confogiration. 
-        }
-
-        private static void ConfigureLogging(ILoggingBuilder logging)
-        {
-            // Additional Logging configuration. 
-        }
-
-        private static void ConfigureServices(FunctionConfig config, IServiceCollection services)
-        {
-            // Add services here.
-        }
-
-        public string? Handle(string input, ILambdaContext context)
-        {
-            // Resolve the handler class and invoke the handler.
-            var handler = ServiceProvider.GetRequiredService<Handler>();
-            return handler.Handle(input, context);
-        }
+            Body = body
+        };
     }
+}
+```
+
+Define a function that will wire up configuration, logging and services. The
+handler is automatically registered in the service collection. You can customise
+ the behaviour by overrriding `ConfigureConfiguration`, `ConfigureLogging` and
+`ConfigureServices`.
+
+```csharp
+public class ExampleSynchronousInvokeFunction
+  : SynchronousInvokeFunction<Request, Response, ExampleOptions, ExampleSynchronousInvokeHandler>
+{
+    protected override void ConfigureConfiguration(IConfigurationBuilder configuration)
+    {
+        base.ConfigureConfiguration(configuration);
+        configuration.AddSecretsManager();
+    }
+
+    protected override void ConfigureLogging(ILoggingBuilder logging)
+    {
+        base.ConfigureLogging(logging);
+        logging.SetMinimumLevel(LogLevel.Debug);
+    }
+
+    protected override void ConfigureServices(IServiceCollection services)
+    {
+        base.ConfigureServices(services);
+        services.AddHttpClient();
+    }
+}
+```
+
+By default, the base implementations of these methods perform the following:
+
+- `ConfigureConfiguration` will add JsonFile (appsettings.jon & appsettings.{environment}.json) and
+  EnvironmentVariables configuration providers.
+- `ConfigureLogging` will add LambdaLogger provider from
+  `Amazon.Lambda.Logging.AspNetCore` (not actually related to AspNetCore but
+  actually base on Microsoft.Extensions.Logging).
+
+### 1.2 Asynchronously Invoked Functions
+
+Asynchronously invoked functions are essentially the same as Synchronously
+Invoked Functions above but without a response type.
+
+```csharp
+public class ExampleAsynchronousInvokeHandler : AsynchronousInvokeHandler<Request, ExampleOptions>
+{
+    private readonly IHttpClientFactory _clientFactory;
+
+    public ExampleAsynchronousInvokeHandler(
+      IHttpClientFactory clientFactory,
+      IOptionsSnapshot<ExampleOptions> optionsSnapshot) 
+        : base(optionsSnapshot)
+    {
+        _clientFactory = clientFactory;
+    }
+
+    public async Task Handle(Request request, ILambdaContext context)
+    {
+        var httpClient = _clientFactory.CreateClient();
+        httpClient.Timeout = TimeSpan.FromSeconds(Options.Timeout);
+        await httpClient.GetAsync(request.Url);
+    }
+}
+
+public class ExampleAsynchronousInvokeFunction 
+    : AsynchronousInvokeFunction<Request, ExampleOptions, ExampleAsynchronousInvokeHandler>
+{
+    protected override void ConfigureServices(IServiceCollection services)
+    {
+        base.ConfigureServices(services);
+        services.AddHttpClient();
+    }
+}
 ```
 
 ## 2. Logicality.Lambda.ClientExtensions
 
-TODO.
+Some helper extension methods around `IAmazonLambda`.
 
 ## 3. Logicality.Lambda.TestHost
 
@@ -151,8 +263,8 @@ debugging application logic issues.".
 
 ### Using with Step Functions Local
 
-- See [Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/sfn-local.html) docs. 
-- See an [`integration test`](test/Lambda.TestHost.Tests/StepFunctionsIntegrationTests.cs) for an example
+- See [Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/sfn-local.html) docs.
+- See an [`integration test`](test/Lambda.TestHost.Tests/StepFunctions/StepFunctionsIntegrationTests.cs) for an example
   that uses Step Functions container with `LAMBDA_ENDPOINT` configured to call back to Lambda Test Host.
 
 ### Using with LocalStack
@@ -162,3 +274,14 @@ debugging application logic issues.".
   that uses LocalStack container with `LAMBDA_FORWARD_URL` configured to call back to Lambda Test Host.
 
 [lambda-test-tool]: https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool
+
+## Licence and Contributing
+
+Licence is MIT
+
+- Please open a discussion if you have a question or a feature request.
+- Please create an issue if there is a bug with a full reproducible.
+
+Generally though, the purpose of this is primarily for Logicality's use cases
+and clients. Activities will be prioritized around such. Feel free to copy and
+internalise if you don't want to take a dependency.

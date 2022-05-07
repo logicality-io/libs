@@ -3,15 +3,16 @@ using Amazon.Lambda.TestUtilities;
 using Logicality.Lambda.Example;
 using Xunit;
 
-namespace Logicality.Lambda;
-
-public class AsynchronousFunctionBaseTests
+namespace Logicality.Lambda
 {
-    [Fact]
-    public async Task Can_activate_lambda()
+    public class AsynchronousFunctionBaseTests
     {
-        var testFunction = new ExampleAsynchronousFunction(_ => { });
+        [Fact]
+        public async Task Can_activate_lambda()
+        {
+            var testFunction = new ExampleAsynchronousInvokeFunction();
 
-        await testFunction.Handle("foo", new TestLambdaContext());
+            await testFunction.Handle("foo", new TestLambdaContext());
+        }
     }
 }
