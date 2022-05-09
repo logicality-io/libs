@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Logicality.Lambda;
 
-public class SynchronousFunctionBaseTests
+public class SynchronousInvokeFunctionTests
 {
     [Fact]
     public async Task Can_activate_lambda()
