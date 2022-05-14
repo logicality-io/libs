@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Logicality.GitHub.Actions.Workflow</AssemblyName>
     <RootNamespace>Logicality.GitHub.Actions.Workflow</RootNamespace>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>A GitHub Actions Workflow fluent builder library.</Description> 
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,10 +19,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
