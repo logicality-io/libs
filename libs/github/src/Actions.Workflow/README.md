@@ -60,7 +60,7 @@ jobs:
 ```
 
 See [WorkflowGen](https://github.com/logicality-io/platform-libs/blob/main/.github/WorkflowGen/Program.cs)
-in this repository for a more fuller example.
+in this repository for a more comprehensive example.
 
 ## Using
 
