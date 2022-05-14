@@ -33,7 +33,7 @@ buildJob.Step()
 buildJob.Step()
     .Name("Build")
     .Run($"./build.ps1")
-    .ShellPowerShell();
+    .Shell(Shells.PowerShell);
 
 workflow.WriteYaml("../workflows/my-workflow.yml", yaml);
 ```
