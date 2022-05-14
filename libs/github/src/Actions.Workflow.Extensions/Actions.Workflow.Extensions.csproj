@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Logicality.GitHub.Actions.Workflow.Extensions</AssemblyName>
     <RootNamespace>Logicality.GitHub.Actions.Workflow</RootNamespace>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>A collection of extensions and common steps and jobs for GitHub Actions Workflow library.</Description> 
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +23,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Actions.Workflow\Actions.Workflow.csproj" />
+  </ItemGroup>
+
+   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
