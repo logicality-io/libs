@@ -1,6 +1,6 @@
 # GitHub Actions Workflow
 
-![Nuget](https://img.shields.io/nuget/v/Logicality.GitHub.Actions.Workflow?label=Logicality.GitHub.Actions.Workflow&style=flat-square) </br>
+![Nuget](https://img.shields.io/nuget/v/Logicality.GitHub.Actions.Workflow?label=Logicality.GitHub.Actions.Workflow&style=flat-square)
 
 ## Introduction
 
