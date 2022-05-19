@@ -13,7 +13,7 @@
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
     <PackageReference Include="AWSSDK.Lambda" Version="3.7.13" />
     <PackageReference Include="AWSSDK.SQS" Version="3.7.2.55" />
-    <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.0.158" />
+    <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.0.159" />
     <PackageReference Include="Ductus.FluentDocker" Version="2.10.45" />
   </ItemGroup>
 
