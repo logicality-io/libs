@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
+    <Description>A collection of extensions over Microsoft.Extentions.Configuration</Description>
   </PropertyGroup>
 
   <ItemGroup>
