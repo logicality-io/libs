@@ -179,8 +179,6 @@ Some helper extension methods around `IAmazonLambda`.
 A .NET implementation of AWS Lambda's Invoke API that can host and execute .NET Lambdas
 for simulation, testing, and debugging purposes.
 
-[![feedz.io](https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Flogicality%2Fpublic%2Fshield%2FLogicality.Lambda.TestHost%2Fstable)](https://f.feedz.io/logicality/public/packages/Logicality.Lambda.TestHost/stable/download)
-
 ### Using
 
 It works by running a web server that can handle lambda invocation requests,
@@ -281,5 +279,5 @@ Licence is MIT
 - Please create an issue if there is a bug with a full reproducible.
 
 Generally though, the purpose of this is primarily for Logicality's use cases
-and clients. Activities will be prioritized around such. Feel free to copy and
-internalise if you don't want to take a dependency.
+and clients. Activities will be prioritized around such. Feel free to copy/fork/
+vendorise if you don't want to take a dependency.
