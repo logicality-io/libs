@@ -1,8 +1,8 @@
 # Lambda Libraries
 
-![Nuget](https://img.shields.io/nuget/v/Logicality.Lambda?label=Logicality.Lambda&style=flat-square) 
-![Nuget](https://img.shields.io/nuget/v/Logicality.Lambda.ClientExtensions?label=Logicality.Lambda.ClientExtensions&style=flat-square).
-![Nuget](https://img.shields.io/nuget/v/Logicality.Lambda.TestHost?label=Logicality.Lambda.TestHost&style=flat-square)
+[![nuget.org][b1]][d1]
+[![nuget.org][b2]][d2]
+[![nuget.org][b3]][d3]
 
 <!-- TOC depthFrom:2 updateOnSave:true -->
 
@@ -281,3 +281,10 @@ Licence is MIT
 Generally though, the purpose of this is primarily for Logicality's use cases
 and clients. Activities will be prioritized around such. Feel free to copy/fork/
 vendorise if you don't want to take a dependency.
+
+[b1]: https://img.shields.io/nuget/v/Logicality.Lambda?label=Logicality.Lambda&style=flat-square
+[d1]: https;//nuget.org/packages/Logicality.Lambda
+[b2]: https://img.shields.io/nuget/v/Logicality.Lambda.ClientExtensions?label=Logicality.Lambda.ClientExtensions&style=flat-square
+[d2]: https;//nuget.org/packages/Logicality.Lambda.ClientExtensions
+[b3]: https://img.shields.io/nuget/v/Logicality.Lambda.TestHost?label=Logicality.Lambda.TestHost&style=flat-square
+[d3]: https;//nuget.org/packages/Logicality.Lambda.TestHost
