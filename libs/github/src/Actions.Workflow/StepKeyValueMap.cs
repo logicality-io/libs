@@ -15,7 +15,7 @@ public abstract class StepKeyValueMap<T> : KeyValueMap<T> where T : StepKeyValue
     }
 
     /// <summary>
-    /// The associated Job
+    /// The associated Step
     /// </summary>
     public Step Step { get; }
 
