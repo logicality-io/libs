@@ -99,6 +99,29 @@ jobs:
     }
 
     [Fact]
+    public void Step_Env()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .Step("step")
+            .Env(("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"))
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    steps:
+    - id: step
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}";
+
+        actual.ShouldBe(expected);
+    }
+
+    [Fact]
     public void Step_Shell()
     {
         var actual = new Workflow("workflow")
