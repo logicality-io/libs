@@ -8,6 +8,7 @@ public class Step
     private readonly string?   _id;
     private          string    _name        = string.Empty;
     private          string    _conditional = string.Empty;
+    private          StepEnv?  _env;
     private          string    _uses        = string.Empty;
     private          StepWith? _with;
     private          string    _run            = string.Empty;
@@ -57,6 +58,18 @@ public class Step
     {
         _uses = uses;
         return this;
+    }
+
+    /// <summary>
+    /// A map of environment variables that are available to the step.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#env
+    /// </summary>
+    /// <param name="map"></param>
+    /// <returns>The step.</returns>
+    public Step Env(params (string Key, string Value)[] map)
+    {
+        _env = new(this, map.ToDictionary());
+        return _env.Step;
     }
 
     /// <summary>
@@ -149,6 +162,9 @@ public class Step
         {
             node.Add("run", _run);
         }
+        
+        // Env
+        _env?.Build(node);
 
         if (!string.IsNullOrWhiteSpace(_shell))
         {
