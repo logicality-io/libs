@@ -83,12 +83,12 @@ in this repository for a more comprehensive example.
 
    var workflow = new Workflow("my-workflow");
 
-    workflow.On
+   workflow.On
       .Push()
       .Branches("main");
 
-    // Workflow path relative to console project
-    workflow.WriteYaml("../workflows/my-workflow.yaml"); 
+   // Workflow path relative to console project
+   workflow.WriteYaml("../workflows/my-workflow.yaml"); 
 
    ```
 
