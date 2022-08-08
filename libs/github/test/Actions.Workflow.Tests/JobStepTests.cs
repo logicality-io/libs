@@ -74,6 +74,53 @@ jobs:
 
         actual.ShouldBe(expected);
     }
+    
+    [Fact]
+    public void Step_WorkingDirectory_With_Run()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .Step("step")
+            .Run("./build.ps1 push")
+            .WorkingDirectory("./builder")
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    steps:
+    - id: step
+      run: ./build.ps1 push
+      working-directory: ./builder
+";
+
+        actual.ShouldBe(expected);
+    }
+    
+    [Fact]
+    public void Step_WorkingDirectory_Without_Run()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .Step("step")
+            .WorkingDirectory("./builder")
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    steps:
+    - id: step
+";
+
+        actual.ShouldBe(expected);
+    }
 
     [Fact]
     public void Step_Uses()
@@ -116,7 +163,8 @@ jobs:
     steps:
     - id: step
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}";
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+";
 
         actual.ShouldBe(expected);
     }

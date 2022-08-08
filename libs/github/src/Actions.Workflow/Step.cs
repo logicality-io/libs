@@ -6,14 +6,15 @@ namespace Logicality.GitHub.Actions.Workflow;
 public class Step
 {
     private readonly string?   _id;
-    private          string    _name        = string.Empty;
-    private          string    _conditional = string.Empty;
+    private          string    _name             = string.Empty;
+    private          string    _conditional      = string.Empty;
     private          StepEnv?  _env;
-    private          string    _uses        = string.Empty;
+    private          string    _uses             = string.Empty;
     private          StepWith? _with;
-    private          string    _run            = string.Empty;
-    private          string    _shell          = string.Empty;
-    private          int       _timeoutMinutes = 0;
+    private          string    _run              = string.Empty;
+    private          string    _workingDirectory = string.Empty;
+    private          string    _shell            = string.Empty;
+    private          int       _timeoutMinutes   = 0;
     private          bool      _continueOnError;
 
     internal Step(string? id, Job job)
@@ -97,6 +98,18 @@ public class Step
     }
 
     /// <summary>
+    /// Specifies the working directory where to run the command. Only emitted when used in conjunction with `Run`.
+    /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+    /// </summary>
+    /// <param name="workingDirectory"></param>
+    /// <returns></returns>
+    public Step WorkingDirectory(string workingDirectory)
+    {
+        _workingDirectory = workingDirectory;
+        return this;
+    }
+
+    /// <summary>
     /// Iverride the default shell settings.
     /// See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
     /// </summary>
@@ -161,6 +174,11 @@ public class Step
         if (!string.IsNullOrWhiteSpace(_run))
         {
             node.Add("run", _run);
+            
+            if (!string.IsNullOrWhiteSpace(_workingDirectory))
+            {
+                node.Add("working-directory", _workingDirectory);
+            }
         }
         
         // Env
