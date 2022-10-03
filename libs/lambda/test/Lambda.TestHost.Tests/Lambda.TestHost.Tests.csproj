@@ -11,7 +11,7 @@
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.5.0" />
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
-    <PackageReference Include="AWSSDK.Lambda" Version="3.7.13.31" />
+    <PackageReference Include="AWSSDK.Lambda" Version="3.7.14.23" />
     <PackageReference Include="AWSSDK.SQS" Version="3.7.2.86" />
     <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.0.189" />
     <PackageReference Include="Ductus.FluentDocker" Version="2.10.55" />
