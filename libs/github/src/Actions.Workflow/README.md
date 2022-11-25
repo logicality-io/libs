@@ -6,10 +6,11 @@
 
 A library to help generate GitHub Actions Workflows yaml in a
 fluent manner. Written to support a better authoring experience, increase
-reusability and mitigate against the fragility of copy'n'pasting stuff around.
-If one is maintaining just a few simple workflows this is probably over-kill.
-If one is maintaining many workflows across many repositories where one wants
-to be able to to reuse standardised jobs and steps, then this may be useful.
+reusability (distributable as a NuGet package) and mitigates against the
+fragility of copy'n'pasting stuff around. If one is maintaining just a
+few simple workflows this is probably over-kill. If one is maintaining
+many workflows across many repositories where one wants to be able to
+to reuse standardised jobs and steps, then this may be useful.
 
 ## Simple Example
 
