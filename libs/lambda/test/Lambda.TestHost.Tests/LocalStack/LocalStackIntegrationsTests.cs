@@ -42,7 +42,9 @@ public class LocalStackIntegrationsTests
         var invokeRequest = new InvokeRequest
         {
             FunctionName = functionInfo.Name,
-            Payload      = "{\"Data\":\"Bar\"}",
+            Payload      = """
+{ "Data": "Bar"}
+""",
         };
         var invokeResponse = await fixture.LambdaClient.InvokeAsync(invokeRequest);
 
@@ -50,7 +52,9 @@ public class LocalStackIntegrationsTests
         invokeResponse.HttpStatusCode.ShouldBe(HttpStatusCode.OK);
         invokeResponse.FunctionError.ShouldBeNullOrEmpty();
         var responsePayload = Encoding.UTF8.GetString(invokeResponse.Payload.ToArray());
-        responsePayload.ShouldStartWith("{\"Reverse\":\"raB\"}");
+        responsePayload.ShouldStartWith("""
+{"Reverse":"raB"}
+""");
     }
 
     [Fact]
@@ -82,7 +86,9 @@ public class LocalStackIntegrationsTests
             BatchSize      = 1,
             Enabled        = true,
         };
-        var createEventSourceMappingResponse = await fixture.LambdaClient.CreateEventSourceMappingAsync(createEventSourceMappingRequest);
+        var createEventSourceMappingResponse = await fixture
+            .LambdaClient
+            .CreateEventSourceMappingAsync(createEventSourceMappingRequest);
 
         // 2. Act: send message to queue
         await fixture.SQSClient.SendMessageAsync(createQueueResponse.QueueUrl, "hello");
