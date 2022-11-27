@@ -26,7 +26,7 @@ jobs:
       name: The Step
 ";
       
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -49,7 +49,7 @@ jobs:
       if: ${{<expression>}}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -72,7 +72,7 @@ jobs:
       run: ./build.ps1 push
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
     
     [Fact]
@@ -97,7 +97,7 @@ jobs:
       working-directory: ./builder
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
     
     [Fact]
@@ -119,7 +119,7 @@ jobs:
     - id: step
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -142,7 +142,7 @@ jobs:
       uses: action/action:v1.0
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -166,7 +166,7 @@ jobs:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -189,7 +189,7 @@ jobs:
       shell: bash
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -215,7 +215,7 @@ jobs:
         foo: bar
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -238,7 +238,7 @@ jobs:
       timeout-minutes: 10
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -261,6 +261,6 @@ jobs:
       continue-on-error: true
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 }

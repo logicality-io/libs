@@ -47,7 +47,7 @@ on:
     - release/**
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -66,7 +66,7 @@ on:
   pull_request_target:
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -105,7 +105,7 @@ on:
     - release/**
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -126,7 +126,7 @@ on:
   - cron: '1 2,3 * * *'
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -150,7 +150,7 @@ on:
     - edited
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -192,7 +192,7 @@ on:
         required: false
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -215,7 +215,7 @@ on:
     branches: [main]
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
 
@@ -262,7 +262,7 @@ on:
         required: true
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -279,7 +279,7 @@ permissions:
   packages: write
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -295,7 +295,7 @@ name: workflow
 permissions: read-all
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -311,7 +311,7 @@ name: workflow
 permissions: write-all
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -329,7 +329,7 @@ concurrency:
   cancel-in-progress: true
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -346,7 +346,7 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
 
@@ -366,7 +366,7 @@ defaults:
   foo: bar
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -387,6 +387,6 @@ defaults:
     working-directory: ./dir
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 }
