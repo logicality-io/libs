@@ -14,7 +14,7 @@
     <PackageReference Include="AWSSDK.Lambda" Version="3.7.101.2" />
     <PackageReference Include="AWSSDK.SQS" Version="3.7.2.86" />
     <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.101.1" />
-    <PackageReference Include="Ductus.FluentDocker" Version="2.10.55" />
+    <PackageReference Include="Ductus.FluentDocker" Version="2.10.57" />
   </ItemGroup>
 
   <ItemGroup>
