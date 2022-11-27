@@ -84,7 +84,7 @@ public class LocalstackFixture : IDisposable
             var config          = containerService.GetConfiguration();
             var networkSettings = config.NetworkSettings;
             var exposedPort     = networkSettings.Ports.First();
-            var hostPort        = exposedPort.Value.First().HostPort;
+            var hostPort        = exposedPort.Key.Split("/").First();
 
             var serviceUrl = new UriBuilder($"http://localhost:{hostPort}");
 
