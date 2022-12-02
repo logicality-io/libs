@@ -168,11 +168,11 @@ public class Workflow
     /// <summary>
     /// Get the YAML representation of this workflow.
     /// </summary>
-    /// <param name="sequenceStyle">The squence style for collections.</param>
+    /// <param name="sequenceStyle">The sequence style for collections.</param>
     /// <returns>The YAML representation as a string.</returns>
-    public string GetYaml(SequenceStyle sequenceStyle = SequenceStyle.Block) 
+    public string GetYaml(SequenceStyle sequenceStyle = SequenceStyle.Block)
     {
-        var rootNode     = new YamlMappingNode();
+        var rootNode = new YamlMappingNode();
         if (!string.IsNullOrEmpty(_name))
         {
             rootNode.Add("name", new YamlScalarNode(_name));
@@ -235,9 +235,9 @@ public class Workflow
         var yaml = stringBuilder.ToString();
         yaml = yaml.Replace(" {}", string.Empty);
 
-        // HACK For some reason yamldotnet adds a ".../r/n" to the end. This removes it.
-        // Maybe I'm missing something...
-        yaml = yaml.Remove(yaml.Length - 5, 5);
+        // HACK For some reason yamldotnet adds a "..." document terminator and I've no way to exclude it
+        // This removes it.
+        yaml = yaml.Replace($"...{Environment.NewLine}", "");
 
         return yaml;
     }

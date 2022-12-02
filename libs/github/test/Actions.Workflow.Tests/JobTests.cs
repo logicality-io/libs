@@ -24,7 +24,7 @@ jobs:
     name: Build Project
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -44,7 +44,7 @@ jobs:
     needs: [job1, job2]
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -85,7 +85,7 @@ jobs:
       packages: write
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -105,7 +105,7 @@ jobs:
     permissions: read-all
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -125,7 +125,7 @@ jobs:
     permissions: write-all
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -147,7 +147,7 @@ jobs:
       url: http://example.com
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -169,7 +169,7 @@ jobs:
       cancel-in-progress: true
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -193,7 +193,7 @@ jobs:
       output2: ${{ steps.step2.outputs.test }}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -214,7 +214,7 @@ jobs:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -235,7 +235,7 @@ jobs:
       foo: bar
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -259,7 +259,7 @@ jobs:
         working-directory: ./dir
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -279,7 +279,7 @@ jobs:
     if: ${{ <expression> }}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -299,7 +299,7 @@ jobs:
     timeout-minutes: 10
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -324,7 +324,7 @@ jobs:
         node: [10, 12, 14]
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -346,7 +346,7 @@ jobs:
       fail-fast: false
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -368,7 +368,7 @@ jobs:
       max-parallel: 2
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -388,7 +388,7 @@ jobs:
     continue-on-error: true
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -408,7 +408,7 @@ jobs:
     uses: octo-org/this-repo/.github/workflows/workflow-1.yml@172239021f7ba04fe7327647b213799853a9eb89
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -431,7 +431,7 @@ jobs:
       foo: bar
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -454,7 +454,7 @@ jobs:
       access-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -490,7 +490,7 @@ jobs:
       options: --cpus 1
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 
     [Fact]
@@ -547,6 +547,6 @@ jobs:
         options: --no-logo
 ";
 
-        actual.ShouldBe(expected);
+        actual.ShouldBe(expected.ReplaceLineEndings());;
     }
 }

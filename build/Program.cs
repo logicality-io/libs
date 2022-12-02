@@ -29,11 +29,11 @@ var libs = Directory.GetDirectories("libs")
 
 foreach (var lib in libs)
 {
-    var testProjects = Directory.GetFiles($"libs/{lib}/test/", "*.csproj", SearchOption.AllDirectories);
+    var testProjects = Directory.GetFiles($"libs/{lib}/test/", "*.Tests.csproj", SearchOption.AllDirectories); // will ignore "IntegrationTests.csproj"
     var testTarget = $"{lib}-test";
     Target(testTarget,
         testProjects,
-        p => Run("dotnet", $"pack {p} -c Release -o {ArtifactsDir}"));
+        testProject => Run("dotnet", $"test {testProject} -c Release"));
     defaultTargets.Add(testTarget);
 
     var packableProjects = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);

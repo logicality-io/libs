@@ -95,8 +95,7 @@ public class LocalStackFixture : IAsyncDisposable
             .GetConfiguration()
             .NetworkSettings
             .Ports.First()
-            .Value.First()
-            .HostPort;
+            .Key.Split("/").First();
 
         var localstackServiceUrl = new UriBuilder($"http://localhost:{exposedPort}");
 

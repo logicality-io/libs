@@ -44,23 +44,25 @@ public class StepFunctionsIntegrationTests: IAsyncLifetime
         {
             Name = "Foo",
             Type = StateMachineType.STANDARD,
-            Definition = @"{
-  ""Comment"": ""A Hello World example demonstrating various state types of the Amazon States Language"",
-  ""StartAt"": ""Invoke Lambda function"",
-  ""States"": {
-    ""Invoke Lambda function"": {
-      ""Type"": ""Task"",
-      ""Resource"": ""arn:aws:states:::lambda:invoke"",
-      ""Parameters"": {
-        ""FunctionName"": ""arn:aws:lambda:us-east-1:123456789012:function:SimpleLambdaFunction:$LATEST"",
-        ""Payload"": {
-          ""Input.$"": ""$.Payload""
+            Definition = """
+{
+  "Comment": "A Hello World example demonstrating various state types of the Amazon States Language",
+  "StartAt": "Invoke Lambda function",
+  "States": {
+    "Invoke Lambda function": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:123456789012:function:SimpleLambdaFunction:$LATEST",
+        "Payload": {
+          "Input.$": "$.Payload"
         }
       },
-      ""End"": true
+      "End": true
     }
   }
-}"
+}
+"""
         };
         var createStateMachineResponse = await client.CreateStateMachineAsync(request);
 
@@ -69,11 +71,13 @@ public class StepFunctionsIntegrationTests: IAsyncLifetime
         {
             Name            = Guid.NewGuid().ToString(),
             StateMachineArn = createStateMachineResponse.StateMachineArn,
-            Input = @"{
-""Payload"": { 
-  ""Foo"": ""Bar"" 
+            Input = """
+{
+  "Payload": { 
+    "Foo": "Bar" 
   }
-}"
+}
+"""
         };
         var startExecutionResponse = await client.StartExecutionAsync(startExecutionRequest);
 
@@ -82,6 +86,8 @@ public class StepFunctionsIntegrationTests: IAsyncLifetime
             ExecutionArn         = startExecutionResponse.ExecutionArn,
             IncludeExecutionData = true,
         };
+
+        await Task.Delay(1000);
 
         // 4. Poll and wait for the 
         while (true)
