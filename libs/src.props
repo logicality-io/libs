@@ -47,4 +47,8 @@
     <FrameworkVersion>6.0.0</FrameworkVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0'">
+    <FrameworkVersion>7.0.0</FrameworkVersion>
+  </PropertyGroup>
+
 </Project>
