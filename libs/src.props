@@ -12,7 +12,7 @@
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <Deterministic>true</Deterministic>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
