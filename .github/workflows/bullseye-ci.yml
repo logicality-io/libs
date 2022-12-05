@@ -29,6 +29,10 @@ jobs:
         fetch-depth: 0
     - name: Log into GitHub Container Registry
       run: echo "${{secrets.GITHUB_TOKEN}}" | docker login ghcr.io -u ${{github.actor}} --password-stdin
+    - name: Setup Dotnet
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x 7.0.x
     - name: Print Env
       run: printenv
       shell: bash

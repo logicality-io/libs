@@ -69,4 +69,19 @@ public static class StepExtensions
             .Shell(Shells.Bash);
         return step.Job;
     }
+
+    /// <summary>
+    /// Sets up dotnet.
+    /// </summary>
+    /// <param name="step"></param>
+    /// <param name="versions">DotNet SDK versions</param>
+    /// <returns></returns>
+    public static Job ActionsSetupDotNet(this Step step, params string[] versions)
+    {
+        step
+            .Name("Setup Dotnet")
+            .Uses("actions/setup-dotnet@v3")
+            .With(("dotnet-version", string.Join(" ", versions)));
+        return step.Job;
+    }
 }
