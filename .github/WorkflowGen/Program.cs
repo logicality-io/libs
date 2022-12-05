@@ -49,6 +49,8 @@ void GenerateWorkflowsForLibs()
 
         buildJob.Step().LogIntoGitHubContainerRegistry();
 
+        buildJob.Step().ActionsSetupDotNet("6.0.x", "7.0.x");
+
         buildJob.Step().PrintEnvironment();
 
         buildJob.Step()
@@ -113,7 +115,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step()
         .Name("Setup dotnet")
-        .Uses("actions/setup-dotnet@v2")
+        .Uses("actions/setup-dotnet@v3")
         .With(("dotnet-version", "6.0.x"));
 
     job.Step()
@@ -125,7 +127,7 @@ void GenerateCodeAnalysisWorkflow()
         .With(("languages", "${{ matrix.language }}"));
 
     job.Step()
-        .Run("./build.ps1 local build")
+        .Run("./build.ps1 build")
         .Shell(Shells.Pwsh);
 
     job.Step()

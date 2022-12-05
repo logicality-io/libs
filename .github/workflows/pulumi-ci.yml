@@ -37,20 +37,20 @@ jobs:
       run: printenv
       shell: bash
     - name: Test
-      run: ./build.ps1 local pulumi-test
+      run: ./build.ps1 pulumi-test
       shell: pwsh
     - name: Pack
-      run: ./build.ps1 local pulumi-pack
+      run: ./build.ps1 pulumi-pack
       shell: pwsh
     - name: Push to GitHub
       if: github.event_name == 'push'
       continue-on-error: true
-      run: ./build.ps1 local push-github
+      run: ./build.ps1 push-github
       shell: pwsh
     - name: Push to Nuget.org (on tag)
       if: startsWith(github.ref, 'refs/tags/pulumi')
       continue-on-error: true
-      run: ./build.ps1 local push-nugetorg
+      run: ./build.ps1 push-nugetorg
       shell: pwsh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3

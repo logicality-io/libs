@@ -56,7 +56,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		build.dockerfile = build.dockerfile
 		build.ps1 = build.ps1
 		LICENSE = LICENSE
 		readme.md = readme.md
@@ -245,7 +244,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3ADF05C1-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webhooks", "libs\webhooks\src\Webhooks\Webhooks.csproj", "{C19E94E1-1B0E-4D41-A09D-EBA4BF304B15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webhooks.Tests", "libs\webhooks\test\Webhooks.Tests\Webhooks.Tests.csproj", "{2BC20FAA-FC20-43C1-8866-C2CBC151A6B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webhooks.Tests", "libs\webhooks\test\Webhooks.Tests\Webhooks.Tests.csproj", "{2BC20FAA-FC20-43C1-8866-C2CBC151A6B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
