@@ -39,10 +39,10 @@ jobs:
       run: printenv
       shell: bash
     - name: Test
-      run: ./build.ps1 configuration-test
+      run: ./build.ps1 local configuration-test
       shell: pwsh
     - name: Pack
-      run: ./build.ps1 configuration-pack
+      run: ./build.ps1 local configuration-pack
       shell: pwsh
     - name: Push to GitHub
       if: github.event_name == 'push'
