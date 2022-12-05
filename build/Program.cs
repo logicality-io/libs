@@ -59,10 +59,10 @@ defaultTargets.Add(PushToGitHub);
 
 Target(PushToNugetOrg, () =>
 {
-    var apiKey = Environment.GetEnvironmentVariable("NUGETORG_API_KEY");
+    var apiKey = Environment.GetEnvironmentVariable("LOGICALITY_NUGET_ORG");
     if (string.IsNullOrWhiteSpace(apiKey))
     {
-        Console.WriteLine("NUGETORG_API_KEY not available. No packages will be pushed.");
+        Console.WriteLine("LOGICALITY_NUGET_ORG not available. No packages will be pushed.");
         return;
     }
     Console.WriteLine($"Nuget API Key ({apiKey.Substring(0, 5)}) available. Pushing packages..."); 
