@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.Automation" Version="3.48.0" />
+    <PackageReference Include="Pulumi.Automation" Version="3.49.0" />
   </ItemGroup>
 
 </Project>
