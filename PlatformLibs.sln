@@ -68,20 +68,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{110F
 		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worflows", "worflows", "{C49FC4EA-9AA4-4D53-9751-DD3EDF85788F}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\aspnet-core-ci.yml = .github\workflows\aspnet-core-ci.yml
-		.github\workflows\bullseye-ci.yml = .github\workflows\bullseye-ci.yml
-		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
-		.github\workflows\configuration-ci.yml = .github\workflows\configuration-ci.yml
-		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
-		.github\workflows\hosting-ci.yml = .github\workflows\hosting-ci.yml
-		.github\workflows\lambda-ci.yml = .github\workflows\lambda-ci.yml
-		.github\workflows\pulumi-ci.yml = .github\workflows\pulumi-ci.yml
-		.github\workflows\system-extensions-ci.yml = .github\workflows\system-extensions-ci.yml
-		.github\workflows\testing-ci.yml = .github\workflows\testing-ci.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye", "libs\bullseye\src\Bullseye\Bullseye.csproj", "{558069C6-0126-45A2-89E0-A2739E5C1FBC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bullseye", "bullseye", "{EF3DD315-B854-4C2B-9EF2-45596D5CD0F5}"
@@ -412,7 +398,6 @@ Global
 		{8AB0B71F-2410-411A-ABC4-C937B493109B} = {9377BD46-AA58-421E-BD31-B4C0282AF831}
 		{AF24F291-5D7E-4266-B378-3D8C61A133F6} = {9377BD46-AA58-421E-BD31-B4C0282AF831}
 		{FA64DAF0-66F7-4F6B-BB1B-3B53F4FBC088} = {DCF79F1D-03A2-40C8-9AFA-07674D094E09}
-		{C49FC4EA-9AA4-4D53-9751-DD3EDF85788F} = {110FA643-6DE5-48FB-9368-FDE268A192C1}
 		{558069C6-0126-45A2-89E0-A2739E5C1FBC} = {C8BF43DE-DC35-402A-B0FF-EBE1CF8410A9}
 		{C8BF43DE-DC35-402A-B0FF-EBE1CF8410A9} = {EF3DD315-B854-4C2B-9EF2-45596D5CD0F5}
 		{784169CC-99B9-4FF6-8F2D-45CC232CEDFB} = {107B8800-A040-4255-940F-D6F5514C0728}
