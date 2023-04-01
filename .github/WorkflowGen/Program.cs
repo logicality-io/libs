@@ -19,7 +19,8 @@ void GenerateWorkflowsForLibs()
         "lambda",
         "pulumi",
         "system-extensions",
-        "testing"
+        "testing",
+        "webhook-relay"
     };
 
     foreach (var lib in libs)
