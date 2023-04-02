@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <Description>A collection of various extensions, helpers and utilities in the System.* namespace.</Description>
   </PropertyGroup>
 
 </Project>
