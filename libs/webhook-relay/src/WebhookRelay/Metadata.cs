@@ -1,26 +1,29 @@
 ﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Logicality.WebhookRelay;
 
 public class Metadata
 {
+    [JsonPropertyName("id")]
+
     public string Id { get; set; }
 
-    [DataMember(Name = "bucket_id")]
+    [JsonPropertyName("bucket_id")]
     public string BucketId { get; set; }
 
-    [DataMember(Name = "bucket_name")]
+    [JsonPropertyName("bucket_name")]
     public string BucketName { get; set; }
 
-    [DataMember(Name = "input_id")]
+    [JsonPropertyName("input_id")]
     public string InputId { get; set; }
 
-    [DataMember(Name = "input_name")]
+    [JsonPropertyName("input_name")]
     public string InputName { get; set; }
 
-    [DataMember(Name = "output_name")]
+    [JsonPropertyName("output_name")]
     public string OutputName { get; set; }
 
-    [DataMember(Name = "output_destination")]
+    [JsonPropertyName("output_destination")]
     public string OutputDestination { get; set; }
 }

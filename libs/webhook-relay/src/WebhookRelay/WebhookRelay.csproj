@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Logicality.SystemExtensions" Version="0.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="Stateless" Version="5.13.0" />

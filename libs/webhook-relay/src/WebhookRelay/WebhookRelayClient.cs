@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Channels;
-using Logicality.SystemExtensions.Text.Json;
 using Microsoft.Extensions.Logging;
 using Stateless;
 
@@ -256,7 +255,6 @@ public sealed class WebhookRelayClient : IAsyncDisposable
         _jsonSerializerOptions = new JsonSerializerOptions
         {
             DefaultIgnoreCondition      = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy        = SnakeCaseNamingPolicy.Instance,
             PropertyNameCaseInsensitive = true,
         };
     }
