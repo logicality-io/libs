@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Channels;
+using Logicality.SystemExtensions.Text.Json;
 using Microsoft.Extensions.Logging;
 using Stateless;
 
