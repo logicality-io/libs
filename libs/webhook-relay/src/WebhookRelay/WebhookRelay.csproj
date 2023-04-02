@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Description>A .NET websocket client library for https://webhookrelay.io</Description>
   </PropertyGroup>
 
   <ItemGroup>
