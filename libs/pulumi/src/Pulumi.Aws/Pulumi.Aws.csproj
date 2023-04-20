@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.Aws" Version="5.34.0" />
+    <PackageReference Include="Pulumi.Aws" Version="5.36.1" />
   </ItemGroup>
 
   <ItemGroup>
