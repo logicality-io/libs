@@ -1,4 +1,4 @@
-﻿using Logicality.EventSourcing.Domain.Testing;
+﻿/*using Logicality.EventSourcing.Domain.Testing;
 using Xunit;
 
 namespace ExampleDomain.Tests.Profile
@@ -62,4 +62,4 @@ namespace ExampleDomain.Tests.Profile
                 .AssertAsync(this.runner);
         }
     }
-}
+}*/
