@@ -31,12 +31,12 @@ public static class CooperativeShutdown
     /// <returns>
     ///     A disposable representing the named pipe listener.
     /// </returns>
-    public static Task<IDisposable> Listen(Action shutdownRequested, ILoggerFactory loggerFactory, Action<Exception> onError = default)
+    public static Task<IDisposable> Listen(Action shutdownRequested, ILoggerFactory loggerFactory, Action<Exception>? onError = default)
     {
         var listener = new CooperativeShutdownListener(
             GetPipeName(Process.GetCurrentProcess().Id),
             shutdownRequested,
-            loggerFactory.CreateLogger($"{nameof(LittleForker)}.{typeof(CooperativeShutdown).Name}"));
+            loggerFactory.CreateLogger($"{nameof(LittleForker)}.{nameof(CooperativeShutdown)}"));
             
         Task.Run(async () =>
         {

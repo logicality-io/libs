@@ -13,18 +13,17 @@ public class ProcessSupervisor : IDisposable
 {
     private readonly ILogger                                                       _logger;
     private readonly string                                                        _arguments;
-    private readonly StringDictionary                                              _environmentVariables;
+    private readonly StringDictionary?                                             _environmentVariables;
     private readonly bool                                                          _captureStdErr;
     private readonly string                                                        _processPath;
     private readonly StateMachine<State, Trigger>.TriggerWithParameters<Exception> _startErrorTrigger;
     private readonly StateMachine<State, Trigger>.TriggerWithParameters<TimeSpan?> _stopTrigger;
-    private readonly StateMachine<State, Trigger> _processStateMachine
-        = new StateMachine<State, Trigger>(State.NotStarted, FiringMode.Immediate);
+    private readonly StateMachine<State, Trigger> _processStateMachine = new(State.NotStarted, FiringMode.Immediate);
     private readonly string         _workingDirectory;
-    private          Process        _process;
+    private          Process?       _process;
     private readonly ILoggerFactory _loggerFactory;
     private          bool           _killed;
-    private readonly TaskQueue      _taskQueue = new TaskQueue();
+    private readonly TaskQueue      _taskQueue = new();
 
     /// <summary>
     ///     The state a process is in.
@@ -74,13 +73,13 @@ public class ProcessSupervisor : IDisposable
     ///     A flag to indicated whether to capture standard error output.
     /// </param>
     public ProcessSupervisor(
-        ILoggerFactory   loggerFactory,
-        ProcessRunType   processRunType,
-        string           workingDirectory,
-        string           processPath,
-        string           arguments            = null,
-        StringDictionary environmentVariables = null,
-        bool             captureStdErr        = false)
+        ILoggerFactory    loggerFactory,
+        ProcessRunType    processRunType,
+        string            workingDirectory,
+        string            processPath,
+        string?           arguments            = null,
+        StringDictionary? environmentVariables = null,
+        bool              captureStdErr        = false)
     {
         _loggerFactory        = loggerFactory;
         _workingDirectory     = workingDirectory;
@@ -105,21 +104,21 @@ public class ProcessSupervisor : IDisposable
                 Trigger.ProcessExit,
                 State.ExitedSuccessfully,
                 () => processRunType == ProcessRunType.SelfTerminating
-                      && _process.HasExited
-                      && _process.ExitCode == 0,
+                      && _process!.HasExited
+                      && _process!.ExitCode == 0,
                 "SelfTerminating && ExitCode==0")
             .PermitIf(
                 Trigger.ProcessExit,
                 State.ExitedWithError,
                 () => processRunType == ProcessRunType.SelfTerminating 
-                      && _process.HasExited 
-                      && _process.ExitCode != 0,
+                      && _process!.HasExited 
+                      && _process!.ExitCode != 0,
                 "SelfTerminating && ExitCode!=0")
             .PermitIf(
                 Trigger.ProcessExit,
                 State.ExitedUnexpectedly,
                 () => processRunType == ProcessRunType.NonTerminating 
-                      && _process.HasExited,
+                      && _process!.HasExited,
                 "NonTerminating and died.")
             .Permit(Trigger.Stop, State.Stopping)
             .Permit(Trigger.StartError, State.StartFailed);
@@ -134,20 +133,20 @@ public class ProcessSupervisor : IDisposable
             .PermitIf(Trigger.ProcessExit, State.ExitedSuccessfully,
                 () => processRunType == ProcessRunType.NonTerminating 
                       && !_killed 
-                      && _process.HasExited
-                      && _process.ExitCode == 0,
+                      && _process!.HasExited
+                      && _process!.ExitCode == 0,
                 "NonTerminating and shut down cleanly")
             .PermitIf(Trigger.ProcessExit, State.ExitedWithError,
                 () => processRunType == ProcessRunType.NonTerminating
                       && !_killed
-                      && _process.HasExited
-                      && _process.ExitCode != 0,
+                      && _process!.HasExited
+                      && _process!.ExitCode != 0,
                 "NonTerminating and shut down with non-zero exit code")
             .PermitIf(Trigger.ProcessExit, State.ExitedKilled,
                 () => processRunType == ProcessRunType.NonTerminating 
                       && _killed
-                      && _process.HasExited
-                      && _process.ExitCode != 0,
+                      && _process!.HasExited
+                      && _process!.ExitCode != 0,
                 "NonTerminating and killed.");
 
         _processStateMachine
@@ -177,29 +176,29 @@ public class ProcessSupervisor : IDisposable
     ///     Contains the caught exception in the event a process failed to
     ///     be launched.
     /// </summary>
-    public Exception OnStartException { get; private set; }
+    public Exception? OnStartException { get; private set; }
 
     /// <summary>
     ///     Information about the launched process.
     /// </summary>
-    public IProcessInfo ProcessInfo { get; private set; }
+    public IProcessInfo? ProcessInfo { get; private set; }
 
     public State CurrentState => _processStateMachine.State;
 
     /// <summary>
     ///     Raised when the process emits console data.
     /// </summary>
-    public event Action<string> OutputDataReceived;
+    public event Action<string>? OutputDataReceived;
 
     /// <summary>
     ///     Raised when the process emits stderr console data.
     /// </summary>
-    public event Action<string> ErrorDataReceived;
+    public event Action<string>? ErrorDataReceived;
 
     /// <summary>
     ///     Raised when the process state has changed.
     /// </summary>
-    public event Action<State> StateChanged;
+    public event Action<State>? StateChanged;
 
     public string GetDotGraph() => UmlDotGraph.Format(_processStateMachine.GetInfo());
 
@@ -262,10 +261,10 @@ public class ProcessSupervisor : IDisposable
                 StartInfo           = processStartInfo,
                 EnableRaisingEvents = true
             };
-            _process.OutputDataReceived += (_, args) => OutputDataReceived?.Invoke(args.Data);
+            _process.OutputDataReceived += (_, args) => OutputDataReceived?.Invoke(args.Data!);
             if (_captureStdErr)
             {
-                _process.ErrorDataReceived += (_, args) => ErrorDataReceived?.Invoke(args.Data);
+                _process.ErrorDataReceived += (_, args) => ErrorDataReceived?.Invoke(args.Data!);
             }
             _process.Exited += (sender, args) =>
             {
@@ -303,7 +302,7 @@ public class ProcessSupervisor : IDisposable
         {
             try
             {
-                _logger.LogInformation($"Killing process {_process.Id}");
+                _logger.LogInformation("Killing process {processId}", _process!.Id);
                 _killed = true;
                 _process.Kill();
             }
@@ -311,8 +310,8 @@ public class ProcessSupervisor : IDisposable
             {
                 _logger.LogWarning(
                     ex,
-                    $"Exception occurred attempting to kill process {_process.Id}. This may if the " +
-                    "in the a race condition where process has already exited and an attempt to kill it.");
+                    "Exception occurred attempting to kill process {processId}. This may if the " +
+                    "in the a race condition where process has already exited and an attempt to kill it.", _process!.Id);
             }
         }
         else
@@ -328,7 +327,7 @@ public class ProcessSupervisor : IDisposable
                 var exitedWithError = this.WhenStateIs(State.ExitedWithError);
 
                 await CooperativeShutdown
-                    .SignalExit(ProcessInfo.Id, _loggerFactory).TimeoutAfter(timeout.Value)
+                    .SignalExit(ProcessInfo!.Id, _loggerFactory).TimeoutAfter(timeout.Value)
                     .ConfigureAwait(false);
 
                 await Task
@@ -345,9 +344,9 @@ public class ProcessSupervisor : IDisposable
                 try
                 {
                     _logger.LogWarning(
-                        $"Timed out waiting to signal the process to exit or the "             +
-                        $"process {_process.ProcessName} ({_process.Id}) did not shutdown in " +
-                        $"the given time ({timeout})");
+                        "Timed out waiting to signal the process to exit or the "             +
+                        "process {processName} ({processId}) did not shutdown in " +
+                        "the given time ({timeout})", _process!.ProcessName, _process!.Id, timeout);
                     _killed = true;
                     _process.Kill();
                 }
@@ -355,9 +354,9 @@ public class ProcessSupervisor : IDisposable
                 {
                     _logger.LogWarning(
                         ex,
-                        $"Exception occurred attempting to kill process {_process.Id}. This may occur "         +
+                        "Exception occurred attempting to kill process {processId}. This may occur "         +
                         "in the a race condition where the process has exited, a timeout waiting for the exit," +
-                        "and the attempt to kill it.");
+                        "and the attempt to kill it.", _process!.Id);
                 }
             }
         }

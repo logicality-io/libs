@@ -9,8 +9,8 @@ namespace Logicality.LittleForker;
 /// </summary>
 public sealed class ProcessExitedHelper : IDisposable
 {
-    private          int     _processExitedRaised;
-    private readonly Process _process;
+    private          int      _processExitedRaised;
+    private readonly Process? _process;
 
     /// <summary>
     ///     Initializes a new instance of <see cref="ProcessExitedHelper"/>
@@ -37,17 +37,17 @@ public sealed class ProcessExitedHelper : IDisposable
         _process = Process.GetProcesses().SingleOrDefault(pr => pr.Id == processId);
         if (_process == null)
         {
-            logger.LogError($"Process with Id {processId} was not found.");
+            logger.LogError("Process with Id {processId} was not found.", processId);
             OnProcessExit();
             return;
         }
-        logger.LogInformation($"Process with Id {processId} found.");
+        logger.LogInformation("Process with Id {processId} found.", processId);
         try
         {
             _process.EnableRaisingEvents = true;
             _process.Exited += (_, __) =>
             {
-                logger.LogInformation($"Parent process with Id {processId} exited.");
+                logger.LogInformation("Parent process with Id {processId} exited.", processId);
                 OnProcessExit();
             };
         }
@@ -55,13 +55,13 @@ public sealed class ProcessExitedHelper : IDisposable
         // attaching to the Exited event
         catch (InvalidOperationException ex) 
         {
-            logger.LogInformation($"Process with Id {processId} has already exited.", ex);
+            logger.LogInformation(ex, "Process with Id {processId} has already exited.", processId);
             OnProcessExit();
         }
 
         if (_process.HasExited)
         {
-            logger.LogInformation($"Process with Id {processId} has already exited.");
+            logger.LogInformation("Process with Id {processId} has already exited.", processId);
             OnProcessExit();
         }
 

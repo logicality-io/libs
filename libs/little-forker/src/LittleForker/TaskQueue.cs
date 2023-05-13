@@ -8,10 +8,9 @@ namespace Logicality.LittleForker;
 /// </summary>
 internal class TaskQueue : IDisposable
 {
-    private readonly ConcurrentQueue<Func<Task>> _taskQueue    = new ConcurrentQueue<Func<Task>>();
-    private readonly CancellationTokenSource     _isDisposed   = new CancellationTokenSource();
-    private readonly InterlockedBoolean          _isProcessing = new InterlockedBoolean();
-
+    private readonly ConcurrentQueue<Func<Task>> _taskQueue    = new();
+    private readonly CancellationTokenSource      _isDisposed   = new();
+    private readonly InterlockedBoolean           _isProcessing = new();
 
     /// <summary>
     ///     Enqueues a task for processing.
@@ -46,7 +45,7 @@ internal class TaskQueue : IDisposable
     /// <summary>
     ///     Enqueues a task for processing.
     /// </summary>
-    /// <param name="function">The operation to invoke that is co-operatively cancelable.</param>
+    /// <param name="function">The operation to invoke that is cooperatively cancelable.</param>
     /// <returns>A task representing the operation. Awaiting is optional.</returns>
     public Task Enqueue(Func<CancellationToken, Task> function)
     {
@@ -61,15 +60,13 @@ internal class TaskQueue : IDisposable
     /// <summary>
     ///     Enqueues a task for processing.
     /// </summary>
-    /// <param name="function">The operation to invoke that is co-operatively cancelable.</param>
+    /// <param name="function">The operation to invoke that is cooperatively cancelable.</param>
     /// <returns>A task representing the operation. Awaiting is optional.</returns>
-    public Task<TResult> Enqueue<TResult>(Func<CancellationToken, Task<TResult>> function)
-    {
-        return EnqueueInternal(_taskQueue, function);
-    }
+    public Task<TResult> Enqueue<TResult>(Func<CancellationToken, Task<TResult>> function) 
+        => EnqueueInternal(_taskQueue, function);
 
     private Task<TResult> EnqueueInternal<TResult>(
-        ConcurrentQueue<Func<Task>>            taskQueue,
+        ConcurrentQueue<Func<Task>>                      taskQueue,
         Func<CancellationToken, Task<TResult>> function)
     {
         var tcs = new TaskCompletionSource<TResult>();
@@ -113,7 +110,7 @@ internal class TaskQueue : IDisposable
     {
         do
         {
-            if (_taskQueue.TryDequeue(out Func<Task> function))
+            if (_taskQueue.TryDequeue(out var function))
             {
                 await function().ConfigureAwait(false);
             }
@@ -121,8 +118,5 @@ internal class TaskQueue : IDisposable
         } while (_taskQueue.Count > 0 && _isProcessing.CompareExchange(true, false) == false);
     }
 
-    public void Dispose()
-    {
-        _isDisposed.Cancel();
-    }
+    public void Dispose() => _isDisposed.Cancel();
 }
