@@ -40,6 +40,7 @@ jobs:
       run: printenv
       shell: bash
     - name: Test
+      timeout-minutes: 5
       run: ./build.ps1 testing-test
       shell: pwsh
     - name: Pack
