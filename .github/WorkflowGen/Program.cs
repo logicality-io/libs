@@ -17,6 +17,7 @@ void GenerateWorkflowsForLibs()
         "github",
         "hosting",
         "lambda",
+        "little-forker",
         "pulumi",
         "system-extensions",
         "testing",
