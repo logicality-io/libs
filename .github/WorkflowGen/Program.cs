@@ -17,6 +17,7 @@ void GenerateWorkflowsForLibs()
         "github",
         "hosting",
         "lambda",
+        "little-forker",
         "pulumi",
         "system-extensions",
         "testing",
@@ -60,7 +61,8 @@ void GenerateWorkflowsForLibs()
         buildJob.Step()
             .Name("Test")
             .Run($"./build.ps1 {lib}-test")
-            .Shell(Shells.Pwsh);
+            .Shell(Shells.Pwsh)
+            .TimeoutMinutes(5);
 
         buildJob.Step()
             .Name("Pack")
