@@ -43,8 +43,11 @@ void GenerateWorkflowsForLibs()
             .Job("build")
             .RunsOn(GitHubHostedRunners.UbuntuLatest)
             .Env(
-                ("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"), 
-                ("LOGICALITY_NUGET_ORG", "${{secrets.LOGICALITY_NUGET_ORG}}"));
+                ("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"),
+                ("LOGICALITY_NUGET_ORG", "${{secrets.LOGICALITY_NUGET_ORG}}"),
+                ("WEBHOOKRELAYTOKENKEY", "${{secrets.WEBHOOKRELAYTOKENKEY}}"),
+                ("WEBHOOKRELAYTOKENSECRET", "${{secrets.WEBHOOKRELAYTOKENSECRET}}"),
+                ("WEBHOOKURL", "${{secrets.WEBHOOKURL}}"));
 
         buildJob.Step().ActionsCheckout();
 
