@@ -1,35 +1,32 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Shouldly;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace LittleForker
+namespace Logicality.LittleForker;
+
+public class CooperativeShutdownTests
 {
-    public class CooperativeShutdownTests
+    private readonly ILoggerFactory _loggerFactory;
+
+    public CooperativeShutdownTests(ITestOutputHelper outputHelper)
     {
-        private readonly ILoggerFactory _loggerFactory;
+        _loggerFactory = new XunitLoggerFactory(outputHelper).LoggerFactory;
+    }
 
-        public CooperativeShutdownTests(ITestOutputHelper outputHelper)
-        {
-            _loggerFactory = new XunitLoggerFactory(outputHelper).LoggerFactory;
-        }
+    [Fact]
+    public async Task When_server_signals_exit_then_should_notify_client_to_exit()
+    {
+        var exitCalled = new TaskCompletionSource<bool>();
+        var listener = await CooperativeShutdown.Listen(
+            () => exitCalled.SetResult(true),
+            _loggerFactory);
 
-        [Fact]
-        public async Task When_server_signals_exit_then_should_notify_client_to_exit()
-        {
-            var exitCalled = new TaskCompletionSource<bool>();
-            var listener = await CooperativeShutdown.Listen(
-                () => exitCalled.SetResult(true),
-                _loggerFactory);
+        await CooperativeShutdown.SignalExit(Process.GetCurrentProcess().Id, _loggerFactory);
 
-            await CooperativeShutdown.SignalExit(Process.GetCurrentProcess().Id, _loggerFactory);
+        (await exitCalled.Task).ShouldBeTrue();
 
-            (await exitCalled.Task).ShouldBeTrue();
-
-            listener.Dispose();
-        }
+        listener.Dispose();
     }
 }

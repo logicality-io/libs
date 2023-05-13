@@ -1,13 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using LittleForker;
+﻿using System.Diagnostics;
+using Logicality.LittleForker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Serilog;
 
-namespace NonTerminatingProcess
+namespace Logicality.NonTerminatingProcess
 {
     internal sealed class Program
     {

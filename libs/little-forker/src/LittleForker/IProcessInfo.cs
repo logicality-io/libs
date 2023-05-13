@@ -1,4 +1,4 @@
-﻿namespace LittleForker
+﻿namespace Logicality.LittleForker
 {
     public interface IProcessInfo
     {
