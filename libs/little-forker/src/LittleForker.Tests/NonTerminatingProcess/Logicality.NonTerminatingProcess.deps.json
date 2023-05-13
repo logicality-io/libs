@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Logicality.NonTerminatingProcess/0.1.0-alpha.0.418+build.0": {
+      "Logicality.NonTerminatingProcess/0.1.0-alpha.0.424+build.0": {
         "dependencies": {
           "Logicality.LittleForker": "1.0.0",
           "Microsoft.Extensions.Configuration.Binder": "3.1.0",
@@ -434,7 +434,7 @@
     }
   },
   "libraries": {
-    "Logicality.NonTerminatingProcess/0.1.0-alpha.0.418+build.0": {
+    "Logicality.NonTerminatingProcess/0.1.0-alpha.0.424+build.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

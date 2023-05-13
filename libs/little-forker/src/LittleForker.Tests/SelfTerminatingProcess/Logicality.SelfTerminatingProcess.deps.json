@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Logicality.SelfTerminatingProcess/0.1.0-alpha.0.418+build.0": {
+      "Logicality.SelfTerminatingProcess/0.1.0-alpha.0.424+build.0": {
         "dependencies": {
           "Microsoft.SourceLink.GitHub": "1.1.1",
           "MinVer": "4.3.0"
@@ -27,7 +27,7 @@
     }
   },
   "libraries": {
-    "Logicality.SelfTerminatingProcess/0.1.0-alpha.0.418+build.0": {
+    "Logicality.SelfTerminatingProcess/0.1.0-alpha.0.424+build.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
