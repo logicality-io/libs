@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "path": "..\\..\\PlatformLibs.sln",
+    "projects": [
+      "build\\Build.csproj",
+      "libs\\webhook-relay\\src\\WebhookRelay\\WebhookRelay.csproj",
+      "libs\\webhook-relay\\tests\\WebhookRelay.Tests\\WebhookRelay.Tests.csproj"
+    ]
+  }
+}
