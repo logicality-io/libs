@@ -24,6 +24,8 @@ void GenerateWorkflowsForLibs()
         "webhook-relay"
     };
 
+    (string Key, string Value) EnvSecret(string key) => (key, $"${{secrets.{key}}}");
+
     foreach (var lib in libs)
     {
         var workflow = new Workflow($"{lib}-ci");
@@ -44,11 +46,11 @@ void GenerateWorkflowsForLibs()
             .Job("build")
             .RunsOn(GitHubHostedRunners.UbuntuLatest)
             .Env(
-                ("GITHUB_TOKEN", "${{secrets.GITHUB_TOKEN}}"),
-                ("LOGICALITY_NUGET_ORG", "${{secrets.LOGICALITY_NUGET_ORG}}"),
-                ("WEBHOOKRELAYTOKENKEY", "${{secrets.WEBHOOKRELAYTOKENKEY}}"),
-                ("WEBHOOKRELAYTOKENSECRET", "${{secrets.WEBHOOKRELAYTOKENSECRET}}"),
-                ("WEBHOOKURL", "${{secrets.WEBHOOKURL}}"));
+                EnvSecret("GITHUB_TOKEN"),
+                EnvSecret("LOGICALITY_NUGET_ORG"),
+                EnvSecret("WEBHOOKRELAYTOKENKEY"),
+                EnvSecret("WEBHOOKRELAYTOKENKEY"),
+                EnvSecret("WEBHOOKURL"));
 
         buildJob.Step().ActionsCheckout();
 
