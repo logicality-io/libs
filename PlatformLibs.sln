@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9377BD46-AA5
 		libs\hosting\src\Directory.Build.props = libs\hosting\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DCF79F1D-03A2-40C8-9AFA-07674D094E09}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DCF79F1D-03A2-40C8-9AFA-07674D094E09}"
 	ProjectSection(SolutionItems) = preProject
-		libs\hosting\test\Directory.Build.props = libs\hosting\test\Directory.Build.props
+		libs\hosting\tests\Directory.Build.props = libs\hosting\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C768A766-9F4B-4F0E-A220-13DA01AEA719}"
@@ -31,14 +31,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C768A766-9F4
 		libs\configuration\src\Directory.Build.props = libs\configuration\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FB2237C3-A8BD-49A0-810E-4BA789577C55}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FB2237C3-A8BD-49A0-810E-4BA789577C55}"
 	ProjectSection(SolutionItems) = preProject
-		libs\configuration\test\Directory.Build.props = libs\configuration\test\Directory.Build.props
+		libs\configuration\tests\Directory.Build.props = libs\configuration\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Configuration", "libs\configuration\src\Configuration\Extensions.Configuration.csproj", "{32904A03-9806-47F3-8572-F1B5B918571C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Configuration.Tests", "libs\configuration\test\Configuration.Tests\Extensions.Configuration.Tests.csproj", "{5FF9AF0A-054F-49FF-9D51-04517EFAF44E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Configuration.Tests", "libs\configuration\tests\Configuration.Tests\Extensions.Configuration.Tests.csproj", "{5FF9AF0A-054F-49FF-9D51-04517EFAF44E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Hosting", "libs\hosting\src\Hosting\Extensions.Hosting.csproj", "{6FB29768-49FA-4581-A2A2-B0787C48C7F1}"
 EndProject
@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Hosting.Example"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Hosting.SerilogConsoleLogging", "libs\hosting\src\Hosting.SerilogConsoleLogging\Extensions.Hosting.SerilogConsoleLogging.csproj", "{AF24F291-5D7E-4266-B378-3D8C61A133F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Hosting.Tests", "libs\hosting\test\Hosting.Tests\Extensions.Hosting.Tests.csproj", "{FA64DAF0-66F7-4F6B-BB1B-3B53F4FBC088}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions.Hosting.Tests", "libs\hosting\tests\Hosting.Tests\Extensions.Hosting.Tests.csproj", "{FA64DAF0-66F7-4F6B-BB1B-3B53F4FBC088}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{6560E27F-806F-4500-9C50-AA2755458AA1}"
 	ProjectSection(SolutionItems) = preProject
@@ -84,9 +84,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{784169CC-99B
 		libs\system-extensions\src\Directory.Build.props = libs\system-extensions\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BAF61FF9-F641-4929-AC36-3314F03930DC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BAF61FF9-F641-4929-AC36-3314F03930DC}"
 	ProjectSection(SolutionItems) = preProject
-		libs\system-extensions\test\Directory.Build.props = libs\system-extensions\test\Directory.Build.props
+		libs\system-extensions\tests\Directory.Build.props = libs\system-extensions\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspnet-core", "aspnet-core", "{4A8FDF56-F8A0-453C-A484-E314525C7912}"
@@ -96,18 +96,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CC2471BF-FC2
 		libs\aspnet-core\src\Directory.Build.props = libs\aspnet-core\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F01A2FEE-A5E4-4649-AE63-C150E1345340}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F01A2FEE-A5E4-4649-AE63-C150E1345340}"
 	ProjectSection(SolutionItems) = preProject
-		libs\aspnet-core\test\Directory.Build.props = libs\aspnet-core\test\Directory.Build.props
+		libs\aspnet-core\tests\Directory.Build.props = libs\aspnet-core\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore", "libs\aspnet-core\src\AspNetCore\AspNetCore.csproj", "{CC8BF0A6-DDC5-4CB6-8994-103BB513FF91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Tests", "libs\aspnet-core\test\AspNetCore.Tests\AspNetCore.Tests.csproj", "{F70F25F9-FBBF-46B2-8BD4-C84FB24D998E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Tests", "libs\aspnet-core\tests\AspNetCore.Tests\AspNetCore.Tests.csproj", "{F70F25F9-FBBF-46B2-8BD4-C84FB24D998E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemExtensions", "libs\system-extensions\src\SystemExtensions\SystemExtensions.csproj", "{55E08F6C-7F5D-4D15-BAF0-B0CB10170C1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemExtensions.Tests", "libs\system-extensions\test\SystemExtensions.Tests\SystemExtensions.Tests.csproj", "{723D27AE-E5E7-4ABC-802C-F67299C63257}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemExtensions.Tests", "libs\system-extensions\tests\SystemExtensions.Tests\SystemExtensions.Tests.csproj", "{723D27AE-E5E7-4ABC-802C-F67299C63257}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testing", "testing", "{E49DE013-4C18-4A9B-A541-842FC38E5E93}"
 EndProject
@@ -116,14 +116,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0CB2B190-89C
 		libs\testing\src\Directory.Build.props = libs\testing\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6ED4DFF8-FAC8-402A-92EA-72DE7F5BFF93}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6ED4DFF8-FAC8-402A-92EA-72DE7F5BFF93}"
 	ProjectSection(SolutionItems) = preProject
-		libs\testing\test\Directory.Build.props = libs\testing\test\Directory.Build.props
+		libs\testing\tests\Directory.Build.props = libs\testing\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Fixtures", "libs\testing\src\Testing.Fixtures\Testing.Fixtures.csproj", "{7943D27C-1268-43F0-85D0-5879F1E734F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Fixtures.Tests", "libs\testing\test\Testing.Fixtures.Tests\Testing.Fixtures.Tests.csproj", "{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Fixtures.Tests", "libs\testing\tests\Testing.Fixtures.Tests\Testing.Fixtures.Tests.csproj", "{FC5B745A-6E38-4B1B-ACDF-F6293BA30244}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pulumi", "pulumi", "{CA1CB8E3-8811-4407-BA8E-952C2206D716}"
 EndProject
@@ -136,9 +136,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi", "libs\pulumi\src\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws", "libs\pulumi\src\Pulumi.Aws\Pulumi.Aws.csproj", "{9E3E88FD-FEAF-45C7-AF15-250B9B204ADD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DBEFE7B2-E4FD-42EF-9D3C-956661DF9E8F}"
 	ProjectSection(SolutionItems) = preProject
-		libs\pulumi\test\Directory.Build.props = libs\pulumi\test\Directory.Build.props
+		libs\pulumi\tests\Directory.Build.props = libs\pulumi\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambda", "lambda", "{3F895C6D-5714-40C5-8497-7A98AF8CBC94}"
@@ -151,33 +151,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8DE1F929-BB0
 		libs\lambda\src\Directory.Build.props = libs\lambda\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4AB93844-4C34-4EC9-9D72-B8B9BF6BC833}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4AB93844-4C34-4EC9-9D72-B8B9BF6BC833}"
 	ProjectSection(SolutionItems) = preProject
-		libs\lambda\test\Directory.Build.props = libs\lambda\test\Directory.Build.props
+		libs\lambda\tests\Directory.Build.props = libs\lambda\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda", "libs\lambda\src\Lambda\Lambda.csproj", "{97D12A05-68A5-429E-905B-C81C99F52297}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.Example", "libs\lambda\src\Lambda.Example\Lambda.Example.csproj", "{0B26BD5B-AF5C-4192-B1A7-B24F9EDF80F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.Tests", "libs\lambda\test\Lambda.Tests\Lambda.Tests.csproj", "{9DF2B8D7-B267-4F23-9BA0-02A3586459CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.Tests", "libs\lambda\tests\Lambda.Tests\Lambda.Tests.csproj", "{9DF2B8D7-B267-4F23-9BA0-02A3586459CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.TestUtilities", "libs\lambda\src\Lambda.TestUtilities\Lambda.TestUtilities.csproj", "{4E87F3D6-7CB0-41D9-A5ED-0057864B5298}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.ClientExtensions", "libs\lambda\src\Lambda.ClientExtensions\Lambda.ClientExtensions.csproj", "{0D0082C2-ADF8-4C9C-8D19-E21E06730FFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.TestHost.Tests", "libs\lambda\test\Lambda.TestHost.Tests\Lambda.TestHost.Tests.csproj", "{2CA4CC85-BAB9-4B9B-A37A-2180C1DF3306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.TestHost.Tests", "libs\lambda\tests\Lambda.TestHost.Tests\Lambda.TestHost.Tests.csproj", "{2CA4CC85-BAB9-4B9B-A37A-2180C1DF3306}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lambda.TestHost", "libs\lambda\src\Lambda.TestHost\Lambda.TestHost.csproj", "{7FA0338D-14D9-4D1B-A857-875F3025216D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EBD9C8FF-D56D-48C4-AA11-9F44183114A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EBD9C8FF-D56D-48C4-AA11-9F44183114A4}"
 	ProjectSection(SolutionItems) = preProject
-		libs\bullseye\test\Directory.Build.props = libs\bullseye\test\Directory.Build.props
+		libs\bullseye\tests\Directory.Build.props = libs\bullseye\tests\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye.Tests", "libs\bullseye\test\Bullseye.Tests\Bullseye.Tests.csproj", "{35640368-8A5B-42A8-8F04-694E83DA51C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bullseye.Tests", "libs\bullseye\tests\Bullseye.Tests\Bullseye.Tests.csproj", "{35640368-8A5B-42A8-8F04-694E83DA51C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.IntegrationTests", "libs\pulumi\test\Pulumi.Aws.IntegrationTests\Pulumi.Aws.IntegrationTests.csproj", "{0CEED400-3F8D-4011-8FD9-63EB1AF28634}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Aws.IntegrationTests", "libs\pulumi\tests\Pulumi.Aws.IntegrationTests\Pulumi.Aws.IntegrationTests.csproj", "{0CEED400-3F8D-4011-8FD9-63EB1AF28634}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulumi.Automation", "libs\pulumi\src\Pulumi.Automation\Pulumi.Automation.csproj", "{D6559733-C1F9-4E84-A2CB-228BE7B39C28}"
 EndProject
@@ -185,13 +185,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eventsourcing-domain", "eve
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{27A73E33-80F2-454E-ABC5-48152B71AB40}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{910A4153-8490-4C9A-93C3-33941F3D8F3F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{910A4153-8490-4C9A-93C3-33941F3D8F3F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain", "libs\eventsourcing-domain\src\EventSourcing.Domain\EventSourcing.Domain.csproj", "{2F8B7E58-DDBF-4DAB-8A14-22CD5497E7FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Testing", "libs\eventsourcing-domain\src\EventSourcing.Domain.Testing\EventSourcing.Domain.Testing.csproj", "{C8B8164A-AF2D-4728-9C65-BE0796FF9DFB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Tests", "libs\eventsourcing-domain\test\EventSourcing.Domain.Tests\EventSourcing.Domain.Tests.csproj", "{8A89A8D1-7966-43E8-B08E-CAA618415BD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain.Tests", "libs\eventsourcing-domain\tests\EventSourcing.Domain.Tests\EventSourcing.Domain.Tests.csproj", "{8A89A8D1-7966-43E8-B08E-CAA618415BD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowGen", ".github\WorkflowGen\WorkflowGen.csproj", "{14383ED3-4EA1-438A-8A74-ECE9DAAD39EF}"
 EndProject
@@ -205,14 +205,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{07914B1F-FB5
 		libs\github\src\Directory.Build.props = libs\github\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CA3347A0-5DF1-4290-AE95-0DDC77021856}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CA3347A0-5DF1-4290-AE95-0DDC77021856}"
 	ProjectSection(SolutionItems) = preProject
-		libs\github\test\Directory.Build.props = libs\github\test\Directory.Build.props
+		libs\github\tests\Directory.Build.props = libs\github\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow", "libs\github\src\Actions.Workflow\Actions.Workflow.csproj", "{4631622D-3309-44C0-98C9-08280A2DAE78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow.Tests", "libs\github\test\Actions.Workflow.Tests\Actions.Workflow.Tests.csproj", "{B22A5167-C651-4868-BF39-29668EFB7987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow.Tests", "libs\github\tests\Actions.Workflow.Tests\Actions.Workflow.Tests.csproj", "{B22A5167-C651-4868-BF39-29668EFB7987}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Actions.Workflow.Extensions", "libs\github\src\Actions.Workflow.Extensions\Actions.Workflow.Extensions.csproj", "{356C1628-71F4-4BCA-94E8-34410AB7ABB9}"
 EndProject
@@ -227,14 +227,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5B959414-639
 		libs\webhook-relay\src\Directory.Build.props = libs\webhook-relay\src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FB10AA73-8A64-45F4-B285-8C069A361CE3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FB10AA73-8A64-45F4-B285-8C069A361CE3}"
 	ProjectSection(SolutionItems) = preProject
-		libs\webhook-relay\test\Directory.Build.props = libs\webhook-relay\test\Directory.Build.props
+		libs\webhook-relay\tests\Directory.Build.props = libs\webhook-relay\tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebhookRelay", "libs\webhook-relay\src\WebhookRelay\WebhookRelay.csproj", "{B78CC157-95BB-44F3-80D7-CA4B391715A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebhookRelay.Tests", "libs\webhook-relay\test\WebhookRelay.Tests\WebhookRelay.Tests.csproj", "{5D8CC3D8-C413-49AD-BCFA-0AC2B5F8CA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebhookRelay.Tests", "libs\webhook-relay\tests\WebhookRelay.Tests\WebhookRelay.Tests.csproj", "{5D8CC3D8-C413-49AD-BCFA-0AC2B5F8CA98}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{03AD19CD-2637-4048-8D12-2829B4784C48}"
 EndProject
