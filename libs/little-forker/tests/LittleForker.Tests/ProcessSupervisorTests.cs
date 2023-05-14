@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 
 namespace Logicality.LittleForker;
 
-public class ProcessSupervisorTests : IDisposable
+public class ProcessSupervisorTests
 {
     private readonly ITestOutputHelper _outputHelper;
     private readonly ILoggerFactory    _loggerFactory;
@@ -53,7 +53,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.SelfTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./SelfTerminatingProcess/SelfTerminatingProcess.dll",
+            "./SelfTerminatingProcess/Logicality.SelfTerminatingProcess.dll",
             envVars);
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var whenStateIsExited          = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedSuccessfully);
@@ -77,7 +77,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll");
+            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll");
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2($"Process: {data}");
         var running = supervisor.WhenStateIs(ProcessSupervisor.State.Running);
         await supervisor.Start();
@@ -100,7 +100,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.SelfTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./SelfTerminatingProcess/SelfTerminatingProcess.dll");
+            "./SelfTerminatingProcess/Logicality.SelfTerminatingProcess.dll");
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var stateIsStopped = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedSuccessfully);
         await supervisor.Start();
@@ -118,7 +118,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll");
+            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll");
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var exitedKilled = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedKilled);
         await supervisor.Start();
@@ -140,7 +140,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll");
+            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll");
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var stateIsStopped = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedKilled);
         await supervisor.Start();
@@ -158,7 +158,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll --ignore-shutdown-signal=true");
+            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll --ignore-shutdown-signal=true");
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var stateIsKilled = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedKilled);
         await supervisor.Start();
@@ -176,7 +176,7 @@ public class ProcessSupervisorTests : IDisposable
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
             "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll --exit-with-non-zero=true");
+            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll --exit-with-non-zero=true");
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var stateExitWithError = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedWithError);
         await supervisor.Start();
@@ -215,9 +215,5 @@ public class ProcessSupervisorTests : IDisposable
             Environment.CurrentDirectory,
             "invalid.exe");
         _outputHelper.WriteLine(processController.GetDotGraph());
-    }
-
-    public void Dispose()
-    {
     }
 }
