@@ -21,7 +21,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task Given_invalid_process_path_then_state_should_be_StartError()
     {
-        var supervisor = new ProcessSupervisor(_loggerFactory, ProcessRunType.NonTerminating, "c:/", "invalid.exe");
+        using var supervisor = new ProcessSupervisor(_loggerFactory, ProcessRunType.NonTerminating, "c:/", "invalid.exe");
         var stateIsStartFailed = supervisor.WhenStateIs(ProcessSupervisor.State.StartFailed);
         await supervisor.Start();
 
@@ -35,7 +35,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task Given_invalid_working_directory_then_state_should_be_StartError()
     {
-        var supervisor = new ProcessSupervisor(_loggerFactory, ProcessRunType.NonTerminating, "c:/does_not_exist", "git.exe");
+        using var supervisor = new ProcessSupervisor(_loggerFactory, ProcessRunType.NonTerminating, "c:/does_not_exist", "git.exe");
         await supervisor.Start();
 
         supervisor.CurrentState.ShouldBe(ProcessSupervisor.State.StartFailed);
@@ -48,7 +48,7 @@ public class ProcessSupervisorTests : IDisposable
     public async Task Given_short_running_exe_then_should_run_to_exit()
     {
         var envVars = new StringDictionary {{"a", "b"}};
-        var supervisor = new ProcessSupervisor(
+        using var supervisor = new ProcessSupervisor(
             _loggerFactory,
             ProcessRunType.SelfTerminating,
             Environment.CurrentDirectory,
@@ -72,7 +72,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task Given_non_terminating_process_then_should_exit_when_stopped()
     {
-        var supervisor = new ProcessSupervisor(
+        using var supervisor = new ProcessSupervisor(
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
@@ -135,7 +135,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task When_stop_a_non_terminating_process_without_a_timeout_then_should_exit_killed()
     {
-        var supervisor = new ProcessSupervisor(
+        using var supervisor = new ProcessSupervisor(
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
@@ -153,7 +153,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task When_stop_a_non_terminating_process_that_does_not_shutdown_within_timeout_then_should_exit_killed()
     {
-        var supervisor = new ProcessSupervisor(
+        using var supervisor = new ProcessSupervisor(
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
@@ -171,7 +171,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task When_stop_a_non_terminating_process_with_non_zero_then_should_exit_error()
     {
-        var supervisor = new ProcessSupervisor(
+        using var supervisor = new ProcessSupervisor(
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
@@ -190,7 +190,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public async Task Can_attempt_to_restart_a_failed_short_running_process()
     {
-        var supervisor = new ProcessSupervisor(
+        using var supervisor = new ProcessSupervisor(
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
@@ -209,7 +209,7 @@ public class ProcessSupervisorTests : IDisposable
     [Fact]
     public void WriteDotGraph()
     {
-        var processController = new ProcessSupervisor(
+        using var processController = new ProcessSupervisor(
             _loggerFactory, 
             ProcessRunType.NonTerminating, 
             Environment.CurrentDirectory,
