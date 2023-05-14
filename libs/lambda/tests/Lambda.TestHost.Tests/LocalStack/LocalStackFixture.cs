@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Amazon.Lambda;
+﻿using Amazon.Lambda;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Ductus.FluentDocker.Builders;
