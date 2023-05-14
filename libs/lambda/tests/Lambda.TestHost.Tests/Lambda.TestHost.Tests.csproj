@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Lambda.ClientExtensions\Lambda.ClientExtensions.csproj" />
     <ProjectReference Include="..\..\src\Lambda.TestHost\Lambda.TestHost.csproj" />
-    <ProjectReference Include="..\..\src\Lambda.TestUtilities\Lambda.TestUtilities.csproj" />
   </ItemGroup>
 
 </Project>
