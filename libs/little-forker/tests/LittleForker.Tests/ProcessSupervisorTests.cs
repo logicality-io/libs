@@ -55,7 +55,7 @@ public class ProcessSupervisorTests
             Constants.DotNet,
             Constants.SelfTerminatingProcessPath,
             envVars);
-        supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
+        supervisor.OutputDataReceived += _outputHelper.WriteLine2;
         var whenStateIsExited          = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedSuccessfully);
         var whenStateIsExitedWithError = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedWithError);
 
@@ -147,7 +147,7 @@ public class ProcessSupervisorTests
         await supervisor.Stop(); // No timeout so will just kill the process
         await stateIsStopped.TimeoutAfter(TimeSpan.FromSeconds(2));
 
-        _outputHelper.WriteLine($"Exit code {supervisor.ProcessInfo.ExitCode}");
+        _outputHelper.WriteLine($"Exit code {supervisor.ProcessInfo!.ExitCode}");
     }
         
     [Fact]
