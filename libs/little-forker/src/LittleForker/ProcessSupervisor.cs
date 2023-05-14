@@ -6,6 +6,14 @@ using Stateless.Graph;
 
 namespace Logicality.LittleForker;
 
+public class ProcessSupervisorSettings
+{
+    public ProcessSupervisorSettings()
+    {
+        
+    }
+}
+
 /// <summary>
 ///     Launches an process and tracks it's lifecycle .
 /// </summary>

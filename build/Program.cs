@@ -25,19 +25,30 @@ var libs = Directory.GetDirectories("libs")
 
 foreach (var lib in libs)
 {
+    var srcPackages = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);
+
+    var buildTarget = $"{lib}-build";
+    Target(
+        buildTarget,
+        DependsOn(Clean),
+        srcPackages,
+        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir}"));
+
+    var packTarget  = $"{lib}-pack";
+    Target(
+        packTarget,
+        DependsOn(Clean),
+        srcPackages,
+        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir}"));
+    defaultTargets.Add(packTarget);
+
     var testProjects = Directory.GetFiles($"libs/{lib}/tests/", "*.Tests.csproj", SearchOption.AllDirectories); // will ignore "IntegrationTests.csproj"
     var testTarget = $"{lib}-test";
     Target(testTarget,
+        DependsOn(buildTarget),
         testProjects,
         testProject => Run("dotnet", $"test {testProject} -c Release"));
     defaultTargets.Add(testTarget);
-
-    var packableProjects = Directory.GetFiles($"libs/{lib}/src/", "*.csproj", SearchOption.AllDirectories);
-    var packTarget = $"{lib}-pack";
-    Target(packTarget, DependsOn(Clean),
-        packableProjects,
-        packableProject => Run("dotnet", $"pack {packableProject} -c Release -o {ArtifactsDir}"));
-    defaultTargets.Add(packTarget);
 }
 
 Target(PushToGitHub, () =>

@@ -23,7 +23,7 @@ public class CooperativeShutdownTests
             () => exitCalled.SetResult(true),
             _loggerFactory);
 
-        await CooperativeShutdown.SignalExit(Process.GetCurrentProcess().Id, _loggerFactory);
+        await CooperativeShutdown.SignalExit(Environment.ProcessId, _loggerFactory);
 
         (await exitCalled.Task).ShouldBeTrue();
 
