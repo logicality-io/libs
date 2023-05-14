@@ -52,8 +52,8 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.SelfTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./SelfTerminatingProcess/Logicality.SelfTerminatingProcess.dll",
+            Constants.DotNet,
+            Constants.SelfTerminatingProcessPath,
             envVars);
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
         var whenStateIsExited          = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedSuccessfully);
@@ -66,7 +66,7 @@ public class ProcessSupervisorTests
         task.ShouldBe(whenStateIsExited);
         supervisor.CurrentState.ShouldBe(ProcessSupervisor.State.ExitedSuccessfully);
         supervisor.OnStartException.ShouldBeNull();
-        supervisor.ProcessInfo.ExitCode.ShouldBe(0);
+        supervisor.ProcessInfo!.ExitCode.ShouldBe(0);
     }
 
     [Fact]
@@ -76,8 +76,8 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll");
+            Constants.DotNet,
+            Constants.NonTerminatingProcessPath);
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine2($"Process: {data}");
         var running = supervisor.WhenStateIs(ProcessSupervisor.State.Running);
         await supervisor.Start();
@@ -99,9 +99,9 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.SelfTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./SelfTerminatingProcess/Logicality.SelfTerminatingProcess.dll");
-        supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
+            Constants.DotNet,
+            Constants.SelfTerminatingProcessPath);
+        supervisor.OutputDataReceived += _outputHelper.WriteLine2;
         var stateIsStopped = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedSuccessfully);
         await supervisor.Start();
         await stateIsStopped;
@@ -117,9 +117,9 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll");
-        supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
+            Constants.DotNet,
+            Constants.NonTerminatingProcessPath);
+        supervisor.OutputDataReceived += _outputHelper.WriteLine2;
         var exitedKilled = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedKilled);
         await supervisor.Start();
         await supervisor.Stop();
@@ -139,9 +139,9 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll");
-        supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
+            Constants.DotNet,
+            Constants.NonTerminatingProcessPath);
+        supervisor.OutputDataReceived += _outputHelper.WriteLine2;
         var stateIsStopped = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedKilled);
         await supervisor.Start();
         await supervisor.Stop(); // No timeout so will just kill the process
@@ -157,15 +157,15 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll --ignore-shutdown-signal=true");
-        supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
+            Constants.DotNet,
+            $"{Constants.NonTerminatingProcessPath} --ignore-shutdown-signal=true");
+        supervisor.OutputDataReceived += _outputHelper.WriteLine2;
         var stateIsKilled = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedKilled);
         await supervisor.Start();
         await supervisor.Stop(TimeSpan.FromSeconds(2));
         await stateIsKilled.TimeoutAfter(TimeSpan.FromSeconds(5));
 
-        _outputHelper.WriteLine($"Exit code {supervisor.ProcessInfo.ExitCode}");
+        _outputHelper.WriteLine($"Exit code {supervisor.ProcessInfo!.ExitCode}");
     }
 
     [Fact]
@@ -175,14 +175,14 @@ public class ProcessSupervisorTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/Logicality.NonTerminatingProcess.dll --exit-with-non-zero=true");
-        supervisor.OutputDataReceived += data => _outputHelper.WriteLine2(data);
+            Constants.DotNet,
+            $"{Constants.NonTerminatingProcessPath} --exit-with-non-zero=true");
+        supervisor.OutputDataReceived += _outputHelper.WriteLine2;
         var stateExitWithError = supervisor.WhenStateIs(ProcessSupervisor.State.ExitedWithError);
         await supervisor.Start();
         await supervisor.Stop(TimeSpan.FromSeconds(5));
         await stateExitWithError.TimeoutAfter(TimeSpan.FromSeconds(5));
-        supervisor.ProcessInfo.ExitCode.ShouldNotBe(0);
+        supervisor.ProcessInfo!.ExitCode.ShouldNotBe(0);
 
         _outputHelper.WriteLine($"Exit code {supervisor.ProcessInfo.ExitCode}");
     }

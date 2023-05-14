@@ -35,8 +35,8 @@ public class ProcessExitedHelperTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll");
+            Constants.DotNet,
+            Constants.NonTerminatingProcessPath);
         var parentIsRunning = supervisor.WhenStateIs(ProcessSupervisor.State.Running);
         supervisor.OutputDataReceived += data => _outputHelper.WriteLine($"Parent Process: {data}");
         await supervisor.Start();
@@ -44,12 +44,12 @@ public class ProcessExitedHelperTests
 
         // Monitor parent
         var parentExited = new TaskCompletionSource<int?>();
-        using (new ProcessExitedHelper(supervisor.ProcessInfo.Id, watcher => parentExited.SetResult(watcher.ProcessId), _loggerFactory))
+        using (new ProcessExitedHelper(supervisor.ProcessInfo!.Id, watcher => parentExited.SetResult(watcher.ProcessId), _loggerFactory))
         {
             // Stop parent
             await supervisor.Stop(TimeSpan.FromSeconds(2));
             var processId = await parentExited.Task.TimeoutAfter(TimeSpan.FromSeconds(2));
-            processId.Value.ShouldBeGreaterThan(0);
+            processId!.Value.ShouldBeGreaterThan(0);
         }
     }
 
@@ -61,8 +61,8 @@ public class ProcessExitedHelperTests
             _loggerFactory,
             ProcessRunType.NonTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            "./NonTerminatingProcess/NonTerminatingProcess.dll");
+            Constants.DotNet,
+            Constants.NonTerminatingProcessPath);
         parentSupervisor.OutputDataReceived += data => _outputHelper.WriteLine($"Parent: {data}");
         var parentIsRunning = parentSupervisor.WhenStateIs(ProcessSupervisor.State.Running);
         await parentSupervisor.Start();
@@ -73,8 +73,8 @@ public class ProcessExitedHelperTests
             _loggerFactory,
             ProcessRunType.SelfTerminating,
             Environment.CurrentDirectory,
-            "dotnet",
-            $"./NonTerminatingProcess/NonTerminatingProcess.dll --ParentProcessId={parentSupervisor.ProcessInfo.Id}");
+            Constants.DotNet,
+            $"{Constants.NonTerminatingProcessPath} --ParentProcessId={parentSupervisor.ProcessInfo!.Id}");
         childSupervisor.OutputDataReceived += data => _outputHelper.WriteLine($"Child: {data}");
         var childIsRunning  = childSupervisor.WhenStateIs(ProcessSupervisor.State.Running);
         var childHasStopped = childSupervisor.WhenStateIs(ProcessSupervisor.State.ExitedSuccessfully);
