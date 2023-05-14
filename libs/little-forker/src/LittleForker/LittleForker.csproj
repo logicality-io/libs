@@ -15,4 +15,8 @@
     <PackageReference Include="Stateless" Version="5.13.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="LittleForker.Tests" />
+  </ItemGroup>
+
 </Project>
