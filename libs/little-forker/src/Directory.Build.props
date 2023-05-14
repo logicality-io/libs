@@ -5,7 +5,7 @@
 
   <PropertyGroup>
     <MinVerTagPrefix>little-forker-</MinVerTagPrefix>
-    <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
+    <MinVerMinimumMajorMinor>4.0</MinVerMinimumMajorMinor>
   </PropertyGroup>
 
 </Project>
