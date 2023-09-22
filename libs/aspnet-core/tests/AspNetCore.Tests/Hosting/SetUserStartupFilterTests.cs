@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,9 +12,9 @@ namespace Logicality.AspNetCore.Hosting;
 
 public class SetUserStartupFilterTests : IAsyncLifetime
 {
-    private IWebHost                           _webHost;
-    private HttpClient                         _client;
-    private Func<HttpContext, ClaimsPrincipal> _getUser;
+    private IWebHost                           _webHost = null!;
+    private HttpClient                         _client = null!;
+    private Func<HttpContext, ClaimsPrincipal> _getUser = null!;
 
     [Fact]
     public async Task When_user_not_set_then_should_get_unauthorized()

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
+﻿using Microsoft.AspNetCore.Hosting.Server.Features;
 
-namespace Logicality.AspNetCore.Hosting;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Hosting;
 
 /// <summary>
 /// A set of extensions over <see cref="IWebHost"/>
@@ -18,7 +16,7 @@ public static class WebHostExtensions
     public static Uri[] GetServerUris(this IWebHost webHost) =>
         webHost
             .ServerFeatures
-            .Get<IServerAddressesFeature>()
+            .Get<IServerAddressesFeature>()!
             .Addresses
             .Select(a => new Uri(a))
             .ToArray();

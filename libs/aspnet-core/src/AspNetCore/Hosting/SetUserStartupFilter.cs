@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace Logicality.AspNetCore.Hosting;
+namespace Microsoft.AspNetCore.Hosting;
 
 /// <summary>
 /// Provides a mechanism to set the User on the HttpContext. Primary use case is for
