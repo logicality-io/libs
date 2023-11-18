@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Logicality.EventSourcing.Domain.Testing;
+﻿namespace Logicality.EventSourcing.Domain.Testing;
 
 public class ScenarioReturnedOtherResult
 {

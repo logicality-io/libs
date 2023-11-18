@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Logicality.SystemExtensions;
+﻿namespace Logicality.SystemExtensions;
 
 /// <summary>
 /// A disposable that invokes the supplied Action.

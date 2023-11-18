@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Logicality.Lambda.TestHost;
+﻿namespace Logicality.Lambda.TestHost;
 
 internal class DelegateLambdaFunctionActivator : ILambdaFunctionActivator
 {

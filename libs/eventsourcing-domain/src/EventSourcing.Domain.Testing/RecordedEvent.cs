@@ -1,5 +1,3 @@
-using System;
-
 namespace Logicality.EventSourcing.Domain.Testing;
 
 public class RecordedEvent

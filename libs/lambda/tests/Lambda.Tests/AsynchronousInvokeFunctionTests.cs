@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Amazon.Lambda.TestUtilities;
 using Logicality.Lambda.Example;
 using Xunit;

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Logicality.Lambda.TestHost.Functions;
+﻿using Logicality.Lambda.TestHost.Functions;
 using Shouldly;
 using Xunit;
 

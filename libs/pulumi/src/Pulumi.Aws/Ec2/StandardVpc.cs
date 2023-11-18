@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Pulumi;
+﻿using Pulumi;
 using Pulumi.Aws;
 using Pulumi.Aws.Ec2;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Hosting;
-
-namespace Logicality.Extensions.Hosting.Example;
+﻿namespace Logicality.Extensions.Hosting.Example;
 
 /// <summary>
 /// This class holds references to hosted service. As hosted services start, they register themselves

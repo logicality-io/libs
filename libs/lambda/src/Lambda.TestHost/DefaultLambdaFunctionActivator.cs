@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Logicality.Lambda.TestHost;
+﻿namespace Logicality.Lambda.TestHost;
 
 /// <summary>
 /// Activates a LambdaFunction instance using default paramaterless constructor.

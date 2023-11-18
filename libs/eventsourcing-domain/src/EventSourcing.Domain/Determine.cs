@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Logicality.EventSourcing.Domain;
 
 public static class Determine

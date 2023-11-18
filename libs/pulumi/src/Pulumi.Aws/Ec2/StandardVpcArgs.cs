@@ -1,5 +1,4 @@
-﻿using System;
-using Pulumi;
+﻿using Pulumi;
 
 namespace Logicality.Pulumi.Aws.Ec2;
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Logicality.SystemExtensions;
+﻿namespace Logicality.SystemExtensions;
 
 public class DelegateDisposable : IDisposable
 {

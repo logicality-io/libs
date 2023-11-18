@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Logicality.EventSourcing.Domain.Testing;
+﻿namespace Logicality.EventSourcing.Domain.Testing;
 
 public class ScenarioRecordedOtherEvents
 {

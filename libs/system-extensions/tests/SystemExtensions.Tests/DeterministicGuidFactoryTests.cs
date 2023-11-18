@@ -1,5 +1,4 @@
-﻿using System;
-using Logicality.SystemExtensions;
+﻿using Logicality.SystemExtensions;
 using Shouldly;
 using Xunit;
 

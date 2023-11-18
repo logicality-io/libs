@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-
-namespace Logicality.Bullseye;
+﻿namespace Logicality.Bullseye;
 
 /// <summary>
 /// Set of helper functions typically used in bullseye build programs.

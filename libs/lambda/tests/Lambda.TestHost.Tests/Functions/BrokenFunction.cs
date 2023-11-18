@@ -1,5 +1,4 @@
-﻿using System;
-using Amazon.Lambda.Core;
+﻿using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 
 namespace Logicality.Lambda.TestHost.Functions;

@@ -1,5 +1,4 @@
-﻿using System;
-using Logicality.Extensions.Hosting;
+﻿using Logicality.Extensions.Hosting;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

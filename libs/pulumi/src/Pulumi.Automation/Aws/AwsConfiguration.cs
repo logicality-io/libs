@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Pulumi.Automation;
+﻿using Pulumi.Automation;
 
 namespace Logicality.Pulumi.Automation.Aws;
 

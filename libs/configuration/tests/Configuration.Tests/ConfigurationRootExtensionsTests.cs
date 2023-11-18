@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Logicality.Extensions.Configuration;
+﻿using Logicality.Extensions.Configuration;
 using Microsoft.Extensions.Configuration;
 using Shouldly;
 using Xunit;

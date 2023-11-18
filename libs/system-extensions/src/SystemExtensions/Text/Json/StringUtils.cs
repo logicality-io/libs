@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Logicality.SystemExtensions.Text.Json;
+﻿namespace Logicality.SystemExtensions.Text.Json;
 
 internal static class StringUtils
 {

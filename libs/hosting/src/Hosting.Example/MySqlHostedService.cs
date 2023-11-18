@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Ductus.FluentDocker.Builders;
+﻿using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace Logicality.Extensions.Hosting.Example;

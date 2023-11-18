@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Amazon.Lambda.Core;
+﻿using Amazon.Lambda.Core;
 using Microsoft.Extensions.Logging;
 
 namespace Logicality.Lambda.TestHost;

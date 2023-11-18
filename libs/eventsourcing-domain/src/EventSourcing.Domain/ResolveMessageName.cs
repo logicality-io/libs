@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Logicality.EventSourcing.Domain;
 
 public static class ResolveMessageName

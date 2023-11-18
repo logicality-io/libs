@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace Logicality.Extensions.Hosting;
+﻿namespace Logicality.Extensions.Hosting;
 
 public class Context
 {

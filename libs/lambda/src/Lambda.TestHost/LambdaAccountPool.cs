@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace Logicality.Lambda.TestHost;
+﻿namespace Logicality.Lambda.TestHost;
 
 internal class LambdaAccountPool
 {

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Threading.Tasks;
 using Amazon.Lambda.Model;
 
 // ReSharper disable once CheckNamespace

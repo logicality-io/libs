@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Logicality.EventSourcing.Domain;
+﻿namespace Logicality.EventSourcing.Domain;
 
 public abstract class EventSourcedEntity
 {

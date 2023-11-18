@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Logicality.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
