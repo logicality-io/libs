@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <IsPackable>false</IsPackable>
     <AssemblyName>$(Org).$(AssemblyName)</AssemblyName>
     <RootNamespace>$(Org).EventSourcing.Domain</RootNamespace>
   </PropertyGroup>

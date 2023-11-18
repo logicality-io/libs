@@ -226,14 +226,14 @@
             <summary>
                 Enqueues a task for processing.
             </summary>
-            <param name="function">The operation to invoke that is co-operatively cancelable.</param>
+            <param name="function">The operation to invoke that is cooperatively cancelable.</param>
             <returns>A task representing the operation. Awaiting is optional.</returns>
         </member>
         <member name="M:Logicality.LittleForker.TaskQueue.Enqueue``1(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task{``0}})">
             <summary>
                 Enqueues a task for processing.
             </summary>
-            <param name="function">The operation to invoke that is co-operatively cancelable.</param>
+            <param name="function">The operation to invoke that is cooperatively cancelable.</param>
             <returns>A task representing the operation. Awaiting is optional.</returns>
         </member>
     </members>

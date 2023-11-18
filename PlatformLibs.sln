@@ -182,8 +182,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eventsourcing-domain", "eventsourcing-domain", "{498AADAB-47D0-42A9-A0CB-FDCB88EA9851}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{27A73E33-80F2-454E-ABC5-48152B71AB40}"
+	ProjectSection(SolutionItems) = preProject
+		libs\eventsourcing-domain\src\Directory.Build.props = libs\eventsourcing-domain\src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{910A4153-8490-4C9A-93C3-33941F3D8F3F}"
+	ProjectSection(SolutionItems) = preProject
+		libs\eventsourcing-domain\tests\Directory.Build.props = libs\eventsourcing-domain\tests\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSourcing.Domain", "libs\eventsourcing-domain\src\EventSourcing.Domain\EventSourcing.Domain.csproj", "{2F8B7E58-DDBF-4DAB-8A14-22CD5497E7FE}"
 EndProject

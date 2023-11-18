@@ -1,27 +1,27 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v6.0",
+    "name": ".NETCoreApp,Version=v8.0",
     "signature": ""
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v6.0": {
-      "Logicality.NonTerminatingProcess/0.1.0-alpha.0.424+build.0": {
+    ".NETCoreApp,Version=v8.0": {
+      "Logicality.NonTerminatingProcess/3.0.1-alpha.0.3+build.0": {
         "dependencies": {
           "Logicality.LittleForker": "1.0.0",
           "Microsoft.Extensions.Configuration.Binder": "3.1.0",
           "Microsoft.Extensions.Configuration.CommandLine": "3.1.0",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "3.1.0",
-          "Microsoft.SourceLink.GitHub": "1.1.1",
+          "Microsoft.SourceLink.GitHub": "8.0.0",
           "MinVer": "4.3.0",
           "Serilog.Sinks.Console": "3.1.1",
-          "Logicality.LittleForker.Reference": "0.0.0.0"
+          "Logicality.LittleForker.Reference": "1.0.0.0"
         },
         "runtime": {
           "Logicality.NonTerminatingProcess.dll": {}
         }
       },
-      "Microsoft.Build.Tasks.Git/1.1.1": {},
+      "Microsoft.Build.Tasks.Git/8.0.0": {},
       "Microsoft.CSharp/4.0.1": {
         "dependencies": {
           "System.Collections": "4.0.11",
@@ -97,11 +97,22 @@
           }
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/3.1.0": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
-            "assemblyVersion": "3.1.0.0",
-            "fileVersion": "3.100.19.56504"
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
           }
         }
       },
@@ -115,11 +126,11 @@
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
-      "Microsoft.SourceLink.Common/1.1.1": {},
-      "Microsoft.SourceLink.GitHub/1.1.1": {
+      "Microsoft.SourceLink.Common/8.0.0": {},
+      "Microsoft.SourceLink.GitHub/8.0.0": {
         "dependencies": {
-          "Microsoft.Build.Tasks.Git": "1.1.1",
-          "Microsoft.SourceLink.Common": "1.1.1"
+          "Microsoft.Build.Tasks.Git": "8.0.0",
+          "Microsoft.SourceLink.Common": "8.0.0"
         }
       },
       "MinVer/4.3.0": {},
@@ -165,11 +176,11 @@
           }
         }
       },
-      "stateless/5.11.0": {
+      "Stateless/5.13.0": {
         "runtime": {
-          "lib/net5.0/stateless.dll": {
+          "lib/net6.0/Stateless.dll": {
             "assemblyVersion": "4.0.0.0",
-            "fileVersion": "5.11.0.0"
+            "fileVersion": "5.13.0.0"
           }
         }
       },
@@ -416,35 +427,35 @@
       },
       "Logicality.LittleForker/1.0.0": {
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "3.1.0",
-          "stateless": "5.11.0"
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Stateless": "5.13.0"
         },
         "runtime": {
           "Logicality.LittleForker.dll": {}
         }
       },
-      "Logicality.LittleForker.Reference/0.0.0.0": {
+      "Logicality.LittleForker.Reference/1.0.0.0": {
         "runtime": {
           "Logicality.LittleForker.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.1.0.0"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "Logicality.NonTerminatingProcess/0.1.0-alpha.0.424+build.0": {
+    "Logicality.NonTerminatingProcess/3.0.1-alpha.0.3+build.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Build.Tasks.Git/1.1.1": {
+    "Microsoft.Build.Tasks.Git/8.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AT3HlgTjsqHnWpBHSNeR0KxbLZD7bztlZVj7I8vgeYG9SYqbeFGh0TM/KVtC6fg53nrWHl3VfZFvb5BiQFcY6Q==",
-      "path": "microsoft.build.tasks.git/1.1.1",
-      "hashPath": "microsoft.build.tasks.git.1.1.1.nupkg.sha512"
+      "sha512": "sha512-bZKfSIKJRXLTuSzLudMFte/8CempWjVamNUR5eHJizsy+iuOuO/k2gnh7W0dHJmYY0tBf+gUErfluCv5mySAOQ==",
+      "path": "microsoft.build.tasks.git/8.0.0",
+      "hashPath": "microsoft.build.tasks.git.8.0.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.0.1": {
       "type": "package",
@@ -488,12 +499,19 @@
       "path": "microsoft.extensions.configuration.environmentvariables/3.1.0",
       "hashPath": "microsoft.extensions.configuration.environmentvariables.3.1.0.nupkg.sha512"
     },
-    "Microsoft.Extensions.Logging.Abstractions/3.1.0": {
+    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jjo4YXRx6MIpv6DiRxJjSpl+sPP0+5VW0clMEdLyIAz44PPwrDTFrd5PZckIxIXl1kKZ2KK6IL2nkt0+ug2MQg==",
-      "path": "microsoft.extensions.logging.abstractions/3.1.0",
-      "hashPath": "microsoft.extensions.logging.abstractions.3.1.0.nupkg.sha512"
+      "sha512": "sha512-cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-arDBqTgFCyS0EvRV7O3MZturChstm50OJ0y9bDJvAcmEPJm0FFpFyjU/JLYyStNGGey081DvnQYlncNX5SJJGA==",
+      "path": "microsoft.extensions.logging.abstractions/8.0.0",
+      "hashPath": "microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Primitives/3.1.0": {
       "type": "package",
@@ -516,19 +534,19 @@
       "path": "microsoft.netcore.targets/1.1.0",
       "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
     },
-    "Microsoft.SourceLink.Common/1.1.1": {
+    "Microsoft.SourceLink.Common/8.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WMcGpWKrmJmzrNeuaEb23bEMnbtR/vLmvZtkAP5qWu7vQsY59GqfRJd65sFpBszbd2k/bQ8cs8eWawQKAabkVg==",
-      "path": "microsoft.sourcelink.common/1.1.1",
-      "hashPath": "microsoft.sourcelink.common.1.1.1.nupkg.sha512"
+      "sha512": "sha512-dk9JPxTCIevS75HyEQ0E4OVAFhB2N+V9ShCXf8Q6FkUQZDkgLI12y679Nym1YqsiSysuQskT7Z+6nUf3yab6Vw==",
+      "path": "microsoft.sourcelink.common/8.0.0",
+      "hashPath": "microsoft.sourcelink.common.8.0.0.nupkg.sha512"
     },
-    "Microsoft.SourceLink.GitHub/1.1.1": {
+    "Microsoft.SourceLink.GitHub/8.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-IaJGnOv/M7UQjRJks7B6p7pbPnOwisYGOIzqCz5ilGFTApZ3ktOR+6zJ12ZRPInulBmdAf1SrGdDG2MU8g6XTw==",
-      "path": "microsoft.sourcelink.github/1.1.1",
-      "hashPath": "microsoft.sourcelink.github.1.1.1.nupkg.sha512"
+      "sha512": "sha512-G5q7OqtwIyGTkeIOAc3u2ZuV/kicQaec5EaRnc0pIeSnh9LUjj+PYQrJYBURvDt7twGl2PKA7nSN0kz1Zw5bnQ==",
+      "path": "microsoft.sourcelink.github/8.0.0",
+      "hashPath": "microsoft.sourcelink.github.8.0.0.nupkg.sha512"
     },
     "MinVer/4.3.0": {
       "type": "package",
@@ -558,12 +576,12 @@
       "path": "serilog.sinks.console/3.1.1",
       "hashPath": "serilog.sinks.console.3.1.1.nupkg.sha512"
     },
-    "stateless/5.11.0": {
+    "Stateless/5.13.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-5XXmdEQBOpgE90vqxfZH0ekdqfGB6xLe0Uyb7EyHr/fgv/zkZtDcru4KxRvAvWxE1u4c8MOZnOnXoRfQOfFnTg==",
-      "path": "stateless/5.11.0",
-      "hashPath": "stateless.5.11.0.nupkg.sha512"
+      "sha512": "sha512-M4Rb4b31TUEfhCd4en0WlRfuFgQ2rwva9e1CuXnto5vNGvRsNVimHENnvjegf6nKG9ZH+51McAZ/huqRtTziYg==",
+      "path": "stateless/5.13.0",
+      "hashPath": "stateless.5.13.0.nupkg.sha512"
     },
     "System.Collections/4.0.11": {
       "type": "package",
@@ -759,7 +777,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Logicality.LittleForker.Reference/0.0.0.0": {
+    "Logicality.LittleForker.Reference/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
