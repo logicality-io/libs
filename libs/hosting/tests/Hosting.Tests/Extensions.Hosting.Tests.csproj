@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
-    <IsPackable>false</IsPackable>
     <AssemblyName>Logicality.Extensions.Hosting.Tests</AssemblyName>
     <RootNamespace>Logicality.Extensions.Hosting</RootNamespace>
   </PropertyGroup>

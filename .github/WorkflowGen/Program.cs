@@ -17,7 +17,6 @@ void GenerateWorkflowsForLibs()
         "github",
         "hosting",
         "lambda",
-        "little-forker",
         "pulumi",
         "system-extensions",
         "webhook-relay"
@@ -48,14 +47,14 @@ void GenerateWorkflowsForLibs()
                 EnvSecret("GITHUB_TOKEN"),
                 EnvSecret("LOGICALITY_NUGET_ORG"),
                 EnvSecret("WEBHOOKRELAYTOKENKEY"),
-                EnvSecret("WEBHOOKRELAYTOKENKEY"),
+                EnvSecret("WEBHOOKRELAYTOKENSECRET"),
                 EnvSecret("WEBHOOKURL"));
 
         buildJob.Step().ActionsCheckout();
 
         buildJob.Step().LogIntoGitHubContainerRegistry();
 
-        buildJob.Step().ActionsSetupDotNet("6.0.x", "7.0.x");
+        buildJob.Step().ActionsSetupDotNet("8.0.x");
 
         buildJob.Step().PrintEnvironment();
 
@@ -120,10 +119,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step().ActionsCheckout();
 
-    job.Step()
-        .Name("Setup dotnet")
-        .Uses("actions/setup-dotnet@v3")
-        .With(("dotnet-version", "6.0.x"));
+    job.Step().ActionsSetupDotNet("8.0.x");
 
     job.Step()
         .Run("dotnet --info");

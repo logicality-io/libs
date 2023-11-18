@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Logicality.WebhookRelay</RootNamespace>
     <UserSecretsId>c627daf4-22f4-427d-818a-b86a57db54a2</UserSecretsId>
   </PropertyGroup>

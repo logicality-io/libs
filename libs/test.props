@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <LangVersion>latest</LangVersion>
     <DebugType>full</DebugType>
@@ -9,10 +10,6 @@
     <LangVersion>preview</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-    <FrameworkVersion>6.0.0</FrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,5 +26,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0'">
+    <FrameworkVersion>8.0.0</FrameworkVersion>
+  </PropertyGroup>
 
 </Project>
