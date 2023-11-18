@@ -120,10 +120,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step().ActionsCheckout();
 
-    job.Step()
-        .Name("Setup dotnet")
-        .Uses("actions/setup-dotnet@v3")
-        .With(("dotnet-version", "6.0.x"));
+    job.Step().ActionsSetupDotNet("8.0.x");
 
     job.Step()
         .Run("dotnet --info");
