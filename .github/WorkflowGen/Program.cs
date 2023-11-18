@@ -20,7 +20,6 @@ void GenerateWorkflowsForLibs()
         "little-forker",
         "pulumi",
         "system-extensions",
-        "testing",
         "webhook-relay"
     };
 
