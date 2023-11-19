@@ -11,7 +11,7 @@ public class RuntimeConfigurationTests
     {
         var runtimeConfiguration = new RuntimeConfiguration();
         var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>()
+            .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 {"foo", "bar"}
             })
@@ -31,7 +31,7 @@ public class RuntimeConfigurationTests
     {
         var runtimeConfiguration = new RuntimeConfiguration();
         var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
+            .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 {"foo", "bar"}
             })

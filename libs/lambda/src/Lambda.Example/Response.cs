@@ -1,6 +1,3 @@
 namespace Logicality.Lambda.Example;
 
-public class Response
-{
-    public string Body { get; set; }
-}
+public record Response(string Body);

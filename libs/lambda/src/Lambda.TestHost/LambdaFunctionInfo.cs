@@ -3,19 +3,6 @@ using Amazon.Lambda.Core;
 
 namespace Logicality.Lambda.TestHost;
 
-public interface ILambdaFunctionInfo
-{
-    MethodInfo HandlerMethod { get; }
-
-    int ReservedConcurrency { get; }
-
-    ILambdaFunctionActivator FunctionActivator { get; }
-
-    ILambdaSerializer Serializer { get; }
-
-    string Name { get; }
-}
-
 public class LambdaFunctionInfo : ILambdaFunctionInfo
 {
     /// <summary>
@@ -25,7 +12,7 @@ public class LambdaFunctionInfo : ILambdaFunctionInfo
     ///     The name of the function.
     /// </param>
     /// <param name="functionType">
-    ///     The lambda function type that will be activate.
+    ///     The lambda function type that will be activated.
     /// </param>
     /// <param name="handlerMethod">
     ///     The lambda function method that will be invoked.
@@ -72,7 +59,7 @@ public class LambdaFunctionInfo : ILambdaFunctionInfo
 
     public MethodInfo HandlerMethod { get; }
 
-    public ILambdaSerializer? Serializer { get; }
+    public ILambdaSerializer? Serializer { get; } = null;
 
     public int ReservedConcurrency { get; }
 

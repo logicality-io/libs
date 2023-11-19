@@ -6,7 +6,7 @@ public class Profile : EventSourcedEntity
 {
     public static readonly Func<Profile> Factory = () => new Profile();
 
-    public ProfileId Id { get; private set; }
+    public ProfileId? Id { get; private set; }
 
     public Profile()
     {
@@ -23,14 +23,7 @@ public class Profile : EventSourcedEntity
         string    emailAddress)
     {
         var profile = new Profile();
-        profile.Apply(new UserRegistered
-        {
-            ProfileId    = profileId.Value,
-            FirstName    = firstName,
-            LastName     = lastName,
-            EmailAddress = emailAddress,
-        });
-
+        profile.Apply(new UserRegistered(profileId.Value, firstName, lastName, emailAddress));
         return profile;
     }
 }

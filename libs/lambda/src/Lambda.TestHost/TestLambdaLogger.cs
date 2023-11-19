@@ -5,7 +5,7 @@ namespace Logicality.Lambda.TestHost;
 
 public class TestLambdaLogger : ILambdaLogger
 {
-    private readonly StringBuilder _logs = new StringBuilder();
+    private readonly StringBuilder _logs = new();
 
     public void Log(string message) => _logs.Append(message);
 

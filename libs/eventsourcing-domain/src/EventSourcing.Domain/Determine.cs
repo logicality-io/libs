@@ -2,7 +2,7 @@ namespace Logicality.EventSourcing.Domain;
 
 public static class Determine
 {
-    private static readonly NamespaceBasedGuidGenerator Generator = new NamespaceBasedGuidGenerator(
+    private static readonly NamespaceBasedGuidGenerator Generator = new(
         new Guid("10a8d5dd-c836-434e-bc42-b62e559171b5")
     );
         

@@ -23,7 +23,7 @@ public class HostedServiceWrapper : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        var scope = _logger.BeginScope(GetScopeState());
+        using var scope = _logger.BeginScope(GetScopeState());
 
         _logger.LogInformation("Starting...");
         var stopwatch = Stopwatch.StartNew();
@@ -31,38 +31,29 @@ public class HostedServiceWrapper : IHostedService
         {
             await _inner.StartAsync(cancellationToken);
             var elapsed = Math.Round(stopwatch.Elapsed.TotalMilliseconds, 0).ToString(CultureInfo.InvariantCulture);
-            _logger.LogInformation($"Took {elapsed}ms to start.");
+            _logger.LogInformation("Took {elapsed}ms to start.", elapsed);
         }
         catch (Exception ex)
         {
             _logger.LogCritical(ex, ex.Message);
             throw;
-        }
-        finally
-        {
-            scope.Dispose();
         }
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
-        var scope = _logger.BeginScope(GetScopeState());
-
+        using var scope = _logger.BeginScope(GetScopeState());
         _logger.LogInformation("Stopping...");
         var stopwatch = Stopwatch.StartNew();
         try
         {
             await _inner.StopAsync(cancellationToken);
-            _logger.LogInformation($"took {stopwatch.Elapsed.TotalMilliseconds}ms to stop");
+            _logger.LogInformation("Took {elapsedTotalMilliseconds}ms to stop", stopwatch.Elapsed.TotalMilliseconds);
         }
         catch (Exception ex)
         {
             _logger.LogCritical(ex, ex.Message);
             throw;
-        }
-        finally
-        {
-            scope.Dispose();
         }
     }
 

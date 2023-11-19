@@ -13,11 +13,11 @@ namespace Logicality.Lambda.TestHost.StepFunctions;
 public class StepFunctionsIntegrationTests: IAsyncLifetime
 {
     private readonly ITestOutputHelper _outputHelper;
-    private          LambdaTestHost    _lambdaTestHost;
-    private          IContainerService _stepFunctionsLocal;
-    private          Uri               _stepFunctionsServiceUrl;
-    private const    int               ContainerPort = 8083;
-    public const     int               Port          = 8083;
+    private          LambdaTestHost    _lambdaTestHost          = null!;
+    private          IContainerService _stepFunctionsLocal      = null!;
+    private          Uri               _stepFunctionsServiceUrl = null!;
+    private const    int               ContainerPort            = 8083;
+    public const     int               Port                     = 8083;
 
     public StepFunctionsIntegrationTests(ITestOutputHelper outputHelper)
     {

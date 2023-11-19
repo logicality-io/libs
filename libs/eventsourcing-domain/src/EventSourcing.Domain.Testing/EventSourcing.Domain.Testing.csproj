@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>$(Org).$(AssemblyName)</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
   </PropertyGroup>
 

@@ -12,10 +12,7 @@ public class SynchronousInvokeFunctionTests
     {
         var testFunction = new ExampleSynchronousInvokeFunction();
 
-        var request = new Request
-        {
-            Url = "http://example.com"
-        };
+        var request = new Request("http://example.com");
         var response = await testFunction.Handle(request, new TestLambdaContext());
 
         response.Body.ShouldNotBeNullOrEmpty();

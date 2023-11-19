@@ -8,64 +8,21 @@ using Stateless;
 
 namespace Logicality.WebhookRelay;
 
-public class WebhookRelayClientConfiguration
-{
-    public WebhookRelayClientConfiguration(string tokenKey, string tokenSecret, string[] buckets)
-    {
-        if (string.IsNullOrWhiteSpace(tokenKey))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(tokenKey));
-        if (string.IsNullOrWhiteSpace(tokenSecret))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(tokenSecret));
-        if (buckets == null)
-            throw new ArgumentNullException(nameof(buckets));
-        if (buckets.Length == 0)
-            throw new ArgumentException("Value cannot be an empty collection.", nameof(buckets));
-
-        TokenKey    = tokenKey;
-        TokenSecret = tokenSecret;
-        Buckets     = buckets;
-    }
-
-    /// <summary>
-    /// The token key to use for authentication.
-    /// </summary>
-    public string                      TokenKey    { get; }
-
-    /// <summary>
-    /// The token secret to use for authentication.
-    /// </summary>
-    public string                      TokenSecret { get; }
-
-    /// <summary>
-    /// The buckets to subscribe to.
-    /// </summary>
-    public IReadOnlyCollection<string> Buckets     { get; }
-
-    /// <summary>
-    /// Uri of the Webhook Relay server. Defaults to https://my.webhookrelay.com/v1/socket
-    /// </summary>
-    public Uri                         Uri         { get; } = new("wss://my.webhookrelay.com/v1/socket");
-};
-
 public sealed class WebhookRelayClient : IAsyncDisposable
 {
     private const           int  ReceiveChunkSize = 1024;
 
-    private readonly WebhookRelayClientConfiguration          _configuration;
     private readonly ILogger<WebhookRelayClient>              _logger;
-    private readonly CancellationTokenSource                  _stoppingToken = new();
-    private          ClientWebSocket                          _webSocketClient;
+    private readonly CancellationTokenSource                  _stoppingToken   = new();
+    private          ClientWebSocket                          _webSocketClient = null!;
     private readonly JsonSerializerOptions                    _jsonSerializerOptions;
     private readonly StateMachine<ClientState, ClientTrigger> _stateMachine;
-    private readonly ChannelWriter<WebhookMessage>            _channelWriter;
 
     public WebhookRelayClient(
         WebhookRelayClientConfiguration configuration,
         ChannelWriter<WebhookMessage>   channelWriter,
         ILogger<WebhookRelayClient>     logger)
     {
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        _channelWriter = channelWriter ?? throw new ArgumentNullException(nameof(channelWriter));
         _logger   = logger   ?? throw new ArgumentNullException(nameof(logger));
 
         _stateMachine = new StateMachine<ClientState, ClientTrigger>(ClientState.Disconnected);
@@ -81,7 +38,7 @@ public sealed class WebhookRelayClient : IAsyncDisposable
                 try
                 {
                     _webSocketClient = new ClientWebSocket();
-                    await _webSocketClient.ConnectAsync(_configuration.Uri, _stoppingToken.Token);
+                    await _webSocketClient.ConnectAsync(configuration.Uri, _stoppingToken.Token);
                 }
                 catch (Exception ex)
                 {
@@ -105,7 +62,9 @@ public sealed class WebhookRelayClient : IAsyncDisposable
             .Configure(ClientState.Authenticating)
             .OnEntryAsync(async () =>
             {
-                var authenticate = new Authenticate { Key = configuration.TokenKey, Secret = configuration.TokenSecret };
+                var authenticate = new Authenticate(
+                    configuration.TokenKey,
+                    configuration.TokenSecret);
                 await SendMessage(authenticate, _stoppingToken.Token);
                 var (closed, message) = await ReceiveMessage();
                 if (closed)
@@ -157,7 +116,9 @@ public sealed class WebhookRelayClient : IAsyncDisposable
             .Configure(ClientState.Subscribing)
             .OnEntryAsync(async () =>
             {
-                await SendMessage(new Subscribe { Buckets = configuration.Buckets.ToArray() }, _stoppingToken.Token);
+                var buckets   = configuration.Buckets.ToArray();
+                var subscribe = new Subscribe(buckets);
+                await SendMessage(subscribe, _stoppingToken.Token);
                 var (closed, message) = await ReceiveMessage();
                 if (closed)
                 {
@@ -234,7 +195,7 @@ public sealed class WebhookRelayClient : IAsyncDisposable
                     if(messageType == "webhook")
                     {
                         var webhookMessage = JsonSerializer.Deserialize<WebhookMessage>(message, _jsonSerializerOptions);
-                        await _channelWriter.WriteAsync(webhookMessage!, _stoppingToken.Token);
+                        await channelWriter.WriteAsync(webhookMessage!, _stoppingToken.Token);
                         continue;
                     }
 
@@ -287,12 +248,9 @@ public sealed class WebhookRelayClient : IAsyncDisposable
         return (false, message);
     }
 
-    public async void Start()
-    {
-        await _stateMachine.FireAsync(ClientTrigger.Connect);
-    }
+    public async void Start() => await _stateMachine.FireAsync(ClientTrigger.Connect);
 
-    public event EventHandler<ClientState> StateChanged;
+    public event EventHandler<ClientState>? StateChanged;
 
     private async Task SendMessage(object message, CancellationToken cancellationToken)
     {
@@ -306,20 +264,14 @@ public sealed class WebhookRelayClient : IAsyncDisposable
             cancellationToken);
     }
 
-    private record Authenticate
+    private record Authenticate(string Key, string Secret)
     {
         public string Action { get; } = "auth";
-
-        public string Key { get; set; }
-
-        public string Secret { get; set; }
     }
 
-    private class Subscribe
+    private record Subscribe(string[] Buckets)
     {
         public string Action { get; } = "subscribe";
-
-        public string[] Buckets { get; set; }
     }
 
     private class Pong

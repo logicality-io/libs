@@ -6,10 +6,9 @@ namespace Logicality.Extensions.Hosting;
 
 public class ParallelHostedServiceBuilder
 {
-    private readonly IServiceCollection _services;
-    private readonly string             _name;
-    private readonly List<Func<IServiceProvider, HostedServiceWrapper>> _activators 
-        = new List<Func<IServiceProvider, HostedServiceWrapper>>();
+    private readonly IServiceCollection                                 _services;
+    private readonly string                                             _name;
+    private readonly List<Func<IServiceProvider, HostedServiceWrapper>> _activators = new();
 
     internal ParallelHostedServiceBuilder(IServiceCollection services, string name)
     {

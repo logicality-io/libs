@@ -15,9 +15,9 @@ namespace Logicality.Lambda.TestHost;
 public class LambdaTestHostTests: IAsyncLifetime
 {
     private readonly ITestOutputHelper      _outputHelper;
-    private          LambdaTestHost         _testHost;
-    private          AmazonLambdaClient     _lambdaClient;
-    private          LambdaTestHostSettings _settings;
+    private          LambdaTestHost         _testHost     = null!;
+    private          AmazonLambdaClient     _lambdaClient = null!;
+    private          LambdaTestHostSettings _settings     = null!;
 
     public LambdaTestHostTests(ITestOutputHelper outputHelper)
     {
@@ -47,7 +47,7 @@ public class LambdaTestHostTests: IAsyncLifetime
         var payload      = await streamReader.ReadToEndAsync();
 
         var apiGatewayProxyResponse = JsonSerializer.Deserialize<APIGatewayProxyResponse>(payload);
-        apiGatewayProxyResponse.IsBase64Encoded.ShouldBeFalse();
+        apiGatewayProxyResponse!.IsBase64Encoded.ShouldBeFalse();
         apiGatewayProxyResponse.Body.ShouldNotBeNullOrWhiteSpace();
     }
 

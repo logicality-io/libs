@@ -6,21 +6,9 @@ namespace Logicality.Lambda.TestHost.Functions;
 public class SimpleLambdaFunction
 {
     [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
-    public SimpleResponse FunctionHandler(SimpleRequest request, ILambdaContext lambdaContext)
-    {
-        return new SimpleResponse
-        {
-            Foo = request.Foo
-        };
-    }
+    public SimpleResponse FunctionHandler(SimpleRequest request, ILambdaContext _) => new(request.Foo);
 
-    public class SimpleRequest
-    {
-        public string Foo { get; set; }
-    }
+    public record SimpleRequest(string Foo);
 
-    public class SimpleResponse
-    {
-        public string Foo { get; set; }
-    }
+    public record SimpleResponse(string Foo);
 }

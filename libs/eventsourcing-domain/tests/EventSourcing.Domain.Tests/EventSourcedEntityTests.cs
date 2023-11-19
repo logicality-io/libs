@@ -46,23 +46,11 @@ namespace Logicality.EventSourcing.Domain
             }
 
             [Fact]
-            public void ApplyWithNullEventThrows()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.ApplyWithNullEvent());
-            }
-
-            [Fact]
             public void ApplyHasExpectedResult()
             {
                 var @event = new Event();
                 _sut.Apply(@event);
                 _sut.TakeEvents().ShouldBe(new object[] { @event });
-            }
-
-            [Fact]
-            public void OnWithNullHandlerThrows()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.OnWithNullHandler());
             }
 
             private class Entity : EventSourcedEntity
@@ -76,16 +64,6 @@ namespace Logicality.EventSourcing.Domain
                 }
 
                 public object[] RestoredFromEvents => _restoredFromEvents.ToArray();
-
-                public void OnWithNullHandler()
-                {
-                    On<object>(null);
-                }
-
-                public void ApplyWithNullEvent()
-                {
-                    base.Apply(null);
-                }
 
                 public void Apply(Event @event)
                 {
@@ -133,24 +111,12 @@ namespace Logicality.EventSourcing.Domain
             }
 
             [Fact]
-            public void ApplyWithNullEventThrows()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.ApplyWithNullEvent());
-            }
-
-            [Fact]
             public void ApplyHasExpectedResult()
             {
                 var @event = new Event();
                 _sut.Apply(@event);
 
                 _recordedEvents.Concat(new object[] { @event }).ToArray().ShouldBe(_sut.TakeEvents());
-            }
-
-            [Fact]
-            public void OnWithNullHandlerThrows()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.OnWithNullHandler());
             }
 
             private class Entity : EventSourcedEntity
@@ -165,22 +131,12 @@ namespace Logicality.EventSourcing.Domain
 
                 public object[] RestoredFromEvents => _restoredFromEvents.ToArray();
 
-                public void OnWithNullHandler()
-                {
-                    On<object>(null);
-                }
-
-                public void ApplyWithNullEvent()
-                {
-                    base.Apply(null);
-                }
-
                 public void Apply(Event @event)
                 {
                     base.Apply(@event);
                 }
 
-                public void RecordEvents(object[] events)
+                public void RecordEvents(IEnumerable<object> events)
                 {
                     foreach (var @event in events)
                     {

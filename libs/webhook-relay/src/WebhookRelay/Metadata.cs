@@ -5,24 +5,23 @@ namespace Logicality.WebhookRelay;
 public class Metadata
 {
     [JsonPropertyName("id")]
-
-    public string Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [JsonPropertyName("bucket_id")]
-    public string BucketId { get; set; }
+    public string BucketId { get; set; } = null!;
 
     [JsonPropertyName("bucket_name")]
-    public string BucketName { get; set; }
+    public string BucketName { get; set; } = null!;
 
     [JsonPropertyName("input_id")]
-    public string InputId { get; set; }
+    public string InputId { get; set; } = null!;
 
     [JsonPropertyName("input_name")]
-    public string InputName { get; set; }
+    public string InputName { get; set; } = null!;
 
     [JsonPropertyName("output_name")]
-    public string OutputName { get; set; }
+    public string OutputName { get; set; } = null!;
 
     [JsonPropertyName("output_destination")]
-    public string OutputDestination { get; set; }
+    public string OutputDestination { get; set; } = null!;
 }

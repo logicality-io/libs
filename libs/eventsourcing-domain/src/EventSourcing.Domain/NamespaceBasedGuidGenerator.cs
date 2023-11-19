@@ -21,13 +21,10 @@ public class NamespaceBasedGuidGenerator
 
     public Guid Create(byte[] input)
     {
-        byte[] hash;
-        using (var algorithm = SHA1.Create())
-        {
-            algorithm.TransformBlock(_namespace, 0, _namespace.Length, null, 0);
-            algorithm.TransformFinalBlock(input, 0, input.Length);
-            hash = algorithm.Hash;
-        }
+        using var algorithm = SHA1.Create();
+        algorithm.TransformBlock(_namespace, 0, _namespace.Length, null, 0);
+        algorithm.TransformFinalBlock(input, 0, input.Length);
+        var hash = algorithm.Hash!;
 
         var buffer = new byte[16];
         Array.Copy(hash, 0, buffer, 0, 16);
@@ -39,18 +36,11 @@ public class NamespaceBasedGuidGenerator
         return new Guid(buffer);
     }
 
-    private static void SwapPairs(byte[] buffer, Tuple<int, int>[] pairs)
+    private static void SwapPairs(IList<byte> buffer, IEnumerable<Tuple<int, int>> pairs)
     {
-        if (pairs == null)
-        {
-            throw new ArgumentNullException(nameof(pairs));
-        }
-
         foreach (var (left, right) in pairs)
         {
-            var _ = buffer[left];
-            buffer[left]  = buffer[right];
-            buffer[right] = _;
+            (buffer[left], buffer[right]) = (buffer[right], buffer[left]);
         }
     }
 }

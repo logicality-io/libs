@@ -18,20 +18,12 @@ public class ConfigurationRootExtensionsTests
     [Fact]
     public void Can_get_config_info()
     {
-        var config = new ConfigObject
-        {
-            Field = "foo",
-            Nested1 = new ConfigObject.Nested
-            {
-                Field = "bar",
-            },
-            Nested2 = new ConfigObject.Nested
-            {
-                Field = "baz"
-            }
-        };
+        var config = new ConfigObject(
+            "foo",
+            new ConfigObject.Nested("bar"),
+            new ConfigObject.Nested("baz"));
         var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
+            .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 {"foo:bar", "a"},
                 {"foo:bar:baz", "b"}
@@ -50,20 +42,12 @@ public class ConfigurationRootExtensionsTests
     [Fact]
     public void When_supply_non_secret_paths_then_values_should_not_be_hashed()
     {
-        var config = new ConfigObject
-        {
-            Field = "foo",
-            Nested1 = new ConfigObject.Nested
-            {
-                Field = "bar",
-            },
-            Nested2 = new ConfigObject.Nested
-            {
-                Field = "baz"
-            }
-        };
+        var config = new ConfigObject(
+            "foo",
+            new ConfigObject.Nested("bar"),
+            new ConfigObject.Nested("baz"));
         var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
+            .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 {"foo:bar", "a"},
                 {"foo:bar:baz", "b"}
@@ -84,17 +68,8 @@ public class ConfigurationRootExtensionsTests
         _outputHelper.WriteLine(configInfo.ToString());
     }
 
-    public class ConfigObject
+    public record ConfigObject(string Field, ConfigObject.Nested Nested1, ConfigObject.Nested Nested2)
     {
-        public class Nested
-        {
-            public string Field { get; set; }
-        }
-
-        public string Field { get; set; }
-
-        public Nested Nested1 { get; set; }
-
-        public Nested Nested2 { get; set; }
+        public record Nested(string Field);
     }
 }

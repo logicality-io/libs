@@ -2,8 +2,7 @@ namespace Logicality.EventSourcing.Domain;
 
 public class EventPlayer
 {
-    private readonly Dictionary<Type, Action<object>> _handlers
-        = new Dictionary<Type, Action<object>>();
+    private readonly Dictionary<Type, Action<object>> _handlers = new();
 
     public void Register<TEvent>(Action<TEvent> handler)
     {

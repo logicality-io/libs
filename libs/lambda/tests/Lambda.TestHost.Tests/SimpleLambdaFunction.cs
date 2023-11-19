@@ -6,21 +6,13 @@ namespace Logicality.Lambda.TestHost;
 public class SimpleLambdaFunction
 {
     [LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
-    public SimpleResponse FunctionHandler(SimpleRequest request, ILambdaContext lambdaContext)
+    public SimpleResponse FunctionHandler(SimpleRequest request, ILambdaContext _)
     {
-        return new SimpleResponse
-        {
-            Reverse = new string(request.Data.Reverse().ToArray())
-        };
+        var reverseData = new string(request.Data.Reverse().ToArray());
+        return new SimpleResponse(reverseData);
     }
 
-    public class SimpleRequest
-    {
-        public string Data { get; set; }
-    }
+    public record SimpleRequest(string Data);
 
-    public class SimpleResponse
-    {
-        public string Reverse { get; set; }
-    }
+    public record SimpleResponse(string Reverse);
 }

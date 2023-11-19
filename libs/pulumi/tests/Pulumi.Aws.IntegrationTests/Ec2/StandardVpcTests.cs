@@ -22,10 +22,9 @@ public class StandardVpcTests
 
     public async Task CanDeploy()
     {
-        WorkspaceStack stack = null;
+        WorkspaceStack? stack = null;
         try
         {
-
             // Arrange
             stack = await InitializeStack(() =>
             {
@@ -35,7 +34,7 @@ public class StandardVpcTests
                 };
                 var vpc = new StandardVpc("test-vpc", args);
 
-                return new Dictionary<string, object>
+                return new Dictionary<string, object?>
                 {
                     {"VpcId", vpc.Vpc.Apply(v => v.Id)}
                 };

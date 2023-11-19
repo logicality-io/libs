@@ -9,6 +9,11 @@ namespace Logicality.Pulumi.Automation.Aws;
 
 public sealed class ProviderEndpoints
 {
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
     [JsonPropertyName("accessanalyzer")]
     public string? Accessanalyzer { get; set; }
 
@@ -467,13 +472,8 @@ public sealed class ProviderEndpoints
 
     public ConfigValue AsConfigValue()
     {
-        var options = new JsonSerializerOptions()
-        {
-            IgnoreNullValues = true
-        };
-        var json = JsonSerializer.Serialize(this, options);
+        var json = JsonSerializer.Serialize(this, Options);
         json = $"[{json}]"; // Needs to be a collection.
-            
         return new ConfigValue(json);
     }
 }

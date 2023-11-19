@@ -6,7 +6,7 @@ public class RuntimeConfigurationProvider : ConfigurationProvider
 {
     private readonly object _lockObject = new();
 
-    public override void Set(string key, string value)
+    public override void Set(string key, string? value)
     {
         lock (_lockObject)
         {
@@ -19,9 +19,9 @@ public class RuntimeConfigurationProvider : ConfigurationProvider
     {
         lock (_lockObject)
         {
-            if (this.Data.ContainsKey(key))
+            if (Data.ContainsKey(key))
             {
-                this.Data.Remove(key);
+                Data.Remove(key);
                 OnReload();
             }
         }

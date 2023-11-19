@@ -87,7 +87,7 @@ public class StandardVpc : ComponentResource
                 Parent = vpc
             });
 
-        new Route($"{public0.RouteTable.GetResourceName()}-ig", new RouteArgs
+        _ = new Route($"{public0.RouteTable.GetResourceName()}-ig", new RouteArgs
         {
             RouteTableId         = public0.RouteTable.Id,
             DestinationCidrBlock = "0.0.0.0/0",
@@ -97,7 +97,7 @@ public class StandardVpc : ComponentResource
             Parent = public0.RouteTable
         });
 
-        new Route($"{public1.RouteTable.GetResourceName()}-ig", new RouteArgs
+        _ = new Route($"{public1.RouteTable.GetResourceName()}-ig", new RouteArgs
         {
             RouteTableId         = public1.RouteTable.Id,
             DestinationCidrBlock = "0.0.0.0/0",
@@ -106,7 +106,6 @@ public class StandardVpc : ComponentResource
         {
             Parent = public1.RouteTable
         });
-
 
         var eip0 = new Eip(
             $"{public0.Subnet.GetResourceName()}-eip",
@@ -243,7 +242,7 @@ public class StandardVpc : ComponentResource
                 Parent = subnet
             });
 
-        new RouteTableAssociation(
+        _ = new RouteTableAssociation(
             name,
             new RouteTableAssociationArgs
             {
@@ -267,6 +266,11 @@ public class StandardVpc : ComponentResource
             Subnet publicSubnet0,
             Subnet publicSubnet1)
         {
+            Vpc            = vpc;
+            PrivateSubnet0 = privateSubnet0;
+            PrivateSubnet1 = privateSubnet1;
+            PublicSubnet0  = publicSubnet0;
+            PublicSubnet1  = publicSubnet1;
         }
 
         public Vpc Vpc { get; }

@@ -17,7 +17,7 @@ public class AdminWebAppHostedService : IHostedService
     public Task StartAsync(CancellationToken cancellationToken)
     {
         var config = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
+            .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 { "SeqUri", _context.Seq.SinkUri.ToString() }
             })
@@ -34,8 +34,8 @@ public class AdminWebAppHostedService : IHostedService
         return _webHost.StartAsync(cancellationToken);
     }
 
-    public Task? StopAsync(CancellationToken cancellationToken) 
-        => _webHost?.StopAsync(cancellationToken);
+    public Task StopAsync(CancellationToken cancellationToken) 
+        => _webHost!.StopAsync(cancellationToken);
 
     public class Startup
     {
@@ -50,7 +50,7 @@ public class AdminWebAppHostedService : IHostedService
         {
             services.AddLogging(logging =>
             {
-                var seqUri = _configuration.GetValue<string>("SeqUri");
+                var seqUri = _configuration.GetValue<string>("SeqUri")!;
                 var logger = new LoggerConfiguration()
                     .WriteTo.Seq(seqUri)
                     .CreateLogger();

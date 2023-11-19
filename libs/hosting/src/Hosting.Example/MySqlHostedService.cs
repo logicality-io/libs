@@ -17,7 +17,7 @@ public class MySqlHostedService : DockerHostedService
     }
 
     public MySqlConnectionStringBuilder CreateConnectionStringBuilder(string? database = null) =>
-        new MySqlConnectionStringBuilder
+        new()
         {
             Server   = "localhost",
             Port     = HostPort,

@@ -4,12 +4,10 @@ namespace Logicality.Lambda.TestHost;
 
 internal class LambdaInstancePool
 {
-    private readonly ILambdaFunctionInfo _lambdaFunctionInfo;
-    private readonly ConcurrentQueue<LambdaInstance> _availableInstances
-        = new ConcurrentQueue<LambdaInstance>();
-    private readonly Dictionary<Guid, LambdaInstance> _usedInstances
-        = new Dictionary<Guid, LambdaInstance>();
-    private int _counter;
+    private readonly ILambdaFunctionInfo              _lambdaFunctionInfo;
+    private readonly ConcurrentQueue<LambdaInstance>  _availableInstances = new();
+    private readonly Dictionary<Guid, LambdaInstance> _usedInstances      = new();
+    private          int                              _counter;
 
     public LambdaInstancePool(ILambdaFunctionInfo lambdaFunctionInfo)
     {

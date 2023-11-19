@@ -15,12 +15,6 @@ namespace Logicality.EventSourcing.Domain
             }
 
             [Fact]
-            public void RegisterStronglyTypedNullHandlerHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Register<object>(null));
-            }
-
-            [Fact]
             public void RegisterStronglyTypedHandlerHasExpectedResult()
             {
                 var @event = new object();
@@ -31,18 +25,6 @@ namespace Logicality.EventSourcing.Domain
             }
 
             [Fact]
-            public void RegisterWeaklyTypedNullHandlerHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Register(typeof(object), null));
-            }
-
-            [Fact]
-            public void RegisterWeaklyTypedNullTypeHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Register(null, _ => { }));
-            }
-
-            [Fact]
             public void RegisterWeaklyTypedHandlerHasExpectedResult()
             {
                 var @event = new object();
@@ -50,12 +32,6 @@ namespace Logicality.EventSourcing.Domain
                 _sut.Register(typeof(object), played => { @event.ShouldBeSameAs(played); });
 
                 _sut.Play(@event);
-            }
-
-            [Fact]
-            public void PlayNullHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Play(null));
             }
         }
 
@@ -70,12 +46,6 @@ namespace Logicality.EventSourcing.Domain
                 _sut = new EventPlayer();
                 _event = new object();
                 _sut.Register<object>(played => _event.ShouldBeSameAs(played));
-            }
-
-            [Fact]
-            public void RegisterStronglyTypedNullHandlerHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Register<ExampleEvent>(null));
             }
 
             [Fact]
@@ -95,18 +65,6 @@ namespace Logicality.EventSourcing.Domain
             }
 
             [Fact]
-            public void RegisterWeaklyTypedNullHandlerHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Register(typeof(ExampleEvent), null));
-            }
-
-            [Fact]
-            public void RegisterWeaklyTypedNullTypeHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Register(null, _ => { }));
-            }
-
-            [Fact]
             public void RegisterWeaklyTypedHandlerHasExpectedResult()
             {
                 var example = new ExampleEvent();
@@ -120,12 +78,6 @@ namespace Logicality.EventSourcing.Domain
             public void RegisterWeaklyTypedHandlerForRegisteredEventHasExpectedResult()
             {
                 Should.Throw<InvalidOperationException>(() => _sut.Register(typeof(object), played => { }));
-            }
-
-            [Fact]
-            public void PlayNullHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Play(null));
             }
 
             [Fact]

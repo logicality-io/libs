@@ -39,13 +39,14 @@ public static class ConfigurationRootExtensions
                 {
                     if (nonSensitivePaths.Contains(child.Path))
                     {
-                        var configInfo = new ConfigItem(child.Path, value, provider.ToString()!);
+                        var configInfo = new ConfigItem(child.Path, value!, provider.ToString()!);
                         infos.Add(configInfo);
                     }
                     else
                     {
                         using var sha256     = SHA256.Create();
-                        var       hash       = sha256.ComputeHash(Encoding.UTF8.GetBytes(value));
+                        var       bytes      = Encoding.UTF8.GetBytes(value!);
+                        var       hash       = sha256.ComputeHash(bytes);
                         var       valueHash  = Convert.ToBase64String(hash);
                         var       configInfo = new ConfigItem(child.Path, valueHash, provider.ToString()!);
                         infos.Add(configInfo);
@@ -61,7 +62,7 @@ public static class ConfigurationRootExtensions
         return new ConfigInfo(items);
     }
         
-    private static (string Value, IConfigurationProvider? Provider) GetValueAndProvider(
+    private static (string? value, IConfigurationProvider? provider) GetValueAndProvider(
         IConfigurationRoot root, 
         string             key)
     {
@@ -75,66 +76,4 @@ public static class ConfigurationRootExtensions
 
         return (null, null)!;
     }
-}
-
-/// <summary>
-/// Represents information about all configuration providers, paths and values.
-/// </summary>
-public class ConfigInfo
-{
-    public ConfigInfo(IReadOnlyCollection<ConfigItem> items)
-    {
-        Items = items;
-    }
-
-    public IReadOnlyCollection<ConfigItem> Items { get; }
-
-    public override string ToString()
-    {
-        var stringBuilder = new StringBuilder();
-        foreach (var item in Items)
-        {
-            stringBuilder.AppendLine(item.ToString());
-        }
-
-        return stringBuilder.ToString();
-    }
-}
-
-/// <summary>
-/// Represents a configuration item.
-/// </summary>
-public class ConfigItem
-{
-
-    /// <summary>
-    /// Create a new instance of a config item.
-    /// </summary>
-    /// <param name="path">The configuration path.</param>
-    /// <param name="value">The configuration value.</param>
-    /// <param name="provider">The configuration provider.</param>
-    public ConfigItem(string path, string value, string provider)
-    {
-        Path     = path;
-        Value    = value;
-        Provider = provider;
-    }
-
-    /// <summary>
-    /// The configuration path.
-    /// </summary>
-    public string Path { get; }
-
-    /// <summary>
-    /// The configuration value.
-    /// </summary>
-    public string Value { get; }
-        
-    /// <summary>
-    /// The configuration provider.
-    /// </summary>
-    public string Provider { get; }
-
-    public override string ToString() 
-        => $"{Path} = {Value} ({Provider})";
 }

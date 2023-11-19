@@ -19,11 +19,6 @@ public class Scenario :
 
     private readonly object _result;
 
-    public Scenario()
-        : this(ImmutableList<RecordedEvent>.Empty, null, ImmutableList<RecordedEvent>.Empty, null)
-    {
-    }
-
     private Scenario(ImmutableList<RecordedEvent> givens, object when, ImmutableList<RecordedEvent> thens, object result)
     {
         _givens = givens;
@@ -45,152 +40,58 @@ public class Scenario :
         return this;
     }
         
-    public IScenarioGivenEventsStateBuilder Given(params RecordedEvent[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
+    public IScenarioGivenEventsStateBuilder Given(params RecordedEvent[] events) 
+        => new Scenario(_givens.AddRange(events), _when, _thens, _result);
 
-        return new Scenario(_givens.AddRange(events), _when, _thens, _result);
-    }
-        
-    public IScenarioGivenEventsStateBuilder Given(StreamName stream, params object[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
+    public IScenarioGivenEventsStateBuilder Given(StreamName stream, params object[] events) 
+        => new Scenario(_givens.AddRange(Transform(stream, events)), _when, _thens, _result);
 
-        return new Scenario(_givens.AddRange(Transform(stream, events)), _when, _thens, _result);
-    }
+    IScenarioGivenEventsStateBuilder IScenarioGivenEventsStateBuilder.Given(StreamName stream, params object[] events) 
+        => new Scenario(_givens.AddRange(Transform(stream, events)), _when, _thens, _result);
 
-    IScenarioGivenEventsStateBuilder IScenarioGivenEventsStateBuilder.Given(StreamName stream, params object[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
+    IScenarioGivenEventsStateBuilder IScenarioGivenEventsStateBuilder.Given(params RecordedEvent[] events) 
+        => new Scenario(_givens.AddRange(events), _when, _thens, _result);
 
-        return new Scenario(_givens.AddRange(Transform(stream, events)), _when, _thens, _result);
-    }
+    IScenarioWhenStateBuilder IScenarioGivenEventsStateBuilder.When(object command) 
+        => new Scenario(_givens, command, _thens, _result);
 
-    IScenarioGivenEventsStateBuilder IScenarioGivenEventsStateBuilder.Given(params RecordedEvent[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
+    IScenarioWhenStateBuilder IScenarioGivenNoEventsStateBuilder.When(object command) 
+        => new Scenario(_givens, command, _thens, _result);
 
-        return new Scenario(_givens.AddRange(events), _when, _thens, _result);
-    }
+    IScenarioThenNoEventsStateBuilder IScenarioWhenStateBuilder.ThenNone() => this;
 
-    IScenarioWhenStateBuilder IScenarioGivenEventsStateBuilder.When(object command)
-    {
-        if (command == null)
-        {
-            throw new ArgumentNullException(nameof(command));
-        }
+    IScenarioThenEventsStateBuilder IScenarioWhenStateBuilder.Then(params RecordedEvent[] events) 
+        => new Scenario(_givens, _when, _thens.AddRange(events), _result);
 
-        return new Scenario(_givens, command, _thens, _result);
-    }
+    IScenarioThenEventsStateBuilder IScenarioThenEventsStateBuilder.Then(StreamName stream, params object[] events) 
+        => new Scenario(_givens, _when, _thens.AddRange(Transform(stream, events)), _result);
 
-    IScenarioWhenStateBuilder IScenarioGivenNoEventsStateBuilder.When(object command)
-    {
-        if (command == null)
-        {
-            throw new ArgumentNullException(nameof(command));
-        }
+    IScenarioThenEventsStateBuilder IScenarioWhenStateBuilder.Then(StreamName stream, params object[] events) 
+        => new Scenario(_givens, _when, _thens.AddRange(Transform(stream, events)), _result);
 
-        return new Scenario(_givens, command, _thens, _result);
-    }
+    IScenarioThenEventsStateBuilder IScenarioThenEventsStateBuilder.Then(params RecordedEvent[] events) 
+        => new Scenario(_givens, _when, _thens.AddRange(events), _result);
 
-    IScenarioThenNoEventsStateBuilder IScenarioWhenStateBuilder.ThenNone()
-    {
-        return this;
-    }
+    IScenarioBuilder IScenarioThenEventsStateBuilder.Expect(object outcome) 
+        => new Scenario(_givens, _when, _thens, outcome);
 
-    IScenarioThenEventsStateBuilder IScenarioWhenStateBuilder.Then(params RecordedEvent[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
+    IScenarioBuilder IScenarioThenNoEventsStateBuilder.Expect(object outcome) 
+        => new Scenario(_givens, _when, _thens, outcome);
 
-        return new Scenario(_givens, _when, _thens.AddRange(events), _result);
-    }
+    Scenario IScenarioBuilder.Build() => this;
 
-    IScenarioThenEventsStateBuilder IScenarioThenEventsStateBuilder.Then(StreamName stream, params object[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
-            
-        return new Scenario(_givens, _when, _thens.AddRange(Transform(stream, events)), _result);
-    }
-
-    IScenarioThenEventsStateBuilder IScenarioWhenStateBuilder.Then(StreamName stream, params object[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
-            
-        return new Scenario(_givens, _when, _thens.AddRange(Transform(stream, events)), _result);
-    }
-
-    IScenarioThenEventsStateBuilder IScenarioThenEventsStateBuilder.Then(params RecordedEvent[] events)
-    {
-        if (events == null)
-        {
-            throw new ArgumentNullException(nameof(events));
-        }
-
-        return new Scenario(_givens, _when, _thens.AddRange(events), _result);
-    }
-
-    IScenarioBuilder IScenarioThenEventsStateBuilder.Expect(object outcome)
-    {
-        if (outcome == null)
-        {
-            throw new ArgumentNullException(nameof(outcome));
-        }
-
-        return new Scenario(_givens, _when, _thens, outcome);
-    }
-
-    IScenarioBuilder IScenarioThenNoEventsStateBuilder.Expect(object outcome)
-    {
-        if (outcome == null)
-        {
-            throw new ArgumentNullException(nameof(outcome));
-        }
-
-        return new Scenario(_givens, _when, _thens, outcome);
-    }
-
-    Scenario IScenarioBuilder.Build()
-    {
-        return this;
-    }
-        
-    public ScenarioPassed Pass(object result) => new ScenarioPassed(this);
+    public ScenarioPassed Pass(object result) => new(this);
 
     public ScenarioRecordedOtherEvents ButRecordedOtherEvents(IReadOnlyCollection<RecordedEvent> other) =>
-        new ScenarioRecordedOtherEvents(this, other);
+        new(this, other);
 
-    public ScenarioReturnedOtherResult ButReturnedOtherResult(object other) =>
-        new ScenarioReturnedOtherResult(this, other);
+    public ScenarioReturnedOtherResult ButReturnedOtherResult(object other) => new(this, other);
         
-    public ScenarioThrewException ButThrewException(Exception exception) =>
-        new ScenarioThrewException(this, exception);
+    public ScenarioThrewException ButThrewException(Exception exception) => new(this, exception);
 
-    private static IEnumerable<RecordedEvent> Transform(StreamName stream, object[] events)
-    {
-        return Array.ConvertAll(events, message => new RecordedEvent(stream, message));
-    }
-        
+    private static RecordedEvent[] Transform(StreamName stream, object[] events) 
+        => Array.ConvertAll(events, message => new RecordedEvent(stream, message));
+
     public interface IScenarioBuilder
     {
         Scenario Build();
@@ -198,7 +99,7 @@ public class Scenario :
         
     public interface IScenarioGivenEventsStateBuilder
     {
-        //TODO: May want to get rid of the RecordedEvent overloads since they only confuse and cause two syntax's
+        //TODO: May want to get rid of the RecordedEvent overloads since they only confuse and cause two syntaxes
             
         IScenarioGivenEventsStateBuilder Given(params RecordedEvent[] events);
         

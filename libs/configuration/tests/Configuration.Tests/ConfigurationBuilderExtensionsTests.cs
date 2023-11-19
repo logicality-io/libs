@@ -10,18 +10,12 @@ public class ConfigurationBuilderExtensionsTests
     public void CanAddObjectToConfiguration()
     {
         var config = new ConfigurationBuilder()
-            .AddObject(new Foo
-            {
-                Bar = "baz"
-            })
+            .AddObject(new Foo("baz"))
             .Build();
         var value = config.GetValue<string>("Bar");
 
         value.ShouldBe("baz");
     }
 
-    private class Foo
-    {
-        public string Bar { get; set; }
-    }
+    private record Foo(string Bar);
 }

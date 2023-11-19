@@ -88,32 +88,30 @@ public class ScenarioRunner
         var page     = await _store.ReadAllForwards(position, 1024, cancellationToken: cancellationToken);
         foreach (var then in page.Messages)
         {
-            recorded.Add(
-                new RecordedEvent(
-                    new StreamName(then.StreamId),
-                    JsonSerializer.Deserialize(
-                        await then.GetJsonData(cancellationToken),
-                        _messageTypeResolver(then.Type),
-                        _options
-                    )
-                )
-            );
+            var streamName = new StreamName(then.StreamId);
+            var jsonData   = await then.GetJsonData(cancellationToken);
+            var message = JsonSerializer.Deserialize(
+                jsonData,
+                _messageTypeResolver(then.Type),
+                _options
+            )!;
+            var recordedEvent = new RecordedEvent(streamName, message);
+            recorded.Add(recordedEvent);
         }
         while (!page.IsEnd)
         {
             page = await page.ReadNext(cancellationToken);
             foreach (var then in page.Messages)
             {
-                recorded.Add(
-                    new RecordedEvent(
-                        new StreamName(then.StreamId),
-                        JsonSerializer.Deserialize(
-                            await then.GetJsonData(cancellationToken),
-                            _messageTypeResolver(then.Type),
-                            _options
-                        )
-                    )
-                );
+                var streamName    = new StreamName(then.StreamId);
+                var jsonData      = await then.GetJsonData(cancellationToken);
+                var message = JsonSerializer.Deserialize(
+                    jsonData,
+                    _messageTypeResolver(then.Type),
+                    _options
+                )!;
+                var recodedEvent = new RecordedEvent(streamName, message);
+                recorded.Add(recodedEvent);
             }
         }
         return recorded.ToArray();

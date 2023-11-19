@@ -21,9 +21,6 @@ public class ExampleSynchronousInvokeHandler: SynchronousInvokeHandler<Request, 
         httpClient.Timeout = TimeSpan.FromSeconds(Options.Timeout);
         var response = await httpClient.GetAsync(request.Url);
         var body     = await response.Content.ReadAsStringAsync();
-        return new Response
-        {
-            Body = body
-        };
+        return new Response(body);
     }
 }

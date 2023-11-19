@@ -2,7 +2,7 @@ namespace Logicality.EventSourcing.Domain;
 
 public class EventRecorder
 {
-    private readonly List<object> _recorded = new List<object>();
+    private readonly List<object> _recorded = new();
 
     public bool HasRecordedEvents => _recorded.Count != 0;
 

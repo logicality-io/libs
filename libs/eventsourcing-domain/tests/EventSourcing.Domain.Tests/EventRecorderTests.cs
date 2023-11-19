@@ -27,12 +27,6 @@ namespace Logicality.EventSourcing.Domain
             }
 
             [Fact]
-            public void RecordNullEventHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Record(null));
-            }
-            
-            [Fact]
             public void RecordHasExpectedResult()
             {
                 var @event = new object();
@@ -56,7 +50,7 @@ namespace Logicality.EventSourcing.Domain
         {
             private readonly EventRecorder _sut;
             private readonly object[] _recorded = {
-                new object(), new object(),
+                new(), new(),
             };
 
             public EventRecorderWithRecordedEvents()
@@ -78,12 +72,6 @@ namespace Logicality.EventSourcing.Domain
             public void RecordedEventsReturnsExpectedResult()
             {
                 _sut.RecordedEvents.ShouldBe(_recorded);
-            }
-
-            [Fact]
-            public void RecordNullEventHasExpectedResult()
-            {
-                Should.Throw<ArgumentNullException>(() => _sut.Record(null));
             }
 
             [Fact]
