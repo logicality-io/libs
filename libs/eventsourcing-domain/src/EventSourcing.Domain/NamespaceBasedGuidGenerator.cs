@@ -4,12 +4,12 @@ namespace Logicality.EventSourcing.Domain;
 
 public class NamespaceBasedGuidGenerator
 {
-    private static readonly Tuple<int, int>[] ByteOrderPairsToSwap = {
+    private static readonly Tuple<int, int>[] ByteOrderPairsToSwap = [
         Tuple.Create(0, 3),
         Tuple.Create(1, 2),
         Tuple.Create(4, 5),
-        Tuple.Create(6, 7),
-    };
+        Tuple.Create(6, 7)
+    ];
 
     private readonly byte[] _namespace;
 

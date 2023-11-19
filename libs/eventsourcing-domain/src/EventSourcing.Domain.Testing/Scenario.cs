@@ -80,7 +80,7 @@ public class Scenario :
 
     Scenario IScenarioBuilder.Build() => this;
 
-    public ScenarioPassed Pass(object result) => new(this);
+    public ScenarioPassed Pass(object _) => new(this);
 
     public ScenarioRecordedOtherEvents ButRecordedOtherEvents(IReadOnlyCollection<RecordedEvent> other) =>
         new(this, other);

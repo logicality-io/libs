@@ -18,7 +18,7 @@ public class PortFinderTests(ITestOutputHelper outputHelper)
             tasks.Add(Task.Run(() =>
             {
                 var port = PortFinder.GetNext();
-                ports.AddOrUpdate(port, _ => null, (_, _) => null);
+                ports.AddOrUpdate(port, _ => null!, (_, _) => null!);
                 outputHelper.WriteLine(port.ToString());
             }));
         }

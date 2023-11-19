@@ -19,7 +19,7 @@ public static class LoggerConfigurationExtensions
     {
         configuration
             .Filter
-            .ByIncludingOnly(e => Matching.FromSource(typeof(HostedServiceWrapper).FullName)(e))
+            .ByIncludingOnly(e => Matching.FromSource(typeof(HostedServiceWrapper).FullName!)(e))
             .WriteTo
             .Console(
                 outputTemplate:

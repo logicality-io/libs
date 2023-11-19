@@ -55,12 +55,11 @@ namespace Logicality.EventSourcing.Domain
 
             private class Entity : EventSourcedEntity
             {
-                private readonly List<object> _restoredFromEvents;
+                private readonly List<object> _restoredFromEvents = [];
 
                 public Entity()
                 {
-                    _restoredFromEvents = new List<object>();
-                    On<Event>(e => _restoredFromEvents.Add(e));
+                    On<Event>(_restoredFromEvents.Add);
                 }
 
                 public object[] RestoredFromEvents => _restoredFromEvents.ToArray();
@@ -121,12 +120,11 @@ namespace Logicality.EventSourcing.Domain
 
             private class Entity : EventSourcedEntity
             {
-                private readonly List<object> _restoredFromEvents;
+                private readonly List<object> _restoredFromEvents = [];
 
                 public Entity()
                 {
-                    _restoredFromEvents = new List<object>();
-                    On<Event>(e => _restoredFromEvents.Add(e));
+                    On<Event>(_restoredFromEvents.Add);
                 }
 
                 public object[] RestoredFromEvents => _restoredFromEvents.ToArray();

@@ -1,11 +1,7 @@
-﻿using Xunit;
-using Xunit.Abstractions;
+﻿namespace Logicality.GitHub.Actions.Workflow;
 
-namespace Logicality.GitHub.Actions.Workflow;
-
-public class Example(ITestOutputHelper outputHelper)
+public class Example()
 {
-    [Fact]
     public void ReadMeExample()
     {
         var workflow = new Workflow("my-workflow");
@@ -26,9 +22,8 @@ public class Example(ITestOutputHelper outputHelper)
             .Run("./build.ps1")
             .Shell(Shells.Pwsh);
 
-        var yaml = workflow.GetYaml();
         var fileName = "my-workflow.yaml";
-
-        outputHelper.WriteLine(yaml);
+        var filePath = $"../workflows/{fileName}";
+        workflow.WriteYaml(filePath);
     }
 }

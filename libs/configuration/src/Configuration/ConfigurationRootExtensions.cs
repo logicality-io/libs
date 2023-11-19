@@ -44,9 +44,8 @@ public static class ConfigurationRootExtensions
                     }
                     else
                     {
-                        using var sha256     = SHA256.Create();
                         var       bytes      = Encoding.UTF8.GetBytes(value!);
-                        var       hash       = sha256.ComputeHash(bytes);
+                        var       hash       = SHA256.HashData(bytes);
                         var       valueHash  = Convert.ToBase64String(hash);
                         var       configInfo = new ConfigItem(child.Path, valueHash, provider.ToString()!);
                         infos.Add(configInfo);

@@ -49,9 +49,7 @@ namespace Logicality.EventSourcing.Domain
         public class EventRecorderWithRecordedEvents
         {
             private readonly EventRecorder _sut;
-            private readonly object[] _recorded = {
-                new(), new(),
-            };
+            private readonly object[] _recorded = [new(), new()];
 
             public EventRecorderWithRecordedEvents()
             {
