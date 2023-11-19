@@ -6,15 +6,8 @@ using Xunit.Abstractions;
 
 namespace Logicality.Extensions;
 
-public class ConfigurationRootExtensionsTests
+public class ConfigurationRootExtensionsTests(ITestOutputHelper outputHelper)
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public ConfigurationRootExtensionsTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
     [Fact]
     public void Can_get_config_info()
     {
@@ -36,7 +29,7 @@ public class ConfigurationRootExtensionsTests
 
         configInfo.ShouldNotBeNull();
 
-        _outputHelper.WriteLine(configInfo.ToString());
+        outputHelper.WriteLine(configInfo.ToString());
     }
 
     [Fact]
@@ -65,7 +58,7 @@ public class ConfigurationRootExtensionsTests
 
         configInfo.Items.Single(i => i.Path == "Field").Value.ShouldBe("foo");
         configInfo.Items.Single(i => i.Path == "foo:bar:baz").Value.ShouldBe("b");
-        _outputHelper.WriteLine(configInfo.ToString());
+        outputHelper.WriteLine(configInfo.ToString());
     }
 
     public record ConfigObject(string Field, ConfigObject.Nested Nested1, ConfigObject.Nested Nested2)

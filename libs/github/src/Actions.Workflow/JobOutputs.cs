@@ -1,9 +1,3 @@
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class JobOutputs : JobKeyValueMap<JobOutputs>
-{
-    public JobOutputs(Job job, IDictionary<string, string> map)
-        : base(job, "outputs", map)
-    {
-    }
-}
+public class JobOutputs(Job job, IDictionary<string, string> map) : JobKeyValueMap<JobOutputs>(job, "outputs", map);

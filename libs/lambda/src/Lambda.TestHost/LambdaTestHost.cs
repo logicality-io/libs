@@ -51,18 +51,11 @@ public class LambdaTestHost: IAsyncDisposable
         return new LambdaTestHost(settings, host, serviceUrl);
     }
 
-    private class Startup
+    private class Startup(LambdaTestHostSettings settings)
     {
-        private readonly LambdaTestHostSettings _settings;
-        private readonly LambdaAccountPool      _lambdaAccountPool;
-
-        public Startup(LambdaTestHostSettings settings)
-        {
-            _settings = settings;
-            _lambdaAccountPool = new LambdaAccountPool(
-                settings.AccountConcurrencyLimit,
-                settings.Functions);
-        }
+        private readonly LambdaAccountPool      _lambdaAccountPool = new(
+            settings.AccountConcurrencyLimit,
+            settings.Functions);
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -95,7 +88,7 @@ public class LambdaTestHost: IAsyncDisposable
         {
             var logger       = ctx.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger<LambdaTestHost>();
             var functionName = (string)ctx.Request.RouteValues["functionName"]!;
-            if (!_settings.Functions.TryGetValue(functionName, out var lambdaFunction))
+            if (!settings.Functions.TryGetValue(functionName, out var lambdaFunction))
             {
                 ctx.Response.StatusCode = 404;
                 return;
@@ -113,13 +106,13 @@ public class LambdaTestHost: IAsyncDisposable
                     return;
                 }
 
-                var settings = ctx.RequestServices.GetRequiredService<LambdaTestHostSettings>();
+                var settings1 = ctx.RequestServices.GetRequiredService<LambdaTestHostSettings>();
 
-                var context = settings.CreateContext();
+                var context = settings1.CreateContext();
 
                 var parameters = BuildParameters(lambdaFunction, context, payload);
 
-                _settings.InvocationOnStart.Set();
+                settings.InvocationOnStart.Set();
                 var lambdaReturnObject = lambdaFunction.HandlerMethod.Invoke(lambdaInstance!.FunctionInstance, parameters);
                 var responseBody = await ProcessReturnAsync(lambdaFunction, lambdaReturnObject);
 

@@ -7,14 +7,9 @@ namespace Logicality.Extensions.Hosting;
 /// them in parallel. Useful for a set of hosted services that are not dependent on
 /// each other resulting in higher performing startup (on multi-core machines).
 /// </summary>
-public class ParallelHostedServices : IHostedService
+public class ParallelHostedServices(params HostedServiceWrapper[] hostedServices) : IHostedService
 {
-    private readonly IReadOnlyCollection<HostedServiceWrapper> _hostedServices;
-
-    public ParallelHostedServices(params HostedServiceWrapper[] hostedServices)
-    {
-        _hostedServices = hostedServices ?? throw new ArgumentNullException(nameof(hostedServices));
-    }
+    private readonly IReadOnlyCollection<HostedServiceWrapper> _hostedServices = hostedServices ?? throw new ArgumentNullException(nameof(hostedServices));
 
     internal void SetParent(HostedServiceWrapper parent)
     {

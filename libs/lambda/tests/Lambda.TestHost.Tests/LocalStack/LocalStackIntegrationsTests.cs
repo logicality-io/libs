@@ -7,19 +7,12 @@ using Xunit.Abstractions;
 
 namespace Logicality.Lambda.TestHost.LocalStack;
 
-public class LocalStackIntegrationsTests
+public class LocalStackIntegrationsTests(ITestOutputHelper outputHelper)
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public LocalStackIntegrationsTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
     [Fact]
     public async Task With_lambda_service_and_LAMBDA_FORWARD_URL_then_should_invoke() 
     {
-        await using var fixture = await LocalStackFixture.Create(_outputHelper);
+        await using var fixture = await LocalStackFixture.Create(outputHelper);
 
         // 1. Arrange: Create dummy lambda function in localstack
         var functionInfo = fixture.LambdaTestHost.Settings.Functions.First().Value;
@@ -57,7 +50,7 @@ public class LocalStackIntegrationsTests
     [Fact]
     public async Task Should_invoke_with_sqs_event_source_mapping()
     {
-        await using var fixture = await LocalStackFixture.Create(_outputHelper);
+        await using var fixture = await LocalStackFixture.Create(outputHelper);
 
         // 1.1 Arrange: Create dummy lambda function in localstack
         var functionInfo = fixture.LambdaTestHost.Settings.Functions.Last().Value;

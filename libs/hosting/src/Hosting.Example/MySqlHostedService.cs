@@ -4,17 +4,14 @@ using MySqlConnector;
 
 namespace Logicality.Extensions.Hosting.Example;
 
-public class MySqlHostedService : DockerHostedService
+public class MySqlHostedService(
+    HostedServiceContext         context,
+    ILogger<DockerHostedService> logger,
+    bool                         leaveRunning = false)
+    : DockerHostedService(logger, leaveRunning)
 {
-    private readonly HostedServiceContext _context;
     private const    string               SAPassword = "E@syP@ssw0rd";
     private const    int                  HostPort   = 3306;
-
-    public MySqlHostedService(HostedServiceContext context, ILogger<DockerHostedService> logger, bool leaveRunning = false)
-        : base(logger, leaveRunning)
-    {
-        _context = context;
-    }
 
     public MySqlConnectionStringBuilder CreateConnectionStringBuilder(string? database = null) =>
         new()
@@ -62,6 +59,6 @@ public class MySqlHostedService : DockerHostedService
     {
         await base.StartAsync(cancellationToken);
 
-        _context.MySql = this;
+        context.MySql = this;
     }
 }

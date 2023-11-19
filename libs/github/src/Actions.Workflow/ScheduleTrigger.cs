@@ -4,27 +4,20 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class ScheduleTrigger: Trigger
+public class ScheduleTrigger(
+    string   eventName,
+    string[] crons,
+    On       on,
+    Workflow workflow)
+    : Trigger(eventName, on, workflow)
 {
-    private readonly string[] _crons;
-
-    public ScheduleTrigger(
-        string   eventName,
-        string[] crons,
-        On       @on,
-        Workflow workflow)
-        : base(eventName, @on, workflow)
-    {
-        _crons = crons;
-    }
-
     internal override void Build(YamlMappingNode parent, SequenceStyle sequenceStyle)
     {
         var sequence = new YamlSequenceNode
         {
             Style = sequenceStyle
         };
-        foreach (var cron in _crons)
+        foreach (var cron in crons)
         {
             sequence.Add(new YamlMappingNode("cron", new YamlScalarNode(cron){ Style = ScalarStyle.SingleQuoted}));
         }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Logicality.Lambda.TestHost;
 
-public class LambdaTestHostSettings
+public class LambdaTestHostSettings(Func<ILambdaContext> createContext)
 {
     private readonly Dictionary<string, ILambdaFunctionInfo> _functions = new();
 
@@ -14,17 +14,12 @@ public class LambdaTestHostSettings
     /// </summary>
     public string WebHostUrl { get; set; } = "http://*:0";
 
-    public LambdaTestHostSettings(Func<ILambdaContext> createContext)
-    {
-        CreateContext = createContext;
-    }
-
     /// <summary>
     /// Gets or sets the maximum concurrency limit for all hosted lambdas.
     /// </summary>
     public uint AccountConcurrencyLimit { get; set; } = 1000;
 
-    internal Func<ILambdaContext> CreateContext { get; }
+    internal Func<ILambdaContext> CreateContext { get; } = createContext;
 
     public Action<ILoggingBuilder> ConfigureLogging { get; set; } = _ => { };
 

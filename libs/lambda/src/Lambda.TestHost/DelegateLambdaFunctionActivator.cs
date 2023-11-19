@@ -1,13 +1,6 @@
 ﻿namespace Logicality.Lambda.TestHost;
 
-internal class DelegateLambdaFunctionActivator : ILambdaFunctionActivator
+internal class DelegateLambdaFunctionActivator(Func<object> activate) : ILambdaFunctionActivator
 {
-    private readonly Func<object> _activate;
-
-    public DelegateLambdaFunctionActivator(Func<object> activate)
-    {
-        _activate = activate;
-    }
-
-    public object Activate() => _activate();
+    public object Activate() => activate();
 }

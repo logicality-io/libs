@@ -3,21 +3,14 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class JobContainer
+public class JobContainer(Job job, string image)
 {
-    private readonly string           _image;
     private          JobContainerEnv? _env;
     private          int[]?           _ports;
     private          string[]?        _volumes;
     private          string?          _options;
     private          string?          _username;
     private          string?          _password;
-
-    public JobContainer(Job job, string image)
-    {
-        _image = image;
-        Job    = job;
-    }
 
     /// <summary>
     /// Sets a map of environment variables in the container.
@@ -81,7 +74,7 @@ public class JobContainer
         return this;
     }
 
-    public Job Job { get; }
+    public Job Job { get; } = job;
 
     public Workflow Workflow => Job.Workflow;
 
@@ -89,7 +82,7 @@ public class JobContainer
     {
         var containerMappingNode = new YamlMappingNode
         {
-            { "image", new YamlScalarNode(_image) }
+            { "image", new YamlScalarNode(image) }
         };
 
         if (!string.IsNullOrWhiteSpace(_username))

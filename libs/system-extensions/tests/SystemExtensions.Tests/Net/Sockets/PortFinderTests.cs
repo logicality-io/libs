@@ -6,15 +6,8 @@ using Xunit.Abstractions;
 
 namespace Logicality.System.Net.Sockets;
 
-public class PortFinderTests
+public class PortFinderTests(ITestOutputHelper outputHelper)
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public PortFinderTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
     [Fact]
     public async Task Parallel_calls_should_all_get_different_ports()
     {
@@ -26,7 +19,7 @@ public class PortFinderTests
             {
                 var port = PortFinder.GetNext();
                 ports.AddOrUpdate(port, _ => null, (_, _) => null);
-                _outputHelper.WriteLine(port.ToString());
+                outputHelper.WriteLine(port.ToString());
             }));
         }
 

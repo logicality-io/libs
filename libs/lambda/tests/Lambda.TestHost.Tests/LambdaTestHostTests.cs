@@ -12,17 +12,11 @@ using Xunit.Abstractions;
 
 namespace Logicality.Lambda.TestHost;
 
-public class LambdaTestHostTests: IAsyncLifetime
+public class LambdaTestHostTests(ITestOutputHelper outputHelper) : IAsyncLifetime
 {
-    private readonly ITestOutputHelper      _outputHelper;
     private          LambdaTestHost         _testHost     = null!;
     private          AmazonLambdaClient     _lambdaClient = null!;
     private          LambdaTestHostSettings _settings     = null!;
-
-    public LambdaTestHostTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
 
     [Fact]
     public async Task Can_invoke_api_gateway_lambda_function()
@@ -135,7 +129,7 @@ public class LambdaTestHostTests: IAsyncLifetime
     {
         _settings = new LambdaTestHostSettings(() => new TestLambdaContext
         {
-            Logger = new XunitLambdaLogger(_outputHelper),
+            Logger = new XunitLambdaLogger(outputHelper),
         });
 
         _settings.AddFunction(

@@ -7,14 +7,9 @@ namespace Logicality.Extensions.Hosting;
 /// in the order that they are supplied. This is important for services that may need to
 /// explicitly start before services.
 /// </summary>
-public class SequentialHostedServices : IHostedService
+public class SequentialHostedServices(params HostedServiceWrapper[] hostedServices) : IHostedService
 {
-    private readonly IReadOnlyCollection<HostedServiceWrapper> _hostedServices;
-
-    public SequentialHostedServices(params HostedServiceWrapper[] hostedServices)
-    {
-        _hostedServices = hostedServices ?? throw new ArgumentNullException(nameof(hostedServices));
-    }
+    private readonly IReadOnlyCollection<HostedServiceWrapper> _hostedServices = hostedServices ?? throw new ArgumentNullException(nameof(hostedServices));
 
     internal void SetParent(HostedServiceWrapper parent)
     {

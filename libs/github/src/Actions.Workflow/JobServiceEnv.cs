@@ -1,12 +1,7 @@
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class JobServiceEnv : JobKeyValueMap<JobServiceEnv>
+public class JobServiceEnv(JobService jobService, IDictionary<string, string> map)
+    : JobKeyValueMap<JobServiceEnv>(jobService.Job, "env", map)
 {
-    public JobService Service { get; }
-
-    public JobServiceEnv(JobService jobService, IDictionary<string, string> map)
-        : base(jobService.Job, "env", map)
-    {
-        Service = jobService;
-    }
+    public JobService Service { get; } = jobService;
 }

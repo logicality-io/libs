@@ -3,18 +3,11 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public abstract class Trigger
+public abstract class Trigger(string eventName, On on, Workflow workflow)
 {
-    protected Trigger(string eventName, On @on, Workflow workflow)
-    {
-        EventName = eventName;
-        On = @on;
-        Workflow  = workflow;
-    }
-
-    public string   EventName { get; }
-    public On       On        { get; }
-    public Workflow Workflow  { get; }
+    public string   EventName { get; } = eventName;
+    public On       On        { get; } = on;
+    public Workflow Workflow  { get; } = workflow;
 
     internal abstract void Build(YamlMappingNode parent, SequenceStyle sequenceStyle);
 }

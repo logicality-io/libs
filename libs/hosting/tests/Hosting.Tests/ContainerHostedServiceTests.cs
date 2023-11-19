@@ -7,14 +7,9 @@ using Xunit.Abstractions;
 
 namespace Logicality.Extensions.Hosting;
 
-public class ContainerHostedServiceTests
+public class ContainerHostedServiceTests(ITestOutputHelper outputHelper)
 {
-    private readonly ILoggerFactory _loggerFactory;
-
-    public ContainerHostedServiceTests(ITestOutputHelper outputHelper)
-    {
-        _loggerFactory = new LoggerFactory().AddXUnit(outputHelper);
-    }
+    private readonly ILoggerFactory _loggerFactory = new LoggerFactory().AddXUnit(outputHelper);
 
     [Fact]
     public async Task Can_start_and_start_container()
@@ -39,12 +34,8 @@ public class ContainerHostedServiceTests
         await hostedService2.StopAsync(CancellationToken.None);
     }
 
-    public class HelloWorldHostedService : DockerHostedService
+    public class HelloWorldHostedService(ILogger<DockerHostedService> logger) : DockerHostedService(logger)
     {
-        public HelloWorldHostedService(ILogger<DockerHostedService> logger) 
-            : base(logger)
-        { }
-
         protected override string ContainerName { get; } = $"hello-world-{Guid.NewGuid():N}";
 
         protected override IContainerService CreateContainerService()

@@ -10,19 +10,13 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Logicality.Lambda.TestHost.StepFunctions;
 
-public class StepFunctionsIntegrationTests: IAsyncLifetime
+public class StepFunctionsIntegrationTests(ITestOutputHelper outputHelper) : IAsyncLifetime
 {
-    private readonly ITestOutputHelper _outputHelper;
     private          LambdaTestHost    _lambdaTestHost          = null!;
     private          IContainerService _stepFunctionsLocal      = null!;
     private          Uri               _stepFunctionsServiceUrl = null!;
     private const    int               ContainerPort            = 8083;
     public const     int               Port                     = 8083;
-
-    public StepFunctionsIntegrationTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
 
     [Fact]
     public async Task Can_be_invoked_from_step_functions_local()
@@ -95,15 +89,15 @@ public class StepFunctionsIntegrationTests: IAsyncLifetime
 
             if (historyEvent.ExecutionSucceededEventDetails != null)
             {
-                _outputHelper.WriteLine("Execution succeeded");
-                _outputHelper.WriteLine(historyEvent.ExecutionSucceededEventDetails.Output);
+                outputHelper.WriteLine("Execution succeeded");
+                outputHelper.WriteLine(historyEvent.ExecutionSucceededEventDetails.Output);
                 break;
             }
 
             if (historyEvent.ExecutionFailedEventDetails != null)
             {
-                _outputHelper.WriteLine("Execution failed");
-                _outputHelper.WriteLine(historyEvent.ExecutionFailedEventDetails.Cause);
+                outputHelper.WriteLine("Execution failed");
+                outputHelper.WriteLine(historyEvent.ExecutionFailedEventDetails.Cause);
                 break;
             }
         }
@@ -120,7 +114,7 @@ public class StepFunctionsIntegrationTests: IAsyncLifetime
             WebHostUrl = $"http://{webHostUrl}:0",
             ConfigureLogging = logging =>
             {
-                logging.AddXUnit(_outputHelper);
+                logging.AddXUnit(outputHelper);
                 logging.SetMinimumLevel(LogLevel.Debug);
             }
         };
@@ -130,7 +124,7 @@ public class StepFunctionsIntegrationTests: IAsyncLifetime
             nameof(SimpleLambdaFunction.FunctionHandler)));
         _lambdaTestHost = await LambdaTestHost.Start(settings);
 
-        var lambdaInvokeEndpoint = FixtureUtils.GetLambdaInvokeEndpoint(_outputHelper, _lambdaTestHost);
+        var lambdaInvokeEndpoint = FixtureUtils.GetLambdaInvokeEndpoint(outputHelper, _lambdaTestHost);
 
         _stepFunctionsLocal = new Builder()
             .UseContainer()

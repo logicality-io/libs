@@ -2,15 +2,8 @@
 
 namespace Logicality.Extensions.Hosting;
 
-public class ExampleHostedService: IHostedService
+public class ExampleHostedService(Context context) : IHostedService
 {
-    private readonly Context _context;
-
-    public ExampleHostedService(Context context)
-    {
-        this._context = context;
-    }
-
     public bool OnStartCalled { get; set; }
 
     public bool OnStopCalled { get; set; }
@@ -18,7 +11,7 @@ public class ExampleHostedService: IHostedService
     public Task StartAsync(CancellationToken cancellationToken)
     {
         OnStartCalled = true;
-        _context.Increment();
+        context.Increment();
         return Task.CompletedTask;
     }
 

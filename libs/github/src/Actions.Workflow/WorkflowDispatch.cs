@@ -8,13 +8,9 @@ namespace Logicality.GitHub.Actions.Workflow;
 /// <summary>
 /// Represents a workflow_dispatch trigger.
 /// </summary>
-public class WorkflowDispatch : Trigger
+public class WorkflowDispatch(On on, Workflow workflow) : Trigger("workflow_dispatch", on, workflow)
 {
     private WorkflowDispatchInput[]? _inputs;
-
-    public WorkflowDispatch(On on, Workflow workflow)
-        : base("workflow_dispatch", on, workflow)
-    { }
 
     /// <summary>
     /// Specify 
@@ -44,18 +40,11 @@ public class WorkflowDispatch : Trigger
     }
 }
 
-public abstract class WorkflowDispatchInput
+public abstract class WorkflowDispatchInput(string id, string description, bool required)
 {
-    protected WorkflowDispatchInput(string id, string description, bool required)
-    {
-        Description  = description;
-        Id           = id;
-        Required     = required;
-    }
-
-    public             string Id          { get; }
-    protected          string Description { get; }
-    protected          bool   Required    { get; }
+    public             string Id          { get; } = id;
+    protected          string Description { get; } = description;
+    protected          bool   Required    { get; } = required;
     protected abstract string Type        { get; }
 
     public virtual YamlMappingNode Build(SequenceStyle sequenceStyle) =>
@@ -67,23 +56,15 @@ public abstract class WorkflowDispatchInput
         };
 }
 
-public abstract class WorkflowDispatchInput<T> : WorkflowDispatchInput
+public abstract class WorkflowDispatchInput<T>(string id, string description, bool required, T defaultValue)
+    : WorkflowDispatchInput(id, description, required)
 {
-    protected WorkflowDispatchInput(string id, string description, bool required, T defaultValue)
-        : base(id, description, required)
-    {
-        DefaultValue = defaultValue;
-    }
-
-    protected T DefaultValue { get; }
+    protected T DefaultValue { get; } = defaultValue;
 }
 
-public class NumberInput : WorkflowDispatchInput<double>
+public class NumberInput(string id, string description, bool required, double defaultValue)
+    : WorkflowDispatchInput<double>(id, description, required, defaultValue)
 {
-    public NumberInput(string id, string description, bool required, double defaultValue)
-        : base(id, description, required, defaultValue)
-    { }
-
     protected override string Type => "booleean";
 
     public override YamlMappingNode Build(SequenceStyle sequenceStyle)
@@ -94,12 +75,9 @@ public class NumberInput : WorkflowDispatchInput<double>
     }
 }
 
-public class BooleanInput : WorkflowDispatchInput<bool?>
+public class BooleanInput(string id, string description, bool required, bool? defaultValue = null)
+    : WorkflowDispatchInput<bool?>(id, description, required, defaultValue)
 {
-    public BooleanInput(string id, string description, bool required, bool? defaultValue = null)
-        : base(id, description, required, defaultValue)
-    { }
-
     protected override string Type => "boolean";
 
     public override YamlMappingNode Build(SequenceStyle sequenceStyle)
@@ -113,12 +91,9 @@ public class BooleanInput : WorkflowDispatchInput<bool?>
     }
 }
 
-public class StringInput : WorkflowDispatchInput<string?>
+public class StringInput(string id, string description, bool required, string? defaultValue = null)
+    : WorkflowDispatchInput<string?>(id, description, required, defaultValue)
 {
-    public StringInput(string id, string description, bool required, string? defaultValue = null)
-        : base(id, description, required, defaultValue)
-    { }
-
     protected override string Type => "string";
 
     public override YamlMappingNode Build(SequenceStyle sequenceStyle)
@@ -132,16 +107,9 @@ public class StringInput : WorkflowDispatchInput<string?>
     }
 }
 
-public class ChoiceInput : WorkflowDispatchInput<string?>
+public class ChoiceInput(string id, string description, bool required, string[] options, string? defaultValue = null)
+    : WorkflowDispatchInput<string?>(id, description, required, defaultValue)
 {
-    private readonly string[] _options;
-
-    public ChoiceInput(string id, string description, bool required, string[] options, string? defaultValue = null)
-        : base(id, description, required, defaultValue)
-    {
-        _options      = options;
-    }
-
     protected override string Type => "choice";
 
     public override YamlMappingNode Build(SequenceStyle sequenceStyle)
@@ -155,7 +123,7 @@ public class ChoiceInput : WorkflowDispatchInput<string?>
         {
             Style = sequenceStyle
         };
-        foreach (var option in _options)
+        foreach (var option in options)
         {
             sequenceNode.Add(option);
         }
@@ -164,11 +132,8 @@ public class ChoiceInput : WorkflowDispatchInput<string?>
     }
 }
 
-public class EnvironmentInput : WorkflowDispatchInput
+public class EnvironmentInput(string id, string description, bool required)
+    : WorkflowDispatchInput(id, description, required)
 {
-    public EnvironmentInput(string id, string description, bool required)
-        : base(id, description, required)
-    { }
-
     protected override string Type => "environment";
 }

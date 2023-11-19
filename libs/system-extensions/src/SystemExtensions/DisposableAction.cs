@@ -3,12 +3,7 @@
 /// <summary>
 /// A disposable that invokes the supplied Action.
 /// </summary>
-public class DisposableAction : IDisposable
+public class DisposableAction(Action onDispose) : IDisposable
 {
-    private readonly Action _onDispose;
-
-    public DisposableAction(Action onDispose) 
-        => _onDispose = onDispose;
-
-    public void Dispose() => _onDispose();
+    public void Dispose() => onDispose();
 }

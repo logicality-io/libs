@@ -3,20 +3,12 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class StepWith
+public class StepWith(Step step, IDictionary<string, string> map)
 {
-    private readonly IDictionary<string, string> _map;
-    
-    public StepWith(Step step, IDictionary<string, string> map)
-    {
-        Step = step;
-        _map = map;
-    }
-
     /// <summary>
     /// The associated Step
     /// </summary>
-    public Step Step { get; }
+    public Step Step { get; } = step;
 
     /// <summary>
     /// The associated Job
@@ -30,10 +22,10 @@ public class StepWith
 
     internal void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
     {
-        if (_map.Any())
+        if (map.Any())
         {
             var mappingNode = new YamlMappingNode();
-            foreach (var property in _map)
+            foreach (var property in map)
             {
                 mappingNode.Add(property.Key, new YamlScalarNode(property.Value));
             }

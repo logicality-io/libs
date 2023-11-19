@@ -5,35 +5,20 @@ using SqlStreamStore.Streams;
 
 namespace Logicality.EventSourcing.Domain.Testing;
 
-public class ScenarioRunner
+public class ScenarioRunner(
+    IStreamStore                                  store,
+    MessageNameResolver                           messageNameResolver,
+    MessageTypeResolver                           messageTypeResolver,
+    JsonSerializerOptions                         settings,
+    Func<object, CancellationToken, Task<object>> dispatcher)
 {
-    private readonly IStreamStore                                  _store;
-    private readonly MessageNameResolver                           _messageNameResolver;
-    private readonly MessageTypeResolver                           _messageTypeResolver;
-    private readonly JsonSerializerOptions                         _options;
-    private readonly Func<object, CancellationToken, Task<object>> _dispatcher;
-
-    public ScenarioRunner(
-        IStreamStore                                  store,
-        MessageNameResolver                           messageNameResolver,
-        MessageTypeResolver                           messageTypeResolver,
-        JsonSerializerOptions                         settings,
-        Func<object, CancellationToken, Task<object>> dispatcher)
-    {
-        _store               = store;
-        _messageNameResolver = messageNameResolver;
-        _messageTypeResolver = messageTypeResolver;
-        _options             = settings;
-        _dispatcher          = dispatcher;
-    }
-        
     public async Task<object> RunAsync(Scenario scenario, CancellationToken cancellationToken = default)
     {
         var position = await WriteGivens(scenario.Givens, cancellationToken);
             
         try
         {
-            var result = await _dispatcher(scenario.When, cancellationToken);
+            var result = await dispatcher(scenario.When, cancellationToken);
             var thens  = await ReadThens(position, cancellationToken);
             var config = new ComparisonConfig
             {
@@ -65,14 +50,14 @@ public class ScenarioRunner
         var position = Position.Start;
         foreach (var stream in givens.GroupBy(@event => @event.Stream))
         {
-            var appendResult = await _store.AppendToStream(
+            var appendResult = await store.AppendToStream(
                 new StreamId(stream.Key.ToString()),
                 ExpectedVersion.NoStream,
                 stream
                     .Select(@event => new NewStreamMessage(
                         Guid.NewGuid(),
-                        _messageNameResolver(@event.Message.GetType()),
-                        JsonSerializer.Serialize(@event.Message, _options)
+                        messageNameResolver(@event.Message.GetType()),
+                        JsonSerializer.Serialize(@event.Message, settings)
                     ))
                     .ToArray()
                 , cancellationToken);
@@ -85,15 +70,15 @@ public class ScenarioRunner
     private async Task<IReadOnlyCollection<RecordedEvent>> ReadThens(long position, CancellationToken cancellationToken)
     {
         var recorded = new List<RecordedEvent>();
-        var page     = await _store.ReadAllForwards(position, 1024, cancellationToken: cancellationToken);
+        var page     = await store.ReadAllForwards(position, 1024, cancellationToken: cancellationToken);
         foreach (var then in page.Messages)
         {
             var streamName = new StreamName(then.StreamId);
             var jsonData   = await then.GetJsonData(cancellationToken);
             var message = JsonSerializer.Deserialize(
                 jsonData,
-                _messageTypeResolver(then.Type),
-                _options
+                messageTypeResolver(then.Type),
+                settings
             )!;
             var recordedEvent = new RecordedEvent(streamName, message);
             recorded.Add(recordedEvent);
@@ -107,8 +92,8 @@ public class ScenarioRunner
                 var jsonData      = await then.GetJsonData(cancellationToken);
                 var message = JsonSerializer.Deserialize(
                     jsonData,
-                    _messageTypeResolver(then.Type),
-                    _options
+                    messageTypeResolver(then.Type),
+                    settings
                 )!;
                 var recodedEvent = new RecordedEvent(streamName, message);
                 recorded.Add(recodedEvent);

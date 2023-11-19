@@ -4,7 +4,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class WorkflowRun : Trigger
+public class WorkflowRun(On on, Workflow workflow) : Trigger("workflow_run", on, workflow)
 {
     private string[]? _branches, _branchesIgnore, _types, _workflows;
 
@@ -30,11 +30,6 @@ public class WorkflowRun : Trigger
     {
         _branchesIgnore = branches;
         return this;
-    }
-
-    public WorkflowRun(On on, Workflow workflow)
-        : base("workflow_run", on, workflow)
-    {
     }
 
     internal override void Build(YamlMappingNode parent, SequenceStyle sequenceStyle)

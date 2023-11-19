@@ -9,17 +9,14 @@ namespace Logicality.Lambda;
 /// </summary>
 /// <typeparam name="TInput">The type the handler will handle.</typeparam>
 /// <typeparam name="TOptions">The type of the options that will be injected via constructor.</typeparam>
-public abstract class AsynchronousInvokeHandler<TInput, TOptions> :
+public abstract class AsynchronousInvokeHandler<TInput, TOptions>(IOptionsSnapshot<TOptions> optionsSnapshot) :
     IAsynchronousInvokeHandler<TInput>
     where TOptions : class, new()
 {
-    protected AsynchronousInvokeHandler(IOptionsSnapshot<TOptions> optionsSnapshot) 
-        => Options = optionsSnapshot.Value;
-
     /// <summary> 
     /// The options value. 
     /// </summary>
-    protected TOptions Options { get; }
+    protected TOptions Options { get; } = optionsSnapshot.Value;
 
     /// <summary>
     /// The handler.

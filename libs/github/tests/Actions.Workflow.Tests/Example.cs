@@ -3,15 +3,8 @@ using Xunit.Abstractions;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class Example
+public class Example(ITestOutputHelper outputHelper)
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public Example(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
     [Fact]
     public void ReadMeExample()
     {
@@ -36,6 +29,6 @@ public class Example
         var yaml = workflow.GetYaml();
         var fileName = "my-workflow.yaml";
 
-        _outputHelper.WriteLine(yaml);
+        outputHelper.WriteLine(yaml);
     }
 }

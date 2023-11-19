@@ -1,11 +1,6 @@
 ﻿namespace Logicality.SystemExtensions;
 
-public class AsyncDelegateDisposable : IAsyncDisposable
+public class AsyncDelegateDisposable(Func<ValueTask> onDispose) : IAsyncDisposable
 {
-    private readonly Func<ValueTask> _onDispose;
-
-    public AsyncDelegateDisposable(Func<ValueTask> onDispose)
-        => _onDispose = onDispose;
-
-    public ValueTask DisposeAsync() => _onDispose();
+    public ValueTask DisposeAsync() => onDispose();
 }

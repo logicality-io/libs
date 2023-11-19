@@ -3,16 +3,11 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class JobServices
+public class JobServices(Job job)
 {
     private readonly IDictionary<string, JobService> _services = new Dictionary<string, JobService>();
 
-    public JobServices(Job job)
-    {
-        Job = job;
-    }
-
-    public Job Job { get; }
+    public Job Job { get; } = job;
 
     /// <summary>
     /// Used to host service containers for a job in a workflow.

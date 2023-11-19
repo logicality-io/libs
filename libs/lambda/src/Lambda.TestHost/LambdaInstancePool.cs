@@ -2,17 +2,11 @@
 
 namespace Logicality.Lambda.TestHost;
 
-internal class LambdaInstancePool
+internal class LambdaInstancePool(ILambdaFunctionInfo lambdaFunctionInfo)
 {
-    private readonly ILambdaFunctionInfo              _lambdaFunctionInfo;
     private readonly ConcurrentQueue<LambdaInstance>  _availableInstances = new();
     private readonly Dictionary<Guid, LambdaInstance> _usedInstances      = new();
     private          int                              _counter;
-
-    public LambdaInstancePool(ILambdaFunctionInfo lambdaFunctionInfo)
-    {
-        _lambdaFunctionInfo = lambdaFunctionInfo;
-    }
 
     public LambdaInstance? Get()
     {
@@ -24,12 +18,12 @@ internal class LambdaInstancePool
                 return result;
             }
 
-            if (_counter >= _lambdaFunctionInfo.ReservedConcurrency)
+            if (_counter >= lambdaFunctionInfo.ReservedConcurrency)
             {
                 return null;
             }
 
-            var instance = new LambdaInstance(_lambdaFunctionInfo);
+            var instance = new LambdaInstance(lambdaFunctionInfo);
             _counter++;
             _usedInstances.Add(instance.InstanceId, result!);
             return instance;

@@ -3,14 +3,7 @@
 /// <summary>
 /// An async disposable that invokes the supplied Action.
 /// </summary>
-public class AsyncDisposableAction : IAsyncDisposable
+public class AsyncDisposableAction(Func<ValueTask> onDispose) : IAsyncDisposable
 {
-    private readonly Func<ValueTask> _onDispose;
-
-    public AsyncDisposableAction(Func<ValueTask> onDispose)
-    {
-        _onDispose = onDispose;
-    }
-
-    public ValueTask DisposeAsync() => _onDispose();
+    public ValueTask DisposeAsync() => onDispose();
 }

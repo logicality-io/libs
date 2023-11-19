@@ -3,33 +3,27 @@ using Serilog;
 
 namespace Logicality.Extensions.Hosting.Example;
 
-public class MainWebAppHostedService : IHostedService
+public class MainWebAppHostedService(HostedServiceContext context) : IHostedService
 {
-    private readonly HostedServiceContext _context;
     private          IWebHost?            _webHost;
     public const     int                  Port = 5000;
-
-    public MainWebAppHostedService(HostedServiceContext context)
-    {
-        _context = context;
-    }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         var config = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
-                { "SeqUri", _context.Seq.SinkUri.ToString() }
+                { "SeqUri", context.Seq.SinkUri.ToString() }
             })
             .Build();
 
         _webHost = WebHost
-            .CreateDefaultBuilder<Startup>(Array.Empty<string>())
+            .CreateDefaultBuilder<Startup>([])
             .UseUrls($"http://+:{Port}")
             .UseConfiguration(config)
             .Build();
 
-        _context.MainWebApp = this;
+        context.MainWebApp = this;
 
         return _webHost.StartAsync(cancellationToken);
     }
@@ -37,20 +31,13 @@ public class MainWebAppHostedService : IHostedService
     public Task StopAsync(CancellationToken cancellationToken) 
         => _webHost!.StopAsync(cancellationToken);
 
-    public class Startup
+    public class Startup(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-
-        public Startup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging(logging =>
             {
-                var seqUri = _configuration.GetValue<string>("SeqUri")!;
+                var seqUri = configuration.GetValue<string>("SeqUri")!;
                 var logger = new LoggerConfiguration()
                     .WriteTo.Seq(seqUri)
                     .CreateLogger();

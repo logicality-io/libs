@@ -3,24 +3,17 @@ using Ductus.FluentDocker.Services;
 
 namespace Logicality.Extensions.Hosting.Example;
 
-public class SeqHostedService : DockerHostedService
+public class SeqHostedService(
+    HostedServiceContext         context,
+    ILogger<DockerHostedService> logger)
+    : DockerHostedService(logger)
 {
-    private readonly HostedServiceContext _context;
     private const    int                  Port          = 5010;
     private const    int                  ContainerPort = 80;
 
-    public SeqHostedService(
-        HostedServiceContext         context,
-        ILogger<DockerHostedService> logger)
-        : base(logger)
-    {
-        _context = context;
-        SinkUri  = new Uri($"http://localhost:{Port}");
-    }
-
     protected override string ContainerName => "extensions-seq";
 
-    public Uri SinkUri { get; }
+    public Uri SinkUri { get; } = new($"http://localhost:{Port}");
 
     protected override IContainerService CreateContainerService()
         => new Builder()
@@ -36,6 +29,6 @@ public class SeqHostedService : DockerHostedService
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
         await base.StartAsync(cancellationToken);
-        _context.Seq = this;
+        context.Seq = this;
     }
 }

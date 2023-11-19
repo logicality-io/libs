@@ -1,11 +1,6 @@
 ﻿namespace Logicality.SystemExtensions;
 
-public class DelegateDisposable : IDisposable
+public class DelegateDisposable(Action onDispose) : IDisposable
 {
-    private readonly Action _onDispose;
-
-    public DelegateDisposable(Action onDispose) 
-        => _onDispose = onDispose;
-
-    public void Dispose() => _onDispose();
+    public void Dispose() => onDispose();
 }

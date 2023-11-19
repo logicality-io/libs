@@ -1,14 +1,8 @@
 namespace Logicality.EventSourcing.Domain.Testing;
 
-public class RecordedEvent
+public class RecordedEvent(StreamName stream, object message)
 {
-    public StreamName Stream { get; }
+    public StreamName Stream { get; } = stream;
 
-    public object Message { get; }
-        
-    public RecordedEvent(StreamName stream, object message)
-    {
-        Stream  = stream;
-        Message = message ?? throw new ArgumentNullException(nameof(message));
-    }
+    public object Message { get; } = message ?? throw new ArgumentNullException(nameof(message));
 }

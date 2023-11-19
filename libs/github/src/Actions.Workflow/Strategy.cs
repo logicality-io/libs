@@ -3,18 +3,13 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
-public class Strategy
+public class Strategy(Job job)
 {
     private Matrix? _matrix;
     private bool?   _failFast;
     private int     _maxParallel;
 
-    public Strategy(Job job)
-    {
-        Job = job;
-    }
-
-    public Job      Job      { get; }
+    public Job      Job      { get; } = job;
     public Workflow Workflow => Job.Workflow;
 
     /// <summary>

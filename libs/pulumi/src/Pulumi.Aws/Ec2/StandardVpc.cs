@@ -138,7 +138,7 @@ public class StandardVpc : ComponentResource
                 Parent = public0.Subnet
             });
 
-        new Route($"{private0.Subnet.GetResourceName()}-nat-0", new RouteArgs
+        _ = new Route($"{private0.Subnet.GetResourceName()}-nat-0", new RouteArgs
         {
             RouteTableId         = private0.RouteTable.Id,
             DestinationCidrBlock = "0.0.0.0/0",
@@ -179,8 +179,7 @@ public class StandardVpc : ComponentResource
             {
                 Parent = public1.Subnet
             });
-
-        new Route($"{private1.Subnet.GetResourceName()}-nat-1", new RouteArgs
+        _ = new Route($"{private1.Subnet.GetResourceName()}-nat-1", new RouteArgs
         {
             RouteTableId         = private1.RouteTable.Id,
             DestinationCidrBlock = "0.0.0.0/0",
@@ -203,7 +202,7 @@ public class StandardVpc : ComponentResource
 
     public Output<Subnet> PublicSubnet1 { get; }
 
-    private (Subnet Subnet, RouteTable RouteTable) AddSubnet(
+    private static (Subnet Subnet, RouteTable RouteTable) AddSubnet(
         string vpcResourceName,
         Vpc    vpc,
         string type,
@@ -257,30 +256,21 @@ public class StandardVpc : ComponentResource
         return (subnet, routeTable);
     }
 
-    private class VpcData
+    private class VpcData(
+        Vpc    vpc,
+        Subnet privateSubnet0,
+        Subnet privateSubnet1,
+        Subnet publicSubnet0,
+        Subnet publicSubnet1)
     {
-        public VpcData(
-            Vpc    vpc,
-            Subnet privateSubnet0,
-            Subnet privateSubnet1,
-            Subnet publicSubnet0,
-            Subnet publicSubnet1)
-        {
-            Vpc            = vpc;
-            PrivateSubnet0 = privateSubnet0;
-            PrivateSubnet1 = privateSubnet1;
-            PublicSubnet0  = publicSubnet0;
-            PublicSubnet1  = publicSubnet1;
-        }
+        public Vpc Vpc { get; } = vpc;
 
-        public Vpc Vpc { get; }
+        public Subnet PrivateSubnet0 { get; } = privateSubnet0;
 
-        public Subnet PrivateSubnet0 { get; }
+        public Subnet PrivateSubnet1 { get; } = privateSubnet1;
 
-        public Subnet PrivateSubnet1 { get; }
+        public Subnet PublicSubnet0 { get; } = publicSubnet0;
 
-        public Subnet PublicSubnet0 { get; }
-
-        public Subnet PublicSubnet1 { get; }
+        public Subnet PublicSubnet1 { get; } = publicSubnet1;
     }
 }

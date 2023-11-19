@@ -7,13 +7,8 @@ using Xunit.Abstractions;
 
 namespace Logicality.Extensions.Hosting;
 
-public class SequentialAndParallelHostedServiceTests
+public class SequentialAndParallelHostedServiceTests(ITestOutputHelper outputHelper)
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public SequentialAndParallelHostedServiceTests(ITestOutputHelper outputHelper) 
-        => _outputHelper = outputHelper;
-
     [Fact]
     public async Task Can_register_sequential_and_parallel_hosted_services()
     {
@@ -21,7 +16,7 @@ public class SequentialAndParallelHostedServiceTests
 
         var services = new ServiceCollection();
         services.AddSingleton(context);
-        services.AddLogging(configure => configure.AddXUnit(_outputHelper));
+        services.AddLogging(configure => configure.AddXUnit(outputHelper));
         // A bit convoluted but it covers all the registration paths.
         services.AddSequentialHostedServices("sequential",
             s => s

@@ -2,19 +2,12 @@
 
 namespace Logicality.Extensions.Configuration;
 
-public class RuntimeConfigurationSource : IConfigurationSource
+public class RuntimeConfigurationSource(RuntimeConfiguration runtimeConfiguration) : IConfigurationSource
 {
-    private readonly RuntimeConfiguration _runtimeConfiguration;
-
-    public RuntimeConfigurationSource(RuntimeConfiguration runtimeConfiguration)
-    {
-        _runtimeConfiguration = runtimeConfiguration;
-    }
-
     public IConfigurationProvider Build(IConfigurationBuilder _)
     {
         var provider = new RuntimeConfigurationProvider();
-        _runtimeConfiguration.SetProvider(provider);
+        runtimeConfiguration.SetProvider(provider);
         return provider;
     }
 }

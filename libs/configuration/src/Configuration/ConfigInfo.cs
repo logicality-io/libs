@@ -5,14 +5,9 @@ namespace Logicality.Extensions.Configuration;
 /// <summary>
 /// Represents information about all configuration providers, paths and values.
 /// </summary>
-public class ConfigInfo
+public class ConfigInfo(IReadOnlyCollection<ConfigItem> items)
 {
-    public ConfigInfo(IReadOnlyCollection<ConfigItem> items)
-    {
-        Items = items;
-    }
-
-    public IReadOnlyCollection<ConfigItem> Items { get; }
+    public IReadOnlyCollection<ConfigItem> Items { get; } = items;
 
     public override string ToString()
     {
