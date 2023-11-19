@@ -11,7 +11,7 @@ public static class StepExtensions
     /// <returns></returns>
     public static Job ActionsCheckout(
         this Step step,
-        string   version    = "v3",
+        string   version    = "v4",
         int      fetchDepth = 0)
     {
         step
