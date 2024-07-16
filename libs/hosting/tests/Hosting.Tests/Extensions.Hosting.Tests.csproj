@@ -6,10 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Logicality.SystemExtensions" Version="0.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\system-extensions\src\SystemExtensions\SystemExtensions.csproj" />
     <ProjectReference Include="..\..\src\Hosting.Docker\Extensions.Hosting.Docker.csproj" />
     <ProjectReference Include="..\..\src\Hosting.SerilogConsoleLogging\Extensions.Hosting.SerilogConsoleLogging.csproj" />
   </ItemGroup>
