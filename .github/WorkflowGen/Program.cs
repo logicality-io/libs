@@ -40,6 +40,8 @@ void GenerateWorkflowsForLibs()
             .Paths(paths)
             .Tags($"{lib}-**");
 
+        workflow.Permissions(packages: Permission.Write);
+
         var buildJob = workflow
             .Job("build")
             .RunsOn(GitHubHostedRunners.UbuntuLatest)

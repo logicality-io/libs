@@ -16,6 +16,8 @@ on:
     - build/**
     tags:
     - webhook-relay-**
+permissions:
+  packages: write
 jobs:
   build:
     runs-on: ubuntu-latest
