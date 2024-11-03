@@ -46,7 +46,7 @@ public static class StepExtensions
         this Step step,
         string    name    = "artifacts",
         string    path    = "artifacts",
-        string    version = "v3")
+        string    version = "v4")
     {
         step.Name("Upload Artifacts")
             .Uses($"actions/upload-artifact@{version}")
@@ -80,7 +80,7 @@ public static class StepExtensions
     {
         step
             .Name("Setup Dotnet")
-            .Uses("actions/setup-dotnet@v3")
+            .Uses($"actions/setup-dotnet@v4")
             .With(("dotnet-version", string.Join(" ", versions)));
         return step.Job;
     }
