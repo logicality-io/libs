@@ -73,7 +73,35 @@ jobs:
 
         actual.ShouldBe(expected.ReplaceLineEndings());;
     }
-    
+
+    [Fact]
+    public void Step_Run_Scalar()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .Step("step")
+            .Run("""
+                 sudo apt-get update
+                 sudo apt-get install -y ca-certificates
+                 """)
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    steps:
+    - id: step
+      run: |-
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates
+";
+
+        actual.ShouldBe(expected.ReplaceLineEndings()); ;
+    }
+
     [Fact]
     public void Step_WorkingDirectory_With_Run()
     {

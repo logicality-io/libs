@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Core.Events;
+﻿using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
@@ -173,8 +174,19 @@ public class Step
 
         if (!string.IsNullOrWhiteSpace(_run))
         {
-            node.Add("run", _run);
-            
+            if (_run.Contains(Environment.NewLine))
+            {
+                var runNode = new YamlScalarNode(_run)
+                {
+                    Style = ScalarStyle.Literal
+                };
+                node.Add("run", runNode);
+            }
+            else
+            {
+                node.Add("run", _run);
+            }
+
             if (!string.IsNullOrWhiteSpace(_workingDirectory))
             {
                 node.Add("working-directory", _workingDirectory);
