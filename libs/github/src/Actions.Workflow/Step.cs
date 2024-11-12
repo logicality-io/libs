@@ -145,7 +145,7 @@ public class Step
         return this;
     }
 
-    internal void Build(YamlMappingNode node, SequenceStyle sequenceStyle)
+    internal void Build(YamlMappingNode node)
     {
         if (!string.IsNullOrWhiteSpace(_id))
         {
@@ -206,6 +206,6 @@ public class Step
             node.Add("uses", _uses);
         }
 
-        _with?.Build(node, sequenceStyle);
+        _with?.Build(node);
     }
 }

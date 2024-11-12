@@ -457,7 +457,7 @@ public class Job
             foreach (var step in _steps)
             {
                 var stepMappingNode = new YamlMappingNode();
-                step.Build(stepMappingNode, sequenceStyle);
+                step.Build(stepMappingNode);
                 sequenceNode.Add(stepMappingNode);
             }
             jobNode.Add("steps", sequenceNode);

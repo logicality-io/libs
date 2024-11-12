@@ -76,12 +76,22 @@ public static class StepExtensions
     /// <param name="step"></param>
     /// <param name="versions">DotNet SDK versions</param>
     /// <returns></returns>
-    public static Job ActionsSetupDotNet(this Step step, params string[] versions)
+    public static Job ActionsSetupDotNet(this Step step, string[] versions) 
+        => ActionsSetupDotNet(step, "v4", versions);
+
+    /// <summary>
+    /// Sets up dotnet.
+    /// </summary>
+    /// <param name="step"></param>
+    /// <param name="actionVersion">The setup-actions version</param>
+    /// <param name="versions">DotNet SDK versions</param>
+    /// <returns></returns>
+    public static Job ActionsSetupDotNet(this Step step, string actionVersion, string[] versions)
     {
         step
             .Name("Setup Dotnet")
-            .Uses($"actions/setup-dotnet@v4")
-            .With(("dotnet-version", string.Join(" ", versions)));
+            .Uses($"actions/setup-dotnet@{actionVersion}")
+            .With(("dotnet-version", string.Join(Environment.NewLine, versions)));
         return step.Job;
     }
 }

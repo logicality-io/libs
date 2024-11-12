@@ -56,7 +56,7 @@ void GenerateWorkflowsForLibs()
 
         buildJob.Step().LogIntoGitHubContainerRegistry();
 
-        buildJob.Step().ActionsSetupDotNet("8.0.x");
+        buildJob.Step().ActionsSetupDotNet(["8.0.x"]);
 
         buildJob.Step().PrintEnvironment();
 
@@ -121,7 +121,7 @@ void GenerateCodeAnalysisWorkflow()
 
     job.Step().ActionsCheckout();
 
-    job.Step().ActionsSetupDotNet("8.0.x");
+    job.Step().ActionsSetupDotNet(["8.0.x"]);
 
     job.Step()
         .Run("dotnet --info");

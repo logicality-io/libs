@@ -246,6 +246,32 @@ jobs:
     }
 
     [Fact]
+    public void Step_With_Multiline()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .Step("step")
+            .With(("foo", $"bar{Environment.NewLine}baz"))
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    steps:
+    - id: step
+      with:
+        foo: |-
+          bar
+          baz
+";
+
+        actual.ShouldBe(expected.ReplaceLineEndings()); ;
+    }
+
+    [Fact]
     public void Step_TimeoutMinutes()
     {
         var actual = new Workflow("workflow")

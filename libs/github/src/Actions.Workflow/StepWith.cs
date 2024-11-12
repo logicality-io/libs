@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Core.Events;
+﻿using YamlDotNet.Core;
+using YamlDotNet.Core.Tokens;
 using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
@@ -20,14 +21,25 @@ public class StepWith(Step step, IDictionary<string, string> map)
     /// </summary>
     public Workflow Workflow => Job.Workflow;
 
-    internal void Build(YamlMappingNode yamlMappingNode, SequenceStyle sequenceStyle)
+    internal void Build(YamlMappingNode yamlMappingNode)
     {
         if (map.Any())
         {
             var mappingNode = new YamlMappingNode();
             foreach (var property in map)
             {
-                mappingNode.Add(property.Key, new YamlScalarNode(property.Value));
+                if (property.Value.Contains(Environment.NewLine))
+                {
+                    var yamlScalarNode = new YamlScalarNode(property.Value)
+                    {
+                        Style = ScalarStyle.Literal
+                    };
+                    mappingNode.Add(property.Key, yamlScalarNode);
+                }
+                else
+                {
+                    mappingNode.Add(property.Key, property.Value);
+                }
             }
 
             yamlMappingNode.Add("with", mappingNode);
