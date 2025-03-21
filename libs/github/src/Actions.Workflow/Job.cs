@@ -3,6 +3,15 @@ using YamlDotNet.RepresentationModel;
 
 namespace Logicality.GitHub.Actions.Workflow;
 
+public class RunsOn(bool isKvp, string? group, string[] labels)
+{
+    public bool IsKvp { get; } = isKvp;
+
+    public string[] Labels { get; } = labels;
+
+    public string? Group { get; } = group;
+}
+
 /// <summary>
 /// Represents a workflow job.
 /// </summary>
@@ -10,21 +19,21 @@ public class Job
 {
     private          string?                        _name;
     private          string[]?                      _needs;
-    private          string?                        _runsOn;
+    private          RunsOn?                        _runsOn;
     private readonly Dictionary<string, Permission> _permissions                 = new();
     private          PermissionConfig               _permissionConfig            = PermissionConfig.NotSpecified;
     private          string                         _environmentName             = string.Empty;
     private          string                         _environmentUrl              = string.Empty;
     private          string                         _concurrencyGroup            = string.Empty;
-    private          bool                           _concurrencyCancelInProgress = false;
+    private          bool                           _concurrencyCancelInProgress;
     private          JobOutputs?                    _outputs;
     private          JobEnv?                        _env;
     private          JobDefaults?                   _defaults;
     private          string                         _if              = string.Empty;
-    private          bool?                          _continueOnError = null;
-    private readonly List<Step>                     _steps           = new();
-    private          int                            _timeoutMinutes  = 0;
-    private          Strategy?                      _strategy        = null;
+    private          bool?                          _continueOnError;
+    private readonly List<Step>                     _steps           = [];
+    private          int                            _timeoutMinutes;
+    private          Strategy?                      _strategy;
     private          string                         _uses            = string.Empty;
     private          JobWith?                       _with;
     private          JobSecrets?                    _secrets;
@@ -71,16 +80,28 @@ public class Job
         return this;
     }
 
+    /// <summary>
+    /// Define the type of machine to run the job on.
+    /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    ///  </summary>
+    /// <param name="runners">GitHub hosted runner. <see cref="GitHubHostedRunners"/>.</param>
+    /// <returns>The job.</returns>
+    public Job RunsOn(params string[] runners)
+    {
+        _runsOn = new RunsOn(false, null, runners);
+        return this;
+    }
 
     /// <summary>
     /// Define the type of machine to run the job on.
     /// https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
     ///  </summary>
-    /// <param name="runsOn">Github Hosted runner label. <see cref="GitHubHostedRunners"/>.</param>
+    /// <param name="group">Optional runner group</param>
+    /// <param name="labels">Optional list of labels. <see cref="GitHubHostedRunners"/>.</param>
     /// <returns>The job.</returns>
-    public Job RunsOn(string runsOn)
+    public Job RunsOn(string? group, string[] labels)
     {
-        _runsOn = runsOn;
+        _runsOn = new RunsOn(true, group, labels);
         return this;
     }
 
@@ -371,9 +392,39 @@ public class Job
         }
 
         // RunsOn
-        if (!string.IsNullOrWhiteSpace(_runsOn))
+        if (_runsOn is not null)
         {
-            jobNode.Add("runs-on", _runsOn);
+            if (!_runsOn.IsKvp)
+            {
+                if (_runsOn.Labels.Length == 1)
+                {
+                    var scalarNode = new YamlScalarNode(_runsOn.Labels.Single());
+                    jobNode.Add("runs-on", scalarNode);
+                }
+                else
+                {
+                    var yamlScalarNodes = _runsOn.Labels.Select(s => new YamlScalarNode(s));
+                    jobNode.Add("runs-on", new YamlSequenceNode(yamlScalarNodes));
+                }
+            }
+            else
+            {
+                var runsOnMappingNode = new YamlMappingNode();
+                if (!string.IsNullOrWhiteSpace(_runsOn.Group))
+                {
+                    runsOnMappingNode.Add("group", _runsOn.Group);
+                }
+                if (_runsOn.Labels.Any())
+                {
+                    var yamlScalarNodes = _runsOn.Labels.Select(s => new YamlScalarNode(s));
+                    var sequenceNode = new YamlSequenceNode(yamlScalarNodes)
+                    {
+                        Style = SequenceStyle.Flow
+                    };
+                    runsOnMappingNode.Add("labels", sequenceNode);
+                }
+                jobNode.Add("runs-on", runsOnMappingNode);
+            }
         }
 
         // Concurrency

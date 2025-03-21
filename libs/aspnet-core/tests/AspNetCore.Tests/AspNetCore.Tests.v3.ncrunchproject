@@ -1,7 +1,5 @@
 ﻿<ProjectConfiguration>
   <Settings>
-    <HiddenComponentWarnings>
-      <Value>AspNetTestHostCompatibility</Value>
-    </HiddenComponentWarnings>
+    <HiddenComponentWarnings />
   </Settings>
 </ProjectConfiguration>

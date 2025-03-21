@@ -67,6 +67,28 @@ jobs:
     }
 
     [Fact]
+    public void Job_RunsOn_Group()
+    {
+        var actual = new Workflow("workflow")
+            .Job("build")
+            .RunsOn("larger", ["4core"])
+            .Workflow
+            .GetYaml();
+
+        var expected = Workflow.Header + @"
+
+name: workflow
+jobs:
+  build:
+    runs-on:
+      group: larger
+      labels: [4core]
+";
+
+        actual.ShouldBe(expected.ReplaceLineEndings()); ;
+    }
+
+    [Fact]
     public void Job_Permissions()
     {
         var actual = new Workflow("workflow")

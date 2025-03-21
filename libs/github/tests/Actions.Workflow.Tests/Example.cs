@@ -1,6 +1,6 @@
 ﻿namespace Logicality.GitHub.Actions.Workflow;
 
-public class Example()
+public class Example
 {
     public void ReadMeExample()
     {

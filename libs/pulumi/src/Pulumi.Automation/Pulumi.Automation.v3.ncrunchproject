@@ -1,7 +1,5 @@
 ﻿<ProjectConfiguration>
   <Settings>
-    <HiddenComponentWarnings>
-      <Value>LostReference</Value>
-    </HiddenComponentWarnings>
+    <HiddenComponentWarnings />
   </Settings>
 </ProjectConfiguration>
